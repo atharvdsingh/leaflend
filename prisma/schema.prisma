@@ -12,7 +12,6 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
-
 model users {
   id Int @id @default(autoincrement())  
   name String ?
@@ -21,32 +20,34 @@ model users {
   booksHave booksHave[]
   booksBorrows  BorrowsBooks [] 
   booksGiven  Booksgiven []
-
 }
-
 model Booksgiven{
   id Int @id @default(autoincrement())
   booksName String
-  cover String
+  cover String ?
   givenDate DateTime @default(now())
-  
+  Ggivento users @relation(fields: [givenTo],references: [id])
+  givenTo Int
 }
-
 model BorrowsBooks{
   id Int @id @default(autoincrement())
   booksName String
-  cover String
+  cover String ?
   borrowDate DateTime @default(now())
   BborrowFrom users @relation(fields: [borrowFrom],references: [id])
   borrowFrom Int
 }
-
-
 model booksHave{
   id Int @id @default(autoincrement())
   bookname String 
-  cover String
+  cover String ?
   publishDate DateTime @default(now())
   owner users  @relation( fields: [ownerId], references: [id])
   ownerId Int
+status statusType @default(AVAILABLE)
+}
+
+enum statusType{
+  AVAILABLE
+  GIVEN
 }
