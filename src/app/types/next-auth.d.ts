@@ -5,7 +5,7 @@ import { JWT } from "next-auth/jwt";
 declare module "next-auth" {
   interface Session {
     user: {
-      id: string;          // ✅ your custom id
+      id: number ;          // ✅ your custom id
       name?: string | null;
       email?: string | null;
       image?: string | null;
