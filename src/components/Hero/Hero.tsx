@@ -1,5 +1,6 @@
 import React from 'react'
 import { Button } from '../ui/button'
+import FirstPage from './HeroCoponent/FirstPage'
 
 interface Props {}
 
@@ -9,9 +10,8 @@ function Hero(props: Props) {
     return (
         
         <>
-        <div     >
-
-        <Button  >Hellow</Button>
+        <div      className='min-h-screen w-full flex flex-wrap  '  >
+            <FirstPage/>
         </div>
         </>
     )

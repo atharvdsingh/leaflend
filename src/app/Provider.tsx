@@ -2,7 +2,6 @@
 import React, { type ReactNode } from 'react'
 
 import { SessionProvider } from 'next-auth/react'
-import { ThemeProvider } from 'next-themes'
 
 
 function Provider({children}:{children:ReactNode}) {
@@ -12,13 +11,11 @@ function Provider({children}:{children:ReactNode}) {
 
 
         <SessionProvider>
-            <ThemeProvider attribute="class" >
 
 
         {
             children
         }
-        </ThemeProvider>
         </SessionProvider>
         
     )
