@@ -1,4 +1,5 @@
 import Navbar from "@/components/navbar/Navbar";
+import NavbarSec from "@/components/navbar/NavbarSec";
 
 export default function HomeLayout({
   children,
@@ -6,12 +7,15 @@ export default function HomeLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div>
+    <div  >
       <div className="sticky border-y top-0 ">
         <div className="max-w-7xl mx-auto px-4 py-4">
           <Navbar />
         </div>
       </div>
+      <div className="flex sticky items-center mx-4 py-4 top-0  justify-center my-20  " >
+        <NavbarSec/>
+      </div  >
       {children}
     </div>
   );
