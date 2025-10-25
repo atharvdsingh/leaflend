@@ -37,14 +37,17 @@ function ManagingDiffrentButton(props: Props) {
       ) : (
         <div>
 
-        <Button className="flex  " >
-            <Link href={""} >
+        <Button asChild className="flex  " >
+            <div>
+
+            <Link href={"/home"} >
             Get Started 
             </Link>
             
             <ArrowRight/>
+            </div>
             </Button>
-            
+
         </div>
             
       )}
