@@ -28,17 +28,17 @@ function NavbarSec(props: Props) {
     {
       name: "My Books",
       href: "/my-books",
-      label: "",
+      label: "/my-books",
     },
     {
       name: "My Rentals",
       href: "/my-rental",
-      label: "",
+      label: "/my-rental",
     },
     {
       name: "Cart",
       href: "/cart",
-      label: "",
+      label: "/cart",
     },
   ];
 

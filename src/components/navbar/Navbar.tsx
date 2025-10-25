@@ -4,6 +4,7 @@ import { Button } from "../ui/button";
 import { ArrowLeft, Book, BookUser, CarTaxiFront, Plus, ShoppingCart } from "lucide-react";
 import Link from "next/link";
 import { Carter_One } from "next/font/google";
+import CreateBook from "../CreateBook";
 
 interface Props {}
 
@@ -28,13 +29,7 @@ function Navbar(props: Props) {
         </div>
       </div>
       <div className="flex justify-center gap-4 items-center ">
-        <Button asChild variant="default">
-          <div>
-            <Link className="flex justify-center gap-2 items-center " href={""}>
-              <Plus /> Add Book
-            </Link>
-          </div>
-        </Button>
+        <CreateBook/>
 
         <Button asChild variant="outline">
           <div>
