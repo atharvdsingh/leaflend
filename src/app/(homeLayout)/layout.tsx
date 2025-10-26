@@ -1,5 +1,6 @@
 import Navbar from "@/components/navbar/Navbar";
 import NavbarSec from "@/components/navbar/NavbarSec";
+import Procted from "@/components/Procted";
 
 export default function HomeLayout({
   children,
@@ -7,6 +8,8 @@ export default function HomeLayout({
   children: React.ReactNode;
 }>) {
   return (
+    <Procted>
+
     <div  >
       <div className="sticky border-y top-0 ">
         <div className="max-w-7xl mx-auto px-4 py-4">
@@ -18,5 +21,7 @@ export default function HomeLayout({
       </div  >
       {children}
     </div>
+        </Procted>
+
   );
 }
