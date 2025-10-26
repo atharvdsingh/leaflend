@@ -1,0 +1,30 @@
+export interface CreateBookType{
+    bookname:string,
+    cover:string,
+    author:string,
+    genres:GENRES,
+    price:number
+    status:bookAvailavleStatus
+
+}
+enum bookAvailavleStatus{
+    AVAILABLE
+    ,GIVEN
+    
+}
+enum GENRES  {
+  "Fiction",
+  "Non-Fiction",
+  "Mystery",
+  "Sci-Fi",
+  "Fantasy",
+  "Romance",
+  "Thriller",
+  "Biography",
+  "History",
+  "Classic",
+  "Contemporary",
+  "Young Adult",
+  "Children",
+  "Self-Help",
+}

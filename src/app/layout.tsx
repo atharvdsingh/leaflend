@@ -1,16 +1,16 @@
-
 import type { Metadata } from "next";
-import { Geist, Geist_Mono ,Poppins} from "next/font/google";
+import { Geist, Geist_Mono, Poppins } from "next/font/google";
 import "./globals.css";
 import Provider from "./Provider";
+import { Toaster } from "@/components/ui/sonner";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
 });
 const poppins = Poppins({
-  subsets: ['latin'],
-  weight: ['400','500','600'],
-  variable: '--font-poppins',  // we’ll use this for selective CSS
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
+  variable: "--font-poppins", // we’ll use this for selective CSS
 });
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
@@ -32,14 +32,8 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable}${poppins.variable} antialiased`}
       >
-
-<Provider>
-
-         
-
-        {children}
-</Provider>
-        
+        <Provider>{children}</Provider>
+        <Toaster richColors position="top-center" />
       </body>
     </html>
   );

@@ -1,7 +1,9 @@
 "use client";
+import axios from "axios";
+import { useForm, SubmitHandler } from "react-hook-form";
 
 import React, { useState } from "react";
-import { Upload } from "lucide-react";
+import { FileUp, FileUpIcon, Paperclip, Upload } from "lucide-react";
 import { Button } from "./ui/button";
 import {
   Dialog,
@@ -21,6 +23,7 @@ import {
 } from "./ui/select";
 import { Textarea } from "./ui/textarea";
 import { toast } from "sonner"; // optional (if you use Shadcn toast)
+import { CreateBookType } from "@/app/types/databaseRoutesType";
 
 export interface PostBookFormData {
   title: string;
@@ -29,6 +32,10 @@ export interface PostBookFormData {
   price: number;
   coverUrl: string;
   description: string;
+}
+
+interface ErrorType {
+  message: String;
 }
 
 const GENRES = [
@@ -51,44 +58,27 @@ const GENRES = [
 export default function CreateBook() {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [formData, setFormData] = useState<PostBookFormData>({
-    title: "",
-    author: "",
-    genre: "",
-    price: 0,
-    coverUrl: "",
-    description: "",
-  });
+  const { register, handleSubmit } = useForm<CreateBookType>();
 
-  const handleChange = (field: keyof PostBookFormData, value: string | number) => {
-    setFormData((prev) => ({ ...prev, [field]: value }));
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const onSubmit: SubmitHandler<CreateBookType> = async (data) => {
     setLoading(true);
     try {
-      const res = await fetch("/api/books", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
-
-      if (!res.ok) throw new Error("Failed to post book");
+      const res = await axios.post("http://localhost:3000/api/mybooks", data);
+      // fetch("/api/my-books", {
+      //   method: "POST",
+      //   headers: { "Content-Type": "application/json" },
+      //   body: JSON.stringify(formData),
+      // });
 
       toast.success("Book posted successfully!");
-      setFormData({
-        title: "",
-        author: "",
-        genre: "",
-        price: 0,
-        coverUrl: "",
-        description: "",
-      });
+
       setOpen(false);
-    } catch (error) {
-      console.error(error);
-      toast.error("Something went wrong!");
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        console.error("Client Error:", error.message);
+      } else {
+        console.error("Unknown Client Error:", error);
+      }
     } finally {
       setLoading(false);
     }
@@ -107,35 +97,21 @@ export default function CreateBook() {
             </DialogDescription>
           </DialogHeader>
 
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="title">Book Title *</Label>
-              <Input
-                id="title"
-                value={formData.title}
-                onChange={(e) => handleChange("title", e.target.value)}
-                required
-              />
+              <Input id="title" {...register("bookname")} />
             </div>
 
             <div className="space-y-2">
               <Label htmlFor="author">Author *</Label>
-              <Input
-                id="author"
-                value={formData.author}
-                onChange={(e) => handleChange("author", e.target.value)}
-                required
-              />
+              <Input id="author" {...register("author")} />
             </div>
 
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="genre">Genre *</Label>
-                <Select
-                  value={formData.genre}
-                  onValueChange={(value) => handleChange("genre", value)}
-                  required
-                >
+                <Select {...register("genres")} required>
                   <SelectTrigger id="genre">
                     <SelectValue placeholder="Select genre" />
                   </SelectTrigger>
@@ -155,42 +131,26 @@ export default function CreateBook() {
                   id="price"
                   type="number"
                   placeholder="0.00"
-                  value={formData.price || ""}
-                  onChange={(e) =>
-                    handleChange("price", parseFloat(e.target.value) || 0)
-                  }
-                  required
+                  {...register("price")}
                 />
               </div>
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="coverUrl">Cover Image URL *</Label>
-              <div className="flex gap-2">
-                <Input
+              {/* <Label htmlFor="coverUrl">Cover Image URL *</Label> */}
+              <div className="flex items-center-safe gap-2">
+                {/* <Input
                   id="coverUrl"
                   value={formData.coverUrl}
                   onChange={(e) => handleChange("coverUrl", e.target.value)}
                   required
-                />
-                <Button type="button" variant="outline" size="icon">
-                  <Upload className="w-4 h-4" />
-                </Button>
+                /> */}
+                <Input type="file" className="" placeholder="input file" />{" "}
+                <Paperclip className="relative right-10 " />
               </div>
               <p className="text-sm text-muted-foreground">
-                Paste a URL to your book's cover image
+                book's cover image
               </p>
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="description">Description *</Label>
-              <Textarea
-                id="description"
-                value={formData.description}
-                onChange={(e) => handleChange("description", e.target.value)}
-                rows={4}
-                required
-              />
             </div>
 
             <div className="flex gap-3 pt-4">
