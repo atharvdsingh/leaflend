@@ -28,3 +28,8 @@ enum GENRES  {
   "Children",
   "Self-Help",
 }
+// rent books route
+
+interface RentBooksType{
+    _id:string
+}

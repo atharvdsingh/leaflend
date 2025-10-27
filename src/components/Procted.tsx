@@ -7,7 +7,7 @@ import React, { type ReactNode } from 'react'
  async function Procted({children}:{children:ReactNode}) {
     const session=await GetTheSession()
     const _id=session?.user?.id
-    if(_id){
+    if(!_id){
      redirect("/")
     }
    return  (   <>

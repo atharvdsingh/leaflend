@@ -35,7 +35,7 @@ async function FirstPage(props: Props) {
           income stream.
         </p>
 
-        <ManagingDiffrentButton />
+        <ManagingDiffrentButton session={session} />
       </div>
 
       {/* RIGHT SECTION (IMAGE) */}

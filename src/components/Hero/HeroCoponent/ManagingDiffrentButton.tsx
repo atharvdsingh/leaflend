@@ -13,12 +13,13 @@ import React, {
 } from "react";
 import { ArrowRight, Book, LibraryBig, LogOut } from "lucide-react";
 
-interface Props {}
+interface Props {
+  session:any
+}
 
 function ManagingDiffrentButton(props: Props) {
   const [loading, setloading] = useState(false);
-  const Session = useSession();
-  const session=Session.data?.user?.id
+  const {session}=props
 
   const handleONclick = (e: React.FormEvent) => {
     setloading(true);
