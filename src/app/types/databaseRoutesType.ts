@@ -1,18 +1,26 @@
-export interface CreateBookType{
+export interface CreateBookType {
+  bookname: string;
+  cover: string;
+  author: string;
+  genres: GENRES;
+  price: number;
+  status: bookAvailavleStatus;
+}
+export interface AllBooksType{
+    id:number,
     bookname:string,
     cover:string,
-    author:string,
-    genres:GENRES,
-    price:number
+    publishDate:Date,
+    ownerId:number,
     status:bookAvailavleStatus
+    genres:GENRES
+}
 
-}
-enum bookAvailavleStatus{
-    AVAILABLE
-    ,GIVEN
-    
-}
-enum GENRES  {
+export enum bookAvailavleStatus {
+  AVAILABLE,
+  GIVEN,
+ }
+export enum GENRES {
   "Fiction",
   "Non-Fiction",
   "Mystery",
@@ -30,6 +38,6 @@ enum GENRES  {
 }
 // rent books route
 
-interface RentBooksType{
-    _id:string
+interface RentBooksType {
+  _id: string;
 }

@@ -20,6 +20,8 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import type { bookAvailavleStatus } from "@/app/types/databaseRoutesType";
+import type { statusType } from "@prisma/client";
 
 /**
  * HomeCard
@@ -33,7 +35,7 @@ interface Props {
   genre: string; // Changed from String
   price: string;
   imageURL: string; // User changed from imageUrl
-  available: Boolean;
+  available: statusType ;
 }
 
 export default function HomeCard(props: Props) {

@@ -10,7 +10,7 @@ export default function HomeLayout({
   return (
     <Procted>
 
-    <div  >
+    <div className="min-h-screen"  >
       <div className="sticky border-y top-0 ">
         <div className="max-w-7xl mx-auto px-4 py-4">
           <Navbar />

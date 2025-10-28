@@ -45,7 +45,7 @@ model booksHave{
   bookname String 
   cover String?
   publishDate DateTime @default(now())
-  bookType BookType
+  bookType BookType @default(AllGenres)
   owner users  @relation(fields: [ownerId], references: [id])
   ownerId Int
   status statusType @default(AVAILABLE)
@@ -55,7 +55,7 @@ enum statusType{
   AVAILABLE
   GIVEN
 }
-enum BookType{
+ enum BookType{
   AllGenres
   Fiction
   Classic
