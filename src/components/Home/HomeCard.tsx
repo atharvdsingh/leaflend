@@ -38,6 +38,10 @@ interface Props {
   available: statusType ;
 }
 
+
+
+
+
 export default function HomeCard(props: Props) {
   const { imageURL, title, available, author, genre, price } = props;
 
