@@ -23,7 +23,7 @@ interface cardDataType {
   description: string;
 }
 
-const cardData = [
+const cardData:{icon:any,title:string,description:string}[] = [
   {
     icon: BookOpen,
     title: "Vast Book Collection",
@@ -66,7 +66,7 @@ function SecondSection(props: Props) {
 
   return (
     <>
-      <div className="flex flex-col w-full gap-20 ">
+      <div className="flex flex-col max-w-7xl m-auto  ">
         <div className=" border-y w-full h-10 sm:h-30 "></div>
         <div className="w-full flex flex-col justify-evenly text-center items-center  gap-5 ">
           <Badge
@@ -85,7 +85,7 @@ function SecondSection(props: Props) {
             from your collection, BookRent has you covered.
           </p>
         </div>
-    <div className="flex justify-center items-center m-30 " >
+    <div className="flex justify-center items-center max-w-7xl w-auto" >
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-20 ">
           {cardData.map((card, index) => {

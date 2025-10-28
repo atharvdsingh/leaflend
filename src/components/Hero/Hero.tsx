@@ -11,7 +11,7 @@ function Hero(props: Props) {
     return (
         
         <>
-        <div      className='min-h-screen w-full flex flex-wrap  '  >
+        <div   >
             <FirstPage/>
             <SecondSection/>    
         </div>

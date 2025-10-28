@@ -10,7 +10,7 @@ interface Props {}
 async function Page(props: Props) {
     const books: booksHave[] = await prisma.booksHave.findMany();
     if (books.length == 0) {
-      return (
+      return (  
         <CenterComponent>
           <NoBooks />
         </CenterComponent>
@@ -24,7 +24,7 @@ async function Page(props: Props) {
           <div className="flex flex-wrap gap-4 p-4 justify-evenly itemc" >
             {books.map((books)=>(
               <div key={books.id} >
-                <HomeCard  title={books.bookname} author="" genre={books.bookType} price={""} imageURL={books.cover || "" } available={books.status}  />
+                <HomeCard  title={books.bookname} author="" genre={books.bookType} price={""} imageURL={books.cover || "/" } available={books.status}  />
               </div>
             ))}
           </div>

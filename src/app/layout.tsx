@@ -3,6 +3,7 @@ import { Geist, Geist_Mono, Poppins } from "next/font/google";
 import "./globals.css";
 import Provider from "./Provider";
 import { Toaster } from "@/components/ui/sonner";
+import StoreProvider from "./StoreProvider";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -32,7 +33,12 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable}${poppins.variable} antialiased`}
       >
-        <Provider>{children}</Provider>
+        <StoreProvider>
+
+        <Provider>
+          {children}
+          </Provider>
+        </StoreProvider>
         <Toaster richColors position="top-center" />
       </body>
     </html>
