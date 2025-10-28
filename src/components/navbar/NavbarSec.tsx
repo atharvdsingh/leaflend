@@ -32,8 +32,8 @@ function NavbarSec(props: Props) {
     },
     {
       name: "My Rentals",
-      href: "/my-rental",
-      label: "/my-rental",
+      href: "/rentedbooks",
+      label: "/rentedbooks",
     },
     {
       name: "Cart",

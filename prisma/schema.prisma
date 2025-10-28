@@ -48,8 +48,6 @@ model booksHave{
   bookType BookType
   owner users  @relation(fields: [ownerId], references: [id])
   ownerId Int
-
-
   status statusType @default(AVAILABLE)
 }
 

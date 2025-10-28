@@ -1,6 +1,8 @@
 import CenterComponent from '@/components/CenterComponent'
 import CreateBook from '@/components/CreateBook'
-import { Library } from 'lucide-react'
+import { Button } from '@/components/ui/button'
+import { BookOpen } from 'lucide-react'
+import Link from 'next/link'
 import React from 'react'
 
 interface Props {}
@@ -8,17 +10,21 @@ interface Props {}
 function Page(props: Props) {
     const {} = props
 
-    return (    
+    return (
         <>
+
         <CenterComponent>
         <div className='flex justify-center flex-col gap-3  items-center' >
-            <Library className=' opacity-50 scale-200' />
-            <p className='opacity-50' >You haven't posted any books yet</p>
+            <BookOpen className=' opacity-50 scale-200' />
+            <p className='opacity-50' >You haven't rented any book</p>
 
-        <CreateBook/>
+        <Button asChild >
+            <Link href={"/home"} >Browse Book</Link>
+              </Button>
         </div>
         </CenterComponent>
         </>
+        
     )
 }
 
