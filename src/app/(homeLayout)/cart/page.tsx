@@ -1,27 +1,35 @@
+"use client";
 import CenterComponent from "@/components/CenterComponent";
-import CreateBook from "@/components/CreateBook";
 import { Button } from "@/components/ui/button";
-import { BookOpen } from "lucide-react";
+import type { RootState } from "@/store/store";
+import { CarTaxiFront, Frown, ShoppingCart } from "lucide-react";
 import Link from "next/link";
 import React from "react";
+import { useSelector } from "react-redux";
 
 interface Props {}
 
 function Page(props: Props) {
   const {} = props;
+  const cart = useSelector((state: RootState) => state.cart);
 
-  return (
-    <>
+  if (cart.NoOfBooks === 0) {
+    return (
       <CenterComponent>
         <div className="flex justify-center flex-col gap-3  items-center">
-          <BookOpen className=" opacity-50 scale-200" />
-          <p className="opacity-50">You haven't rented any book</p>
-
+          <ShoppingCart className=" opacity-50 scale-200" />
+          <p className="opacity-50">No Books Available</p>
           <Button asChild>
             <Link href={"/home"}>Browse Book</Link>
           </Button>
         </div>
       </CenterComponent>
+    );
+  }
+
+  return (
+    <>
+      <div className="min-h-screen p-4 m-auto max-w-7xl"></div>
     </>
   );
 }
