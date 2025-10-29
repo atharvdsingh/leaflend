@@ -22,9 +22,9 @@ async function Page(props: Props) {
       
         <CenterComponent>
           <div className="flex flex-wrap gap-4 p-4 justify-evenly itemc" >
-            {books.map((books)=>(
-              <div key={books.id} >
-                <HomeCard  title={books.bookname} author="" genre={books.bookType} price={""} imageURL={books.cover || "/" } available={books.status}  />
+            {books.map((book)=>(
+              <div key={book.id} >
+                <HomeCard {...book}   />
               </div>
             ))}
           </div>

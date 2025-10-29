@@ -1,4 +1,5 @@
-import React from "react";
+"use client"
+import React, { useReducer } from "react";
 
 // --- Icon Imports ---
 // Assumes `lucide-react` is installed (`npm install lucide-react`)
@@ -21,7 +22,10 @@ import {
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import type { bookAvailavleStatus } from "@/app/types/databaseRoutesType";
-import type { statusType } from "@prisma/client";
+import type { booksHave, statusType } from "@prisma/client";
+import { useDispatch, useSelector } from "react-redux";
+import { AddToCart } from "@/store/features/cartSlice";
+import type { RootState } from "@/store/store";
 
 /**
  * HomeCard
@@ -42,8 +46,17 @@ interface Props {
 
 
 
-export default function HomeCard(props: Props) {
-  const { imageURL, title, available, author, genre, price } = props;
+export default function HomeCard(props: booksHave) {
+  const cart=useSelector((state:RootState)=>state.cart)
+  console.log(cart.NoOfBooks)
+  const dispatch=useDispatch()
+
+  const handleOnClickByAddingToTheCart=()=>{
+    dispatch(AddToCart({
+      ...props,publishDate:props.publishDate.toString()
+    }))
+
+  }
 
   // Kept max-w-64 (256px)
   return (
@@ -51,14 +64,14 @@ export default function HomeCard(props: Props) {
       {/* Image container */}
       <div className="relative">
         <img
-          src={imageURL}
-          alt={`Cover image of ${title}`}
+          src={props.cover || "/"}
+          alt={`Cover image of ${props.bookname}`}
           // Changed to h-40 (160px)
           className="w-full h-40 object-cover"
         />
 
         {/* Available Badge, positioned absolutely */}
-        {available && (
+        {props.status && (
           <Badge
             variant="default" // Kept user's variant
             // Reduced padding
@@ -73,20 +86,20 @@ export default function HomeCard(props: Props) {
       <CardHeader className="p-2">
         {/* Reduced text size and added truncate */}
         <CardTitle className="text-base font-semibold text-white truncate">
-          {title}
+          {props.bookname}
         </CardTitle>
         {/* Reduced text size */}
         <CardDescription className="text-zinc-500 text-xs pt-0.5">
-          {author}
+          {""} //authro name
         </CardDescription>
       </CardHeader>
 
       {/* Content: Contains Genre and Price - Reduced padding */}
       <CardContent className="p-2 pt-0">
         <div className="flex justify-between items-center">
-          <span className="text-zinc-500 text-sm">{genre}</span>
+          <span className="text-zinc-500 text-sm">{props.bookType}</span>
           {/* Reduced text size */}
-          <span className="text-green-400 font-bold text-sm">{price}</span>
+          <span className="text-green-400 font-bold text-sm">{""}</span>
         </div>
       </CardContent>
 
@@ -101,8 +114,9 @@ export default function HomeCard(props: Props) {
           Details
         </Button>
 
-        <Button className="bg-white text-black hover:bg-zinc-200 font-semibold h-8 px-3 text-xs">
+        <Button disabled={props.status=="GIVEN"} onClick={handleOnClickByAddingToTheCart}  className="bg-white text-black hover:bg-zinc-200 font-semibold h-8 px-3 text-xs">
           <ShoppingCart className="mr-2 h-4 w-4" />
+         
           Rent
         </Button>
       </CardFooter>
