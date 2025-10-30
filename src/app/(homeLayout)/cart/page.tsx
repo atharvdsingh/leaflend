@@ -1,4 +1,5 @@
 "use client";
+import CartCart from "@/components/Cart/CartCart";
 import CenterComponent from "@/components/CenterComponent";
 import { Button } from "@/components/ui/button";
 import type { RootState } from "@/store/store";
@@ -29,7 +30,16 @@ function Page(props: Props) {
 
   return (
     <>
-      <div className="min-h-screen p-4 m-auto max-w-7xl"></div>
+      <div className="min-h-screen p-4 m-auto max-w-7xl">
+        {
+            cart.books.map((book)=> <div key={book.id} >
+                <CartCart   {...book} />
+            </div>
+            
+            )
+        }
+
+      </div>
     </>
   );
 }

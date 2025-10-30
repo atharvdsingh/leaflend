@@ -25,7 +25,7 @@ const cartSlice=createSlice({
                 state.books.push(action.payload)
             }
         },
-        RemoveFromCart:(state,action:PayloadAction<booksHave>)=>{
+        RemoveFromCart:(state,action:PayloadAction<SerializableBook>)=>{
             state.NoOfBooks=state.NoOfBooks-1
              state.books=state.books.filter((book)=>book.id!=action.payload.id)
 
