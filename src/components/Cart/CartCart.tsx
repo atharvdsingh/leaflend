@@ -18,8 +18,8 @@ function CartCart(props: SerializableBook) {
 
   return (
     <>
-      <Card className=" rounded-xl  border">
-        <div className="flex  space-x-2 gap-4">
+      <Card className="flex flex-col gap-6 p-4 rounded-[6px] " >
+        <div className="flex items-center space-x-2 gap-4">
           <Image
             src={"/1.jpg"}
             className="shrink-0 w-20 h-20 overflow-hidden "
@@ -36,9 +36,9 @@ function CartCart(props: SerializableBook) {
             </p>
           </div>
           <div>
-            <Button variant={"destructive"} onClick={handleRemoveFromCart}>
+            <button className="hover:text-red-700 transition-all cursor-pointer " onClick={handleRemoveFromCart}>
               <X />
-            </Button>
+            </button>
           </div>
         </div>
       </Card>
