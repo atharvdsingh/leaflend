@@ -28,14 +28,9 @@ export async function POST(
   request: NextRequest,
   { params }: { params: { id: number } }
 ) {
-  interface bodyType {
-    ownerID: string;
-    booksname: string;
-    cover: string;
-    borrowfrom: number;
-  }
-  const body: bodyType = await request.json();
-  const booksId: number = params.id;
+
+  const body: = await request.json();
+  const booksId: number = body.
 
   const session = await getServerSession(authOptions);
   if (!session?.user.id) {
