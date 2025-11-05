@@ -11,10 +11,7 @@ function Hero(props: Props) {
     return (
         
         <>
-        <div   >
-            <FirstPage/>
-            <SecondSection/>    
-        </div>
+       
         </>
     )
 }

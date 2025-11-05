@@ -68,7 +68,7 @@ function SecondSection(props: Props) {
     <>
       <div className="flex flex-col max-w-7xl m-auto  ">
         <div className=" border-y w-full h-10 sm:h-30 "></div>
-        <div className="w-full flex flex-col justify-evenly text-center items-center  gap-5 ">
+        <div className="w-full flex flex-col justify-evenly text-center items-center  gap-10 my-10 ">
           <Badge
             className="text-foreground bg-background  border-gray-700 "
             variant="default"
@@ -87,15 +87,15 @@ function SecondSection(props: Props) {
         </div>
     <div className="flex justify-center items-center max-w-7xl w-auto" >
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-20 ">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-10 ">
           {cardData.map((card, index) => {
             const CardIcon = card.icon;
 
             return (
-              <Card className="w-80 hover:scale-105 transition-all  hover:shadow-[2px 2px 2px black] hover:shadow-amber-50  border rounded-2xl h-80" key={index}>
+              <Card className="w-80  transition-all duration-300  hover:-translate-y-2 hover:shadow-white  border rounded-2xl h-80" key={index}>
                 <CardHeader key={index}>
                   <CardDescription  key={index}>
-                    <CardIcon className="text-white" />
+                    <CardIcon className="text-white " />
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="text-2xl font-bold" > {card.title} </CardContent>
