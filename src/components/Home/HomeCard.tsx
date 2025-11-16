@@ -48,10 +48,10 @@ interface Props {
 
 export default function HomeCard(props: booksHave) {
   const cart=useSelector((state:RootState)=>state.cart)
-  console.log(cart.NoOfBooks)
   const dispatch=useDispatch()
 
   const handleOnClickByAddingToTheCart=()=>{
+    console.log( JSON.parse( localStorage.getItem("books") || ""))
     dispatch(AddToCart({
       ...props,publishDate:props.publishDate.toString()
     }))

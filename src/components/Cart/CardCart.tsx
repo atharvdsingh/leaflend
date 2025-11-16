@@ -10,6 +10,7 @@ function CardCart(props: SerializableBook) {
   const dispatcher = useDispatch();
   const {} = props;
   const handleRemoveFromCart = () => {
+    
     dispatcher(RemoveFromCart(props));
   };
 

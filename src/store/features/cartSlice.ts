@@ -2,6 +2,9 @@ import type { SerializableBook } from "@/app/types/bookstypeforRedux";
 import type { booksHave } from "@prisma/client";
 import type { Payload } from "@prisma/client/runtime/library";
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
+import { ManageLocalStorage } from "@/util/managingTheLocalStorage";
+
+const localStorageInstance= ManageLocalStorage.ReturnInstance()
 
 interface InitialState{
     NoOfBooks:number
@@ -23,13 +26,13 @@ const cartSlice=createSlice({
 
                 state.NoOfBooks=state.NoOfBooks+1
                 state.books.push(action.payload)
-                localStorage.setItem("books",JSON.stringify(action.payload.id))
+                localStorageInstance.addedToTheStorage(action.payload)
             }
         },
         RemoveFromCart:(state,action:PayloadAction<SerializableBook>)=>{
             state.NoOfBooks=state.NoOfBooks-1
             state.books=state.books.filter((book)=>book.id!=action.payload.id)
-            localStorage.removeItem("books")
+            localStorageInstance.removeBook(action.payload)
         }
     }
 })
