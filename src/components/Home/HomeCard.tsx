@@ -66,7 +66,7 @@ export default function HomeCard(props: booksHave) {
           src={props.cover || "/"}
           alt={`Cover image of ${props.bookname}`}
           // Changed to h-40 (160px)
-          className="w-full h-40 object-cover"
+          className="w-full h-40  object-cover"
         />
 
         {/* Available Badge, positioned absolutely */}
