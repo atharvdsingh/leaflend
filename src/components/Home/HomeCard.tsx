@@ -51,7 +51,6 @@ export default function HomeCard(props: booksHave) {
   const dispatch=useDispatch()
 
   const handleOnClickByAddingToTheCart=()=>{
-    console.log( JSON.parse( localStorage.getItem("books") || ""))
     dispatch(AddToCart({
       ...props,publishDate:props.publishDate.toString()
     }))

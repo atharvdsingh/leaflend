@@ -20,6 +20,10 @@ const cartSlice=createSlice({
     name:"Cart",
     initialState,
     reducers:{
+        hydrateCart:(state,action:PayloadAction<SerializableBook[]>)=>{
+            state.NoOfBooks=action.payload.length
+            state.books=action.payload
+        },
         AddToCart: (state,action:PayloadAction<SerializableBook>)=>{
 
             if(!(state.books.find((book)=>book.id===action.payload.id))){
@@ -38,7 +42,7 @@ const cartSlice=createSlice({
 })
 
 
-export const {AddToCart,RemoveFromCart} = cartSlice.actions
+export const {AddToCart,RemoveFromCart,hydrateCart} = cartSlice.actions
 export default cartSlice.reducer
 
 

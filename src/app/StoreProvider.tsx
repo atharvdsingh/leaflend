@@ -1,18 +1,28 @@
-'use client'
-import { makeStore, type AppStore } from '@/store/store'
-import { useRef } from 'react'
-import { Provider } from 'react-redux'
+"use client";
+
+import { makeStore, type AppStore } from "@/store/store";
+import { useEffect, useRef } from "react";
+import { Provider } from "react-redux";
+import { ManageLocalStorage } from "@/util/managingTheLocalStorage";
+import { hydrateCart } from "@/store/features/cartSlice";
 
 export default function StoreProvider({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
-  const storeRef = useRef<AppStore>(undefined)
+  const storeRef = useRef<AppStore | null>(null);
+
   if (!storeRef.current) {
-    // Create the store instance the first time this renders
-    storeRef.current = makeStore()
+    storeRef.current = makeStore();
   }
 
-  return <Provider store={storeRef.current}>{children}</Provider>
+  useEffect(() => {
+    const localStorageInstance = ManageLocalStorage.ReturnInstance();
+    const savedBooks = localStorageInstance.getBooks();
+
+    storeRef.current!.dispatch(hydrateCart(savedBooks));
+  }, []);
+
+  return <Provider store={storeRef.current}>{children}</Provider>;
 }

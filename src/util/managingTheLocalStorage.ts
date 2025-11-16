@@ -9,7 +9,7 @@ export class ManageLocalStorage {
     }
     return ManageLocalStorage.instance;
   }
-  private getBooks():SerializableBook[] {
+   getBooks():SerializableBook[] {
     try {
       const raw = localStorage.getItem("books");
       if (!raw) {

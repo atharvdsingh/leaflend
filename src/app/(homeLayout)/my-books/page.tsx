@@ -1,11 +1,15 @@
 import CenterComponent from "@/components/CenterComponent";
 import CreateBook from "@/components/CreateBook";
+import { prisma } from "@/util/Prisma";
+import type { booksHave } from "@prisma/client";
 import { Library } from "lucide-react";
 import React from "react";
 
 interface Props {}
 
-function Page(props: Props) {
+async function Page(props: Props) {
+
+  const books:booksHave[]=await prisma.booksHave.
   const {} = props;
 
   return (
