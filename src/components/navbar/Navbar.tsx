@@ -22,7 +22,7 @@ function Navbar(props: Props) {
   const {} = props;
 
   return (
-    <div className="flex items-center justify-between">
+    <div className="flex z-10 items-center justify-between">
       <div className="flex justify-center gap-4 items-center ">
         <Button asChild variant="ghost">
           <Link className="flex justify-center gap-2 items-center " href="/">
