@@ -12,12 +12,10 @@ interface Props {}
 
 function Checkout(props: Props) {
     const [loading,setLoading]=useState(false)
-    const router=useRouter()
   const {} = props;
   const NoOfBooks = useSelector((items: RootState) => items.cart);
   const booksId=NoOfBooks.books.map((books)=>books.id)
   const handleOnclick = async () => {
-
     try {
         setLoading(true)
         const data=await axios.post("http://hocalhost:3000/api/rentbook",booksId) 

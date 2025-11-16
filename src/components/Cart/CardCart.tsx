@@ -1,15 +1,12 @@
 import React from "react";
-import { Card, CardHeader } from "../ui/card";
-import type { booksHave } from "@prisma/client";
+import { Card } from "../ui/card";
 import Image from "next/image";
-import { Button } from "../ui/button";
-import { Cross, X } from "lucide-react";
+import {  X } from "lucide-react";
 import { useDispatch } from "react-redux";
 import { RemoveFromCart } from "@/store/features/cartSlice";
-import type { AllBooksType } from "@/app/types/databaseRoutesType";
 import type { SerializableBook } from "@/app/types/bookstypeforRedux";
 
-function CartCart(props: SerializableBook) {
+function CardCart(props: SerializableBook) {
   const dispatcher = useDispatch();
   const {} = props;
   const handleRemoveFromCart = () => {
@@ -46,4 +43,4 @@ function CartCart(props: SerializableBook) {
   );
 }
 
-export default CartCart;
+export default CardCart;

@@ -1,5 +1,5 @@
 "use client";
-import CartCart from "@/components/Cart/CartCart";
+import CartCart from "@/components/Cart/CardCart";
 import Checkout from "@/components/Cart/Checkout";
 import CenterComponent from "@/components/CenterComponent";
 import { Button } from "@/components/ui/button";

@@ -23,12 +23,13 @@ const cartSlice=createSlice({
 
                 state.NoOfBooks=state.NoOfBooks+1
                 state.books.push(action.payload)
+                localStorage.setItem("books",JSON.stringify(action.payload.id))
             }
         },
         RemoveFromCart:(state,action:PayloadAction<SerializableBook>)=>{
             state.NoOfBooks=state.NoOfBooks-1
-             state.books=state.books.filter((book)=>book.id!=action.payload.id)
-
+            state.books=state.books.filter((book)=>book.id!=action.payload.id)
+            localStorage.removeItem("books")
         }
     }
 })

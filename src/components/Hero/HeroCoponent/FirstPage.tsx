@@ -11,7 +11,7 @@ async function FirstPage(props: Props) {
   const session = await GetTheSession();
 
   return (
-    <div className="flex flex-wrap min-h-screen w-full justify-evenly items-center p-4 sm:px-20 py-10">
+    <div className="flex flex-wrap min-h-screen max-w-7xl mx-auto justify-evenly items-center p-4 sm:px-20 py-10">
       
       {/* LEFT SECTION */}
       <div className="flex flex-col gap-5 items-start justify-center w-full md:w-1/2">
