@@ -1,9 +1,9 @@
 "use client"
-import React, { useReducer } from "react";
+import React, { useEffect, useReducer } from "react";
 
 // --- Icon Imports ---
 // Assumes `lucide-react` is installed (`npm install lucide-react`)
-import { BookOpen, Delete, DeleteIcon, ShoppingCart, Trash } from "lucide-react";
+import { Axis3D, BookOpen, Delete, DeleteIcon, ShoppingCart, Trash } from "lucide-react";
 
 // --- Shadcn UI Component Imports ---
 // These components are assumed to be in your project, added via:
@@ -27,6 +27,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { AddToCart } from "@/store/features/cartSlice";
 import type { RootState } from "@/store/store";
 import axios from "axios";
+import { toast } from "sonner";
 
 
 /**
@@ -55,11 +56,16 @@ export default function MyBooksCard(props: booksHave) {
   const handleDeleteTheVideo= async ()=>{
   try {
       const res=await axios.post("/api/rentbook",props.id)
-      console.log(res)
+    
+      if(res.data){
+            toast.success("book removed succesfully")
+      }
   } catch (error) {
     console.log(error)
     
   }
+    useEffect(()=>{},[handleDeleteTheVideo])
+
 
 
 
