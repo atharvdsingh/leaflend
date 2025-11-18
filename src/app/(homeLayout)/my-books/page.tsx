@@ -1,9 +1,10 @@
 import CenterComponent from "@/components/CenterComponent";
 import CreateBook from "@/components/CreateBook";
+import MyBooksCard from "@/components/Home/MybooksCard";
 import { GetTheSession } from "@/util/GetTheSession";
 import { prisma } from "@/util/Prisma";
 import type { booksHave } from "@prisma/client";
-import { Library } from "lucide-react";
+import { Divide, Library } from "lucide-react";
 import { redirect } from "next/navigation";
 import React from "react";
 interface Props {}
@@ -33,10 +34,12 @@ async function Page(props: Props) {
 
   return (
     <>
-    {books.map((book)=>(
-      <div className="text-white" key={book.id} >{book.bookname}</div>
-    ))}
-      
+    <div className=" max-w-7xl m-auto flex flex-wrap gap-4 p-4 justify-evenly itemc " >
+
+      {books.map((book)=>(
+          <MyBooksCard key={book.id} {...book}  />
+      ))}
+      </div>      
     </>
   );
 }

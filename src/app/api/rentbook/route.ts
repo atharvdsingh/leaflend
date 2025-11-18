@@ -24,3 +24,26 @@ export async function GET(){
     return NextResponse.json({message:`error ${error} `})
    }
 }
+
+export async function POST(req:NextRequest,res:NextResponse){
+    try {
+        const id= await req.json()
+        console.log(id)
+
+        const prismaRespons=await prisma.booksHave.delete({
+            where:{
+                id:id
+            }
+        })
+        if(prismaRespons){
+
+            return NextResponse.json({prismaRespons},{status:200})
+        }
+        console.log(prismaRespons)
+        
+    } catch (error) {
+        return NextResponse.json({message:"some thing went wrong while deleting books",error})
+        console.log(error)
+        
+    }
+}
