@@ -8,6 +8,8 @@ import React from "react";
 interface Props {}
 
 async function Page(props: Props) {
+  await new Promise<void>(res => setTimeout(res, 3000));
+
     const books: booksHave[] = await prisma.booksHave.findMany();
     if (books.length == 0) {
       return (  
@@ -21,7 +23,7 @@ async function Page(props: Props) {
     <>
       
         <CenterComponent>
-          <div className="flex flex-wrap gap-4 p-4 justify-evenly itemc" >
+          <div className=" grid-cols-1 grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4 " >
             {books.map((book)=>(
               <div key={book.id} >
                 <HomeCard {...book}   />

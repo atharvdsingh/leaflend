@@ -4,7 +4,7 @@ import MyBooksCard from "@/components/Home/MybooksCard";
 import { GetTheSession } from "@/util/GetTheSession";
 import { prisma } from "@/util/Prisma";
 import type { booksHave } from "@prisma/client";
-import { Divide, Library } from "lucide-react";
+import { Library } from "lucide-react";
 import { redirect } from "next/navigation";
 import React from "react";
 interface Props {}
