@@ -66,7 +66,6 @@ export default function MyBooksCard(props: booksHave) {
     console.log(error)
     
   }
-    useEffect(()=>{},[handleDeleteTheVideo])
 
 
 
