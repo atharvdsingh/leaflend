@@ -18,7 +18,7 @@ async function Page(props: Props) {
   const books:booksHave[]=await prisma.booksHave.findMany({where:{
       ownerId:_id.user.id
   }})
-  console.log(books)
+
   if(books.length===0){
     return <CenterComponent>
         <div className="flex justify-center flex-col gap-3  items-center">

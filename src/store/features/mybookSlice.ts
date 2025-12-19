@@ -11,7 +11,7 @@ const initialState:BookstateType={
 }
 
 const Mybookslice=createSlice({
-    name:"myBookslice",
+    name:"myBook",
     initialState,
     reducers:{
         setMyAllBooks:(state,action:PayloadAction<SerializableBook[]>)=>{
@@ -21,7 +21,7 @@ const Mybookslice=createSlice({
             state.myallBooks.push(action.payload)
         }
         ,
-        removeBook:(state,action:PayloadAction<SerializableBook>)=>{
+        removeMyBook:(state,action:PayloadAction<SerializableBook>)=>{
             state.myallBooks.splice(action.payload.id)
 
         }
@@ -29,5 +29,5 @@ const Mybookslice=createSlice({
 })
 
 
-export const { setMyAllBooks, addNewMyBook } = Mybookslice.actions
+export const { setMyAllBooks, addNewMyBook,removeMyBook } = Mybookslice.actions
 export default Mybookslice.reducer

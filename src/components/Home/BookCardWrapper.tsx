@@ -3,9 +3,10 @@
 import type { booksHave } from "@prisma/client";
 import React, { useEffect } from "react";
 import MyBooksCard from "./MybooksCard";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setMyAllBooks } from "@/store/features/mybookSlice";
 import type { SerializableBook } from "@/app/types/bookstypeforRedux";
+import type { RootState } from "@/store/store";
 
 interface Props {
   books: booksHave[];
@@ -13,6 +14,7 @@ interface Props {
 
 function BookCardWrapper({ books = [] }: Props) {
   const dispatch = useDispatch();
+  const book=useSelector((state:RootState)=>state.mybooks.myallBooks)
 
   useEffect(() => {
     const dispatcherBooks: SerializableBook[] = books.map(book => ({

@@ -35,7 +35,7 @@ import { AddToCart } from "@/store/features/cartSlice";
 import type { RootState } from "@/store/store";
 import axios from "axios";
 import { toast } from "sonner";
-import { addNewMyBook } from "@/store/features/mybookSlice";
+import { addNewMyBook, removeMyBook } from "@/store/features/mybookSlice";
 import type { SerializableBook } from "@/app/types/bookstypeforRedux";
 
 /**
@@ -54,10 +54,9 @@ interface Props {
 }
 
 export default function MyBooksCard(props: booksHave) {
-  const cart = useSelector((state: RootState) => state.cart);
+  const cart = useSelector((state: RootState) => state.mybooks);
   const dispatch = useDispatch();
   const [bookState, setBookState] = useState(props);
-  console.log("hi there")
 
   const handleDeleteTheVideo = async () => {
     try {
@@ -66,18 +65,19 @@ export default function MyBooksCard(props: booksHave) {
 
       if (res.status==200) {
         toast.success("book removed succesfully");
-        const bookForRedux:SerializableBook={...props,publishDate.toString()}
-        dispatch(())
+        dispatch(removeMyBook({...props,publishDate:props.publishDate.toString()}))
       }
       setBookState((prev) => prev);
     } catch (error) {
       console.log(error);
     }
   };
-
   // Kept max-w-64 (256px)
   return (
-    <Card className="max-w-64 w-full rounded-2xl bg-black border-zinc-800 text-white overflow-hidden shadow-2xl">
+    <>
+    {
+      cart.myallBooks.map((props)=>{
+            <Card className="max-w-64 w-full rounded-2xl bg-black border-zinc-800 text-white overflow-hidden shadow-2xl">
       {/* Image container */}
       <div className="relative">
         <img
@@ -140,5 +140,10 @@ export default function MyBooksCard(props: booksHave) {
         </Button>
       </CardFooter>
     </Card>
+        
+      })
+    }
+    </>
+
   );
 }
