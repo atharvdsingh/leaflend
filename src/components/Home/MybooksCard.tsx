@@ -1,9 +1,16 @@
-"use client"
+"use client";
 import React, { useEffect, useReducer, useState } from "react";
 
 // --- Icon Imports ---
 // Assumes `lucide-react` is installed (`npm install lucide-react`)
-import { Axis3D, BookOpen, Delete, DeleteIcon, ShoppingCart, Trash } from "lucide-react";
+import {
+  Axis3D,
+  BookOpen,
+  Delete,
+  DeleteIcon,
+  ShoppingCart,
+  Trash,
+} from "lucide-react";
 
 // --- Shadcn UI Component Imports ---
 // These components are assumed to be in your project, added via:
@@ -28,7 +35,8 @@ import { AddToCart } from "@/store/features/cartSlice";
 import type { RootState } from "@/store/store";
 import axios from "axios";
 import { toast } from "sonner";
-
+import { addNewMyBook } from "@/store/features/mybookSlice";
+import type { SerializableBook } from "@/app/types/bookstypeforRedux";
 
 /**
  * HomeCard
@@ -42,35 +50,30 @@ interface Props {
   genre: string; // Changed from String
   price: string;
   imageURL: string; // User changed from imageUrl
-  available: statusType ;
+  available: statusType;
 }
 
-
-
-
-
 export default function MyBooksCard(props: booksHave) {
-  const cart=useSelector((state:RootState)=>state.cart)
-  const dispatch=useDispatch()
-    const [bookState,setBookState]=useState(props)
+  const cart = useSelector((state: RootState) => state.cart);
+  const dispatch = useDispatch();
+  const [bookState, setBookState] = useState(props);
+  console.log("hi there")
 
-  const handleDeleteTheVideo= async ()=>{
-  try {
-      const res=await axios.post("/api/rentbook",props.id)
-    
-      if(res.data){
-            toast.success("book removed succesfully")
+  const handleDeleteTheVideo = async () => {
+    try {
+      console.log(props)
+      const res = await axios.post("/api/mybooks/deletebook", {id:props.id});
+
+      if (res.status==200) {
+        toast.success("book removed succesfully");
+        const bookForRedux:SerializableBook={...props,publishDate.toString()}
+        dispatch(())
       }
-      setBookState((prev)=>prev)
-  } catch (error) {
-    console.log(error)
-    
-  }
-
-
-
-
-  }
+      setBookState((prev) => prev);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   // Kept max-w-64 (256px)
   return (
@@ -128,8 +131,12 @@ export default function MyBooksCard(props: booksHave) {
           Hide
         </Button>
 
-        <Button disabled={props.status=="GIVEN"} onClick={handleDeleteTheVideo}  className="bg-white text-black hover:bg-zinc-200 font-semibold h-8 px-3 text-xs">
-<Trash/>
+        <Button
+          disabled={props.status == "GIVEN"}
+          onClick={handleDeleteTheVideo}
+          className="bg-white text-black hover:bg-zinc-200 font-semibold h-8 px-3 text-xs"
+        >
+          <Trash />
         </Button>
       </CardFooter>
     </Card>

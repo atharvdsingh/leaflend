@@ -1,5 +1,6 @@
 import CenterComponent from "@/components/CenterComponent";
 import CreateBook from "@/components/CreateBook";
+import BookCardWrapper from "@/components/Home/BookCardWrapper";
 import MyBooksCard from "@/components/Home/MybooksCard";
 import { GetTheSession } from "@/util/GetTheSession";
 import { prisma } from "@/util/Prisma";
@@ -36,9 +37,7 @@ async function Page(props: Props) {
     <>
     <div className=" max-w-7xl m-auto flex flex-wrap gap-4 p-4 justify-evenly itemc " >
 
-      {books.map((book)=>(
-          <MyBooksCard key={book.id} {...book}  />
-      ))}
+     <BookCardWrapper books={books}  />
       </div>      
     </>
   );

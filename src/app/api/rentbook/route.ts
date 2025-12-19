@@ -29,6 +29,8 @@ export async function POST(req:NextRequest,res:NextResponse){
     try {
         const id= await req.json()
         console.log(id)
+        const books:booksHave[]=await req.json();
+        console.log(books)
 
         const prismaRespons=await prisma.booksHave.delete({
             where:{
@@ -41,7 +43,7 @@ export async function POST(req:NextRequest,res:NextResponse){
         }
         console.log(prismaRespons)
         
-    } catch (error) {
+    } catch (error) {``
         return NextResponse.json({message:"some thing went wrong while deleting books",error})
         console.log(error)
         
