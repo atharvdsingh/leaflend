@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useReducer, useState } from "react";
+import React, { useEffect, useReducer, useState, type EventHandler, type FormEvent, type ReactEventHandler } from "react";
 
 // --- Icon Imports ---
 // Assumes `lucide-react` is installed (`npm install lucide-react`)
@@ -53,42 +53,40 @@ interface Props {
   available: statusType;
 }
 
-export default function MyBooksCard(props: booksHave) {
-  const cart = useSelector((state: RootState) => state.mybooks);
+export default function MyBooksCard() {
+  const cart = useSelector((state: RootState) => state.mybooks.myallBooks);
   const dispatch = useDispatch();
-  const [bookState, setBookState] = useState(props);
 
-  const handleDeleteTheVideo = async () => {
+  const handleDeleteTheVideo = async (book:SerializableBook) => {
     try {
-      console.log(props)
-      const res = await axios.post("/api/mybooks/deletebook", {id:props.id});
+      const res = await axios.post("/api/mybooks/deletebook", {id:book.id});
 
       if (res.status==200) {
         toast.success("book removed succesfully");
-        dispatch(removeMyBook({...props,publishDate:props.publishDate.toString()}))
+        dispatch(removeMyBook(book.id))
+        
       }
-      setBookState((prev) => prev);
     } catch (error) {
       console.log(error);
     }
   };
   // Kept max-w-64 (256px)
   return (
-    <>
-    {
-      cart.myallBooks.map((props)=>{
-            <Card className="max-w-64 w-full rounded-2xl bg-black border-zinc-800 text-white overflow-hidden shadow-2xl">
+<>
+{
+  cart.map((book)=>  (
+    <div  key={book.id} >    <Card className="max-w-64 w-full rounded-2xl bg-black border-zinc-800 text-white overflow-hidden shadow-2xl">
       {/* Image container */}
       <div className="relative">
         <img
-          src={props.cover || "/"}
-          alt={`Cover image of ${props.bookname}`}
+          src={book.cover || "/"}
+          alt={`Cover image of ${book.bookname}`}
           // Changed to h-40 (160px)
           className="w-full h-40  object-cover"
         />
 
         {/* Available Badge, positioned absolutely */}
-        {props.status && (
+        {book.status && (
           <Badge
             variant="default" // Kept user's variant
             // Reduced padding
@@ -103,7 +101,7 @@ export default function MyBooksCard(props: booksHave) {
       <CardHeader className="p-2">
         {/* Reduced text size and added truncate */}
         <CardTitle className="text-base font-semibold text-white truncate">
-          {props.bookname}
+          {book.bookname}
         </CardTitle>
         {/* Reduced text size */}
         <CardDescription className="text-zinc-500 text-xs pt-0.5">
@@ -114,7 +112,7 @@ export default function MyBooksCard(props: booksHave) {
       {/* Content: Contains Genre and Price - Reduced padding */}
       <CardContent className="p-2 pt-0">
         <div className="flex justify-between items-center">
-          <span className="text-zinc-500 text-sm">{props.bookType}</span>
+          <span className="text-zinc-500 text-sm">{book.bookType}</span>
           {/* Reduced text size */}
           <span className="text-green-400 font-bold text-sm">{""}</span>
         </div>
@@ -132,18 +130,17 @@ export default function MyBooksCard(props: booksHave) {
         </Button>
 
         <Button
-          disabled={props.status == "GIVEN"}
-          onClick={handleDeleteTheVideo}
+          disabled={book.status == "GIVEN"}
+          onClick={()=>handleDeleteTheVideo(book)}
           className="bg-white text-black hover:bg-zinc-200 font-semibold h-8 px-3 text-xs"
         >
           <Trash />
         </Button>
       </CardFooter>
-    </Card>
-        
-      })
-    }
-    </>
+    </Card></div>
+  ))
+}
+</>
 
   );
 }

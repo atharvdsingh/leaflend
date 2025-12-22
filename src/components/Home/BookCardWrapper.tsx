@@ -27,9 +27,7 @@ function BookCardWrapper({ books = [] }: Props) {
 
   return (
     <>
-      {books.map(book => (
-        <MyBooksCard key={book.id} {...book} />
-      ))}
+        <MyBooksCard  />
     </>
   );
 }

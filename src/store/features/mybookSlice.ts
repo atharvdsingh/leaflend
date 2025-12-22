@@ -21,8 +21,8 @@ const Mybookslice=createSlice({
             state.myallBooks.push(action.payload)
         }
         ,
-        removeMyBook:(state,action:PayloadAction<SerializableBook>)=>{
-            state.myallBooks.splice(action.payload.id)
+        removeMyBook:(state,action:PayloadAction<SerializableBook["id"]>)=>{
+            state.myallBooks=state.myallBooks.filter((book)=>book.id!=action.payload)
 
         }
     }
