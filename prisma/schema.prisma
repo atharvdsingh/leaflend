@@ -59,6 +59,7 @@ model RentalRequest {
   requestMessage String?
 
   createdAt DateTime @default(now())
+  @@unique([bookId,requesterId])
 }
 
 model borrows {
@@ -74,7 +75,7 @@ model borrows {
   owner   users @relation("Owner", fields: [ownerId], references: [id])
 
   startDate  DateTime  @default(now())
-  dueDate    DateTime
+  dueDate    DateTime ?
   returnDate DateTime?
 
   status BorrowStatus @default(ACTIVE)

@@ -17,12 +17,17 @@ function Checkout() {
   const handleOnclick = async () => {
     try {
         setLoading(true)
-        const data=await axios.post("http://hocalhost:3000/api/rentbook",booksId) 
+        console.log("putting the id ")
+        console.log(booksId);
+        
+        const data=await axios.post("http://localhost:3000/api/rentbook",booksId) 
         if(data.status!=200){
             toast.error("something went wrong")
         }
+        console.log("error ",data)
         toast("books have been rented")
     } catch (error) {
+      console.log("error")
       console.log(error);
         
     }
