@@ -27,10 +27,11 @@ export async function GET(){
 
 export async function POST(req:NextRequest,res:NextResponse){
     try {
-        const id= await req.json()
+        const booksId:number[]= await req.json()
         console.log(id)
         const books:booksHave[]=await req.json();
         console.log(books)
+        
 
         const prismaRespons=await prisma.booksHave.delete({
             where:{

@@ -4,15 +4,13 @@ import Checkout from "@/components/Cart/Checkout";
 import CenterComponent from "@/components/CenterComponent";
 import { Button } from "@/components/ui/button";
 import type { RootState } from "@/store/store";
-import { CarTaxiFront, Frown, ShoppingCart } from "lucide-react";
+import {  ShoppingCart } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 import { useSelector } from "react-redux";
 
-interface Props {}
 
-function Page(props: Props) {
-  const {} = props;
+function Page() {
   const cart = useSelector((state: RootState) => state.cart);
 
   if (cart.NoOfBooks === 0) {

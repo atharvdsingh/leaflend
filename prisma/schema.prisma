@@ -17,28 +17,31 @@ model users {
   email     String @unique
   password  String?
   booksHave booksHave[]
-  booksBorrows  BorrowsBooks[]
-  booksGiven  Booksgiven[]
+  receivedRequest RentalRequest[] @relation("RequestData")
+  sentRequest RentalRequest[] @relation("OwnerData")
 }
 
-
-model Booksgiven{
+model RentalRequest{
   id Int @id @default(autoincrement())
-  booksName String
-  cover String?
-  givenDate DateTime @default(now())
-  Ggivento users @relation(fields: [givenTo], references: [id])
-  givenTo Int
+  status  rentalRequestEnum @default(PENDING)
+  bookOwnerId Int
+  BookOwnerId users @relation("OwnerData",fields: [bookOwnerId],references: [id])
+  RequestMessage String ?
+
+  rentalId Int
+  RentalId users @relation("RequestData",fields: [rentalId],references: [id])
+  createdAt DateTime @default(now())
 }
 
-model BorrowsBooks{
+model order{
   id Int @id @default(autoincrement())
-  booksName String
-  cover String?
-  borrowDate DateTime @default(now())
-  BborrowFrom users @relation(fields: [borrowFrom], references: [id])
-  borrowFrom Int
+
+
 }
+
+
+
+
 
 model booksHave{
   id Int @id @default(autoincrement())
@@ -48,7 +51,22 @@ model booksHave{
   bookType BookType @default(AllGenres)
   owner users  @relation(fields: [ownerId], references: [id])
   ownerId Int
+
+  borrow borrows[]
+
   status statusType @default(AVAILABLE)
+}
+
+model borrows{
+  id Int @id @default(autoincrement())
+
+  ownerId Int
+  OwnerId users @relation(fields: [ownerId],references: [id]) 
+
+  rentedOwnerId Int
+  RentedOwnerId users @relation(fields: [rentedOwnerId],references: [id])
+
+
 }
 
 enum statusType{
@@ -64,6 +82,13 @@ enum statusType{
   Sci_Fi
   Fantasy
   Non_Fiction
+}
+
+enum rentalRequestEnum{
+  ACCEPTED
+  REJECTED
+  PENDING
+  EXPIRE
 }
 
 

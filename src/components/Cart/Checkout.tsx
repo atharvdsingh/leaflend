@@ -8,13 +8,12 @@ import axios from "axios";
 import { toast } from "sonner";
 import { useRouter } from "next/router";
 
-interface Props {}
 
-function Checkout(props: Props) {
+function Checkout() {
     const [loading,setLoading]=useState(false)
-  const {} = props;
   const NoOfBooks = useSelector((items: RootState) => items.cart);
   const booksId=NoOfBooks.books.map((books)=>books.id)
+  console.log(booksId)
   const handleOnclick = async () => {
     try {
         setLoading(true)
@@ -23,8 +22,8 @@ function Checkout(props: Props) {
             toast.error("something went wrong")
         }
         toast("books have been rented")
-       
     } catch (error) {
+      console.log(error);
         
     }
 
