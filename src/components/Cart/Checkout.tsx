@@ -4,9 +4,10 @@ import { Card, CardFooter, CardHeader, CardTitle } from "../ui/card";
 import { Button } from "../ui/button";
 import { useSelector } from "react-redux";
 import type { RootState } from "@/store/store";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { toast } from "sonner";
 import { useRouter } from "next/router";
+import type { ErrorType } from "@/app/types/ErrorType";
 
 
 function Checkout() {
@@ -21,13 +22,20 @@ function Checkout() {
         console.log(booksId);
         
         const data=await axios.post("http://localhost:3000/api/rentbook",booksId) 
+        console.log(data)
         if(data.status!=200){
             toast.error("something went wrong")
             return ;
         }
         console.log("error ",data)
         toast("books have been rented")
-    } catch (error) {
+    } catch (error:unknown) {
+      if(error instanceof Error){
+        toast.error(error.message);
+      }
+      else if(error instanceof AxiosError){
+        toast.error(error.message)
+      }
 
         
     }

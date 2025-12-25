@@ -3,8 +3,8 @@ import { authOptions } from "../auth/[...nextauth]/route";
 import { NextResponse, type NextRequest } from "next/server";
 import { prisma } from "@/util/Prisma";
 import type { booksHave } from "@prisma/client";
-import { ApiError } from "next/dist/server/api-utils";
 import { handleApiError } from "@/util/HandleError";
+import { AppError } from "@/util/AppError";
 
 export async function GET() {
   try {
@@ -30,7 +30,7 @@ export async function GET() {
   }
 }
 
-export async function POST(req: NextRequest, res: NextResponse) {
+export async function POST(req: NextRequest) {
   try {
     const booksId: number[] = await req.json();
     const session = await getServerSession(authOptions);
@@ -52,19 +52,9 @@ export async function POST(req: NextRequest, res: NextResponse) {
         { status: 400 }
       );
     }
-
-try {
         await prisma.$transaction(async (tx) => {
           for (const books of booksId) {
-            const error: {
-              message: string;
-              status: boolean;
-              count: number;
-            } = {
-              message: "hehe",
-              status: false,
-              count: 0,
-            };
+
             const bookFromDatabase: booksHave | null =
               await tx.booksHave.findUnique({
                 where: {
@@ -73,16 +63,13 @@ try {
               });
     
             if (!bookFromDatabase) {
-              error.status = true;
-              error.count++;
-              throw new ApiError(400, "Book not Available");
+           
+              throw new AppError("Book not Available",411);
             }
             console.log("asldkfjalskdfjlaskdjf");
             if (bookFromDatabase.status != "AVAILABLE") {
-              error.status = true;
-              throw new ApiError(400, "Book not Available");
+              throw new AppError( "Book not Available",401);
             }
-            console.log("asldkfjalskdfjlaskdjf");
     
             const UserAlreadyRequestedForBook = await tx.rentalRequest.findFirst({
               where: {
@@ -90,15 +77,12 @@ try {
                 requesterId: session.user.id,
               },
             });
-            console.log("asldkfjalskdfjlaskdjf");
     
             if (UserAlreadyRequestedForBook) {
               console.log("already exit");
               console.log(UserAlreadyRequestedForBook);
-              throw new ApiError(400, "already added in process");
+              throw new AppError( "Already into request  ",401);
             }
-            console.log(UserAlreadyRequestedForBook);
-            console.log("asldkfjalskdfjlaskdjf");
     
             await tx.rentalRequest.create({
               data: {
@@ -120,12 +104,9 @@ try {
             status: 200,
           }
         );
-} catch (error) {
-    throw new ApiError(500,"something went wrongyyyy")
-    
-}
+
   } catch (error) {
     console.log(error);
-return NextResponse.json({message:"something went wrong",success:false},{status:500})
+return handleApiError(error)
   }
 }
