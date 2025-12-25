@@ -1,73 +1,53 @@
-import { prisma } from "@/util/Prisma";
-import { getServerSession } from "next-auth";
-import { NextResponse } from "next/server";
-import { authOptions } from "../auth/[...nextauth]/route";
-import { handleApiError } from "@/util/HandleError";
-import type { CreateBookType } from "@/app/types/databaseRoutesType";
+// utils/handleApiError.ts
+import { NextResponse } from "next/server"
+import { Prisma } from "@prisma/client"
 
-export async function GET() {
-  const session = await getServerSession(authOptions);
-  const userId =  session?.user.id ;
-  console.log(userId)
+export function handleApiError(error: unknown) {
+  console.error("API ERROR:", error)
 
-  const books = await prisma.booksHave.findMany({
-    where: {
-      ownerId: userId,
-    },
-  });
-
-  return NextResponse.json({
-    message: "all the books send",
-    success: true,
-    books,
-    userId
-  });
-}
-
-export async function POST(request: Request) {
-try {
-    const body:CreateBookType = await request.json();
-    const session = await getServerSession(authOptions);
-    if(!session?.user?.id){
-      return NextResponse.json({
-          message:"User is not logged in ",
-          success:false,
-          
-      },{status:401})
-    }
-    
-    const userId = Number(session?.user.id);
-    const response = await prisma.booksHave.create({
-      data: {
-        bookname: body.bookname,
-        cover: body.cover,
-        status: "AVAILABLE",
-        ownerId: userId,
-        // author:body.author
-      },
-    });
-    if (!response) {
-      return NextResponse.json({
-        message: "books is not created",
-        success: false,
-      });
-    } else {
-      return NextResponse.json({
-        message: "books is created ",
-        success: true,
-      });
-    }
-} catch (error: unknown) {
-    // 👇 safest way to handle any kind of error
-    if (error instanceof Error) {
-      console.error("Server Error:", error.message);
+  // 1️⃣ Prisma known errors
+  if (error instanceof Prisma.PrismaClientKnownRequestError) {
+    // Unique constraint failed
+    if (error.code === "P2002") {
       return NextResponse.json(
-        { message: error.message, success: false },
-        { status: 500 }
-      );
+        {
+          success: false,
+          message: "Request already exists",
+          code: "DUPLICATE_REQUEST",
+        },
+        { status: 409 }
+      )
     }
 
-    console.error("Unknown Error:", error);
-    return handleApiError(error)
+    return NextResponse.json(
+      {
+        success: false,
+        message: "Database error",
+        code: error.code,
+      },
+      { status: 400 }
+    )
   }
+
+  // 2️⃣ Custom application errors
+  if (error instanceof Error) {
+    return NextResponse.json(
+      {
+        success: false,
+        message: error.message,
+        code: "APP_ERROR",
+      },
+      { status: 400 }
+    )
+  }
+
+  // 3️⃣ Unknown errors (fallback)
+  return NextResponse.json(
+    {
+      success: false,
+      message: "Something went wrong",
+      code: "UNKNOWN_ERROR",
+    },
+    { status: 500 }
+  )
 }

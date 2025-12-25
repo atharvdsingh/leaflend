@@ -1,21 +1,52 @@
-// utils/handleError.ts
-import { NextResponse } from "next/server";
+import { NextResponse } from "next/server"
+import { Prisma } from "@prisma/client"
+import { AppError } from "./AppError"
 
-export function handleApiError(error: {
-  message:string | "something went wrong" ,
-  status:number | 500
-}) {
-  if (error instanceof Error) {
-    console.error("API Error:", error.message);
+export function handleApiError(error: unknown) {
+  console.error("API ERROR:", error)
+
+  // 1️⃣ OUR custom errors → send to frontend as-is
+  if (error instanceof AppError) {
     return NextResponse.json(
-      { message: error.message, success: false },
-      { status: 500 }
-    );
+      {
+        success: false,
+        message: error.message,
+        code: error.statusCode,
+      },
+      { status: error.statusCode }
+    )
   }
 
-  console.error("Unknown Error:", error);
+  // 2️⃣ Prisma errors → map to safe message
+  if (error instanceof Prisma.PrismaClientKnownRequestError) {
+    if (error.code === "P2002") {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "You have already requested this book",
+          code: "DUPLICATE_REQUEST",
+        },
+        { status: 409 }
+      )
+    }
+
+    return NextResponse.json(
+      {
+        success: false,
+        message: "Database operation failed",
+        code: "DATABASE_ERROR",
+      },
+      { status: 400 }
+    )
+  }
+
+  // 3️⃣ EVERYTHING ELSE → generic error
   return NextResponse.json(
-    { message: "Something went wrong", success: false },
-    { status: error?.status }
-  );
+    {
+      success: false,
+      message: "Something went wrong. Please try again.",
+      code: "INTERNAL_ERROR",
+    },
+    { status: 500 }
+  )
 }
