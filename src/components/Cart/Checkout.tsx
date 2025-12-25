@@ -8,36 +8,34 @@ import axios, { AxiosError } from "axios";
 import { toast } from "sonner";
 import { useRouter } from "next/router";
 import type { ErrorType } from "@/app/types/ErrorType";
+import { handleClientError } from "@/util/clientError";
 
 
 function Checkout() {
-    const [loading,setLoading]=useState(false)
+  const [loading, setLoading] = useState(false)
   const NoOfBooks = useSelector((items: RootState) => items.cart);
-  const booksId=NoOfBooks.books.map((books)=>books.id)
+  const booksId = NoOfBooks.books.map((books) => books.id)
   console.log(booksId)
   const handleOnclick = async () => {
     try {
-        setLoading(true)
-        console.log("putting the id ")
-        console.log(booksId);
-        
-        const data=await axios.post("http://localhost:3000/api/rentbook",booksId) 
-        console.log(data)
-        if(data.status!=200){
-            toast.error("something went wrong")
-            return ;
-        }
-        console.log("error ",data)
-        toast("books have been rented")
-    } catch (error:unknown) {
-      if(error instanceof Error){
-        toast.error(error.message);
-      }
-      else if(error instanceof AxiosError){
-        toast.error(error.message)
-      }
+      setLoading(true)
+      console.log("putting the id ")
+      console.log(booksId);
 
-        
+      const data = await axios.post("http://localhost:3000/api/rentbook", booksId)
+      console.log(data)
+      if (data.status != 200) {
+        toast.error("something went wrong")
+        return;
+      }
+      console.log("error ", data)
+      toast("books have been rented")
+      // ... inside component ...
+
+      // ... inside component ...
+
+    } catch (error: unknown) {
+      handleClientError(error);
     }
 
 

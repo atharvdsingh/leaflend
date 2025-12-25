@@ -1,42 +1,47 @@
 import type { SerializableBook } from "@/app/types/bookstypeforRedux";
 import { handleApiError } from "@/util/HandleError";
+import { AppError } from "@/util/AppError";
 import { prisma } from "@/util/Prisma";
 import { getServerSession } from "next-auth";
 import { NextResponse, type NextRequest } from "next/server";
 import { authOptions } from "../../auth/[...nextauth]/route";
 import type { CreateBookType } from "@/app/types/databaseRoutesType";
 
-export async function POST(request:Request){
-    const session=await getServerSession(authOptions);
-    
-    if(!session?.user.id){
-        return NextResponse.json({
-            message:"use is not logged in",
-            success:"false"
-        },{
-            status:400
-        })
-    }
+export async function POST(request: Request) {
     try {
-        const body= await request.json();
+        const session = await getServerSession(authOptions);
 
-        console.log(body)
-        const respons=await prisma.booksHave.delete({
-            where:{
-                id:body.id
-            }
-        })
-        if(!respons){
-            return NextResponse.json({respons, message:"soemthing wend wrong"},{status:500})
+        if (!session?.user.id) {
+            throw new AppError("User is not logged in", 401, "UNAUTHORIZED");
         }
-        if(respons){
-            return NextResponse.json(respons,{status:200})
+
+        const body = await request.json();
+
+        if (!body.id) {
+            throw new AppError("Book ID is required", 400, "INVALID_INPUT");
         }
-        
+
+        const book = await prisma.booksHave.findUnique({
+            where: { id: body.id },
+        });
+
+        if (!book) {
+            throw new AppError("Book not found", 404, "BOOK_NOT_FOUND");
+        }
+
+        if (book.ownerId !== session.user.id) {
+            throw new AppError("You are not authorized to delete this book", 403, "FORBIDDEN");
+        }
+
+        const respons = await prisma.booksHave.delete({
+            where: {
+                id: body.id,
+            },
+        });
+
+        return NextResponse.json(respons, { status: 200 });
+
     } catch (error) {
         return handleApiError(error);
-        console.log("hi there it is error")
-        
     }
-
 }

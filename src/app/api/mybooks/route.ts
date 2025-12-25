@@ -1,53 +1,37 @@
-// utils/handleApiError.ts
-import { NextResponse } from "next/server"
-import { Prisma } from "@prisma/client"
+import { getServerSession } from "next-auth";
+import { authOptions } from "../auth/[...nextauth]/route";
+import { NextResponse, type NextRequest } from "next/server";
+import { prisma } from "@/util/Prisma";
+import { handleApiError } from "@/util/HandleError";
+import { AppError } from "@/util/AppError";
 
-export function handleApiError(error: unknown) {
-  console.error("API ERROR:", error)
+export async function POST(req: NextRequest) {
+  try {
+    const session = await getServerSession(authOptions);
+    if (!session?.user.id) {
+      throw new AppError("Unauthorized", 401, "UNAUTHORIZED");
+    }
+    const data = await req.json();
 
-  // 1️⃣ Prisma known errors
-  if (error instanceof Prisma.PrismaClientKnownRequestError) {
-    // Unique constraint failed
-    if (error.code === "P2002") {
-      return NextResponse.json(
-        {
-          success: false,
-          message: "Request already exists",
-          code: "DUPLICATE_REQUEST",
-        },
-        { status: 409 }
-      )
+    // Basic validation
+    if (!data.bookname) {
+      throw new AppError("Book name is required", 400, "INVALID_INPUT");
     }
 
-    return NextResponse.json(
-      {
-        success: false,
-        message: "Database error",
-        code: error.code,
+    const newBook = await prisma.booksHave.create({
+      data: {
+        bookname: data.bookname,
+        // author: data.author, // Schema missing author
+        // genres: data.genres, // Schema uses bookType enum, needs mapping
+        // price: Number(data.price), // Schema missing price
+        ownerId: session.user.id,
+        status: "AVAILABLE",
+        cover: data.coverUrl || null, // Schema uses 'cover'
+        // description: data.description || "" // Schema missing description
       },
-      { status: 400 }
-    )
+    });
+    return NextResponse.json(newBook, { status: 201 });
+  } catch (error) {
+    return handleApiError(error);
   }
-
-  // 2️⃣ Custom application errors
-  if (error instanceof Error) {
-    return NextResponse.json(
-      {
-        success: false,
-        message: error.message,
-        code: "APP_ERROR",
-      },
-      { status: 400 }
-    )
-  }
-
-  // 3️⃣ Unknown errors (fallback)
-  return NextResponse.json(
-    {
-      success: false,
-      message: "Something went wrong",
-      code: "UNKNOWN_ERROR",
-    },
-    { status: 500 }
-  )
 }

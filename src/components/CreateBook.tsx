@@ -1,5 +1,6 @@
 "use client";
 import axios from "axios";
+import { handleClientError } from "@/util/clientError";
 import { useForm, SubmitHandler } from "react-hook-form";
 
 import React, { useState } from "react";
@@ -60,25 +61,18 @@ export default function CreateBook() {
   const [loading, setLoading] = useState(false);
   const { register, handleSubmit } = useForm<CreateBookType>();
 
+  // ... inside component ...
+
+  // ... inside component ...
+
   const onSubmit: SubmitHandler<CreateBookType> = async (data) => {
     setLoading(true);
     try {
       const res = await axios.post("http://localhost:3000/api/mybooks", data);
-      // fetch("/api/my-books", {
-      //   method: "POST",
-      //   headers: { "Content-Type": "application/json" },
-      //   body: JSON.stringify(formData),
-      // });
-
       toast.success("Book posted successfully!");
-
       setOpen(false);
     } catch (error: unknown) {
-      if (error instanceof Error) {
-        console.error("Client Error:", error.message);
-      } else {
-        console.error("Unknown Client Error:", error);
-      }
+      handleClientError(error);
     } finally {
       setLoading(false);
     }

@@ -1,9 +1,9 @@
-import { NextResponse } from "next/server"
-import { Prisma } from "@prisma/client"
-import { AppError } from "./AppError"
+import { NextResponse } from "next/server";
+import { Prisma } from "@prisma/client";
+import { AppError } from "./AppError";
 
 export function handleApiError(error: unknown) {
-  console.error("API ERROR:", error)
+  console.error("API ERROR:", error);
 
   // 1️⃣ OUR custom errors → send to frontend as-is
   if (error instanceof AppError) {
@@ -11,10 +11,10 @@ export function handleApiError(error: unknown) {
       {
         success: false,
         message: error.message,
-        status: error.status,
+        code: error.code,
       },
       { status: error.status }
-    )
+    );
   }
 
   // 2️⃣ Prisma errors → map to safe message
@@ -27,7 +27,7 @@ export function handleApiError(error: unknown) {
           code: "DUPLICATE_REQUEST",
         },
         { status: 409 }
-      )
+      );
     }
 
     return NextResponse.json(
@@ -37,7 +37,7 @@ export function handleApiError(error: unknown) {
         code: "DATABASE_ERROR",
       },
       { status: 400 }
-    )
+    );
   }
 
   // 3️⃣ EVERYTHING ELSE → generic error
@@ -48,5 +48,5 @@ export function handleApiError(error: unknown) {
       code: "INTERNAL_ERROR",
     },
     { status: 500 }
-  )
+  );
 }
