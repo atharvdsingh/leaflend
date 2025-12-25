@@ -23,12 +23,12 @@ function Checkout() {
         const data=await axios.post("http://localhost:3000/api/rentbook",booksId) 
         if(data.status!=200){
             toast.error("something went wrong")
+            return ;
         }
         console.log("error ",data)
         toast("books have been rented")
     } catch (error) {
-      console.log("error")
-      console.log(error);
+
         
     }
 
