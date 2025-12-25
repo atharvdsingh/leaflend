@@ -21,6 +21,9 @@ export class ManageLocalStorage {
       return [];
     }
   }
+  emptyStorage(){
+    localStorage.setItem("books","")
+  }
 
   addedToTheStorage(data: SerializableBook) {
     const books: SerializableBook[] = this.getBooks();

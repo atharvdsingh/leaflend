@@ -1,10 +1,8 @@
-import { Frown, Library } from "lucide-react";
+import { Frown } from "lucide-react";
 import React from "react";
 
-interface Props {}
 
-function NoBooks(props: Props) {
-  const {} = props;
+function NoBooks() {
 
   return (
     <>

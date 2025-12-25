@@ -1,16 +1,27 @@
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import CenterComponent from "@/components/CenterComponent";
-import CreateBook from "@/components/CreateBook";
 import { Button } from "@/components/ui/button";
+import { prisma } from "@/util/Prisma";
+import type {  RentalRequest } from "@prisma/client";
 import { BookOpen } from "lucide-react";
+import { getServerSession } from "next-auth";
 import Link from "next/link";
-import React from "react";
+import { redirect } from "next/navigation";
 
-interface Props {}
 
-function Page(props: Props) {
-  const {} = props;
+ async function Page() {
 
-  return (
+  const session= await getServerSession(authOptions)
+  if(!session?.user.id){
+   redirect("/")
+  }
+  const books:RentalRequest[]= await prisma.rentalRequest.findMany({
+    where:{
+      requesterId:session?.user.id
+    }
+  })
+  if(books.length===0){
+      return (
     <>
       <CenterComponent>
         <div className="flex justify-center flex-col gap-3  items-center">
@@ -24,6 +35,14 @@ function Page(props: Props) {
       </CenterComponent>
     </>
   );
+
+
+
+  
+
+  }
+
+
 }
 
 export default Page;

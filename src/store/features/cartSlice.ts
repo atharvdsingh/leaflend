@@ -37,12 +37,17 @@ const cartSlice=createSlice({
             state.NoOfBooks=state.NoOfBooks-1
             state.books=state.books.filter((book)=>book.id!=action.payload.id)
             localStorageInstance.removeBook(action.payload)
+        },
+        EmptyCart:(state)=>{
+            state.NoOfBooks=0
+            state.books=[]
+            localStorageInstance.emptyStorage()
         }
     }
 })
 
 
-export const {AddToCart,RemoveFromCart,hydrateCart} = cartSlice.actions
+export const {AddToCart,RemoveFromCart,hydrateCart,EmptyCart} = cartSlice.actions
 export default cartSlice.reducer
 
 

@@ -2,17 +2,19 @@
 import React, { useState } from "react";
 import { Card, CardFooter, CardHeader, CardTitle } from "../ui/card";
 import { Button } from "../ui/button";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import type { RootState } from "@/store/store";
 import axios, { AxiosError } from "axios";
 import { toast } from "sonner";
 import { useRouter } from "next/router";
 import type { ErrorType } from "@/app/types/ErrorType";
 import { handleClientError } from "@/util/clientError";
+import { AddToCart, EmptyCart } from "@/store/features/cartSlice";
 
 
 function Checkout() {
   const [loading, setLoading] = useState(false)
+  const dispatch=useDispatch()
   const NoOfBooks = useSelector((items: RootState) => items.cart);
   const booksId = NoOfBooks.books.map((books) => books.id)
   console.log(booksId)
@@ -29,7 +31,10 @@ function Checkout() {
         return;
       }
       console.log("error ", data)
+
+
       toast("books have been rented")
+      dispatch(EmptyCart())
       // ... inside component ...
 
       // ... inside component ...
