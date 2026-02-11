@@ -16,9 +16,19 @@ import {
   Heart,
 } from "lucide-react";
 
+<<<<<<< HEAD
 interface Props {}
 
 const cardData = [
+=======
+interface cardDataType {
+  icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
+  title: string;
+  description: string;
+}
+
+const cardData:cardDataType[] = [
+>>>>>>> de9f43f
   {
     icon: BookOpen,
     title: "Vast Book Collection",
@@ -51,7 +61,12 @@ const cardData = [
   },
 ];
 
+<<<<<<< HEAD
 function SecondSection(props: Props) {
+=======
+function SecondSection() {
+
+>>>>>>> de9f43f
   return (
     <div className="relative py-24 px-4 sm:px-6 lg:px-8 bg-background overflow-hidden">
       
@@ -71,6 +86,7 @@ function SecondSection(props: Props) {
 
           <h2 className="text-4xl md:text-5xl font-bold tracking-tight">
             Everything You Need to <br />
+<<<<<<< HEAD
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-green-600">
               Share and Discover Books
             </span>
@@ -79,6 +95,13 @@ function SecondSection(props: Props) {
           <p className="text-lg text-muted-foreground leading-relaxed">
             Whether you're looking to save money on books or earn extra income
             from your collection, we provide the tools to make it simple and secure.
+=======
+            <span className="text-green-600">Share and Discover Books</span>
+          </h1>
+          <p className="text-lg text-gray-400 max-w-2xl mx-auto">
+            Whether you&apos;re looking to save money on books or earn extra income
+            from your collection, BookRent has you covered.
+>>>>>>> de9f43f
           </p>
         </div>
 
