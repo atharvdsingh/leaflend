@@ -16,14 +16,13 @@ import {
   Heart,
 } from "lucide-react";
 
-interface Props {}
 interface cardDataType {
   icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
   title: string;
   description: string;
 }
 
-const cardData:{icon:any,title:string,description:string}[] = [
+const cardData:cardDataType[] = [
   {
     icon: BookOpen,
     title: "Vast Book Collection",
@@ -61,8 +60,7 @@ const cardData:{icon:any,title:string,description:string}[] = [
   },
 ];
 
-function SecondSection(props: Props) {
-  const {} = props;
+function SecondSection() {
 
   return (
     <>
@@ -81,7 +79,7 @@ function SecondSection(props: Props) {
             <span className="text-green-600">Share and Discover Books</span>
           </h1>
           <p className="text-lg text-gray-400 max-w-2xl mx-auto">
-            Whether you're looking to save money on books or earn extra income
+            Whether you&apos;re looking to save money on books or earn extra income
             from your collection, BookRent has you covered.
           </p>
         </div>
