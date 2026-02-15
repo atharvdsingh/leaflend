@@ -1,12 +1,14 @@
-import React from "react";
+import React, { Suspense } from "react";
 import { prisma } from "@/util/Prisma";
 import { GetTheSession } from "@/util/GetTheSession";
 import { handleClientError } from "@/util/clientError";
 import HomeCard from "@/components/Home/HomeCard";
 import NoBooks from "@/components/Home/NoBooks";
 import CenterComponent from "@/components/CenterComponent";
+import BookListSkeleton from "@/components/Home/BookListSkeleton";
 
 import type { booksHave } from "@prisma/client";
+import HomeCardSkeleton from "./HomeCardSkeleton";
 
 /**
  * BookList (Server Component)
@@ -54,7 +56,26 @@ async function BookList({ searchParams }: { searchParams: Promise<{ page: string
   }
 
   return (
+
+      
+
     <CenterComponent className="flex justify-center items-center">
+      <Suspense fallback={<div>
+         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4">
+        
+        {
+          Array.from({length:8}).map((_,index)=>(<div key={index} >
+            <HomeCardSkeleton/>
+          </div>
+          ))
+        }
+      </div>
+
+
+
+      </div>} >
+
+
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4">
         {books.map((book) => (
           <div key={book.id}>
@@ -62,6 +83,7 @@ async function BookList({ searchParams }: { searchParams: Promise<{ page: string
           </div>
         ))}
       </div>
+        </Suspense>
     </CenterComponent>
   );
 }

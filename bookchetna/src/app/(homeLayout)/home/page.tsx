@@ -16,9 +16,10 @@ async function Page({ searchParams }:{searchParams: Promise< {page:string,room:s
   const session = await GetTheSession();
   
   console.log(await searchParams,"search params")
-  const Page=Number((await searchParams).page)
-  console.log(Page)
+  const page=Number((await searchParams).page.replaceAll("/",""))
+  console.log(page,"page",(await searchParams).page)
   const roomId=Number((await searchParams).room)
+  console.log("hello world")
 
   // ---------------------------------------------------------------------------
   // OLD CODE (Moved to BookList.tsx for Granular Loading / Suspense)
@@ -88,15 +89,11 @@ async function Page({ searchParams }:{searchParams: Promise< {page:string,room:s
 
   return (
     <>
-      {/* 
-        HYBRID LOADING STRATEGY:
-        Restored <Suspense> so the Pagination and Layout load instantly.
-        Only the BookList shows the skeleton.
-      */}
+    
         <BookList searchParams={searchParams} />
 
       <Pagination
-        pageNumber={Page}
+        pageNumber={page}
         totalPages={Math.ceil(totalRow / 8)}
         roomId={roomId.toString()}
       />

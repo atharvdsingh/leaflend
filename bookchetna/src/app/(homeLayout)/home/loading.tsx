@@ -1,6 +1,7 @@
 import React from "react";
 import BookListSkeleton from "@/components/Home/BookListSkeleton";
 import CenterComponent from "@/components/CenterComponent";
+import HomeCardSkeleton from "@/components/Home/HomeCardSkeleton";
 
 /**
  * Loading
@@ -11,7 +12,13 @@ import CenterComponent from "@/components/CenterComponent";
 export default function Loading() {
   return (
     <CenterComponent>
-       <BookListSkeleton />
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4">
+        {
+          Array.from({length:4}).map((_,index)=>(
+            <HomeCardSkeleton key={index} />
+          ))
+        }
+      </div>
     </CenterComponent>
   );
 }

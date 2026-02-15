@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React, { useReducer } from "react";
 
 // --- Icon Imports ---
@@ -40,36 +40,33 @@ interface Props {
   genre: string; // Changed from String
   price: string;
   imageURL: string; // User changed from imageUrl
-  available: BookStatus ;
+  available: BookStatus;
 }
 
-
-
-
-
 export default function HomeCard(props: booksHave) {
-  const cart=useSelector((state:RootState)=>state.cart)
-  const dispatch=useDispatch()
+  const cart = useSelector((state: RootState) => state.cart);
+  const dispatch = useDispatch();
 
-  const handleOnClickByAddingToTheCart=()=>{
-    dispatch(AddToCart({
-      ...props,publishDate:props.publishDate.toString()
-    }))
-
-  }
+  const handleOnClickByAddingToTheCart = () => {
+    dispatch(
+      AddToCart({
+        ...props,
+        publishDate: props.publishDate.toString(),
+      }),
+    );
+  };
 
   // Kept max-w-64 (256px)
   return (
     <Card className="max-w-64 w-full rounded-2xl bg-black border-zinc-800 text-white overflow-hidden shadow-2xl">
       {/* Image container */}
       <div className="relative">
-
-        <Image 
-        src={props.cover!}
-        alt={props.bookname}
-        width={40}
-height={40}
-        className="w-full h-40  object-cover"
+        <Image
+          src={props.cover!}
+          alt={props.bookname}
+          width={40}
+          height={40}
+          className="w-full h-40  object-cover"
         />
         {/* <img
           src={props.cover || "/"}
@@ -98,7 +95,7 @@ height={40}
         </CardTitle>
         {/* Reduced text size */}
         <CardDescription className="text-zinc-500 text-xs pt-0.5">
-          {""} 
+          {""}
         </CardDescription>
       </CardHeader>
 
@@ -122,9 +119,12 @@ height={40}
           Details
         </Button>
 
-        <Button disabled={props.status=="BORROWED" || props.status==="RESERVED"  } onClick={handleOnClickByAddingToTheCart}  className="bg-white text-black hover:bg-zinc-200 font-semibold h-8 px-3 text-xs">
+        <Button
+          disabled={props.status == "BORROWED" || props.status === "RESERVED"}
+          onClick={handleOnClickByAddingToTheCart}
+          className="bg-white text-black hover:bg-zinc-200 font-semibold h-8 px-3 text-xs"
+        >
           <ShoppingCart className="mr-2 h-4 w-4" />
-         
           Rent
         </Button>
       </CardFooter>

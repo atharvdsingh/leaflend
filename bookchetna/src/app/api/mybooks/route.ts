@@ -14,7 +14,6 @@ import type { SerializableBook } from "@/types/bookstypeforRedux";
 
 export async function POST(req: NextRequest) {
   try {
-    console.log("hello world")
     const session = await getServerSession(authOptions);
     if (!session?.user.id) {
       throw new AppError("Unauthorized", 401, "UNAUTHORIZED");
@@ -33,12 +32,14 @@ export async function POST(req: NextRequest) {
     console.log(rawData)
     const parsedFormData = createBookSchema.parse(rawData)
 
-    const instance = cloudinaryServies.getCloudinaryInstace()
+    // const uploadResult:UploadApiResponse = await cloudinaryServies
+    //   .getCloudinaryInstace()
+    //   .uploadImage(parsedFormData.cover) as UploadApiResponse
 
 
 
-    const uploadResult: UploadApiResponse = await instance.uploadImage(parsedFormData.cover) as UploadApiResponse
-    console.log(uploadResult)
+    // const uploadResult: UploadApiResponse = await instance.uploadImage(parsedFormData.cover) as UploadApiResponse
+    // console.log(uploadResult)
 
 
 
@@ -50,7 +51,8 @@ export async function POST(req: NextRequest) {
         // price: Number(formdata.get("price")), // Schema missing price
         ownerId: session.user.id,
         status: "AVAILABLE",
-        cover: uploadResult.secure_url, // Schema uses 'cover'
+        cover:"",
+        // cover: uploadResult.secure_url, // Schema uses 'cover'
       },
     });
 
