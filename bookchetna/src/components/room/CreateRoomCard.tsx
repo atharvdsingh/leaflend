@@ -21,47 +21,49 @@ import { handleClientError } from "@/util/clientError";
 import { useRouter } from "next/navigation";
 
 function CreateRoomCard() {
-    const [name,setName]=useState <string> ("")
-    const [discription,setDiscription]=useState <string> ("")
-    const router=useRouter()
+  const [name, setName] = useState<string>("")
+  const [discription, setDiscription] = useState<string>("")
+  const router = useRouter()
 
-    async function handleSubmit(){
-        try {
-            if(name.length <5){
-                return toast.error("Room name is required More then 5 words")
-            }
-            const body=await api.post("/room/create-room",{
-                roomName:name,
-                discription:discription
-            })
-            if(body.status!=200){
-                toast.error("Something Went Wrong")
-            }
-            toast.success("Room created successfully")
-                router.push(`./home?room=${body.data.data.id}&page=1/`)
-            
-            
-        } catch (error) {
-            handleClientError(error)
-        }
+  async function handleSubmit() {
+    try {
+      if (name.length < 5) {
+        return toast.error("Room name is required More then 5 words")
+      }
+      const body = await api.post("/room/create-room", {
+        roomName: name,
+        discription: discription
+      })
+      if (body.status != 200) {
+        toast.error("Something Went Wrong")
+      }
+      toast.success("Room created successfully")
+      router.push(`./home?room=${body.data.data.id}&page=1/`)
+
+
+    } catch (error) {
+      handleClientError(error)
     }
+  }
 
   return (
     <>
       <Dialog  >
         <form  >
-          <DialogTrigger className="w-75  h-40" asChild>
+          <DialogTrigger className="w-full h-full" asChild>
             <Button
               variant="ghost"
-              className="hover:bg-black border-gray-700 border hover:border-white hover:border-2 rounded-2xl  "
+              className="w-full h-auto py-8 hover:bg-black/50 border-gray-700 border hover:border-white/50 hover:border-2 rounded-2xl transition-all duration-300 flex flex-col items-center justify-center gap-4 bg-gray-900/50 backdrop-blur-sm"
             >
-              <div className="flex flex-col gap-3  justify-center items-center">
-                <Plus className=" bg-gray-800 size-15 p-3 text-white rounded-full  " />
+              <div className="flex flex-col gap-3 justify-center items-center">
+                <Plus className="bg-gray-800 size-16 p-3 text-white rounded-full group-hover:scale-110 transition-transform duration-300" />
 
-                <p className="text-xl">Create New Room</p>
-                <p className="text-gray-200">
-                  Start new Book sharing community
-                </p>
+                <div className="text-center">
+                  <p className="text-xl font-semibold mb-1">Create New Room</p>
+                  <p className="text-gray-400 font-normal">
+                    Start a new book sharing community
+                  </p>
+                </div>
               </div>
             </Button>
           </DialogTrigger>
@@ -75,7 +77,7 @@ function CreateRoomCard() {
             <div className="grid gap-4">
               <div className="grid gap-3">
                 <Label htmlFor="name-1">Room Name</Label>
-                <Input id="name-1" onChange={(e)=>setName(e.target.value)}  name="room-name" defaultValue="eg. hostelclub " />
+                <Input id="name-1" onChange={(e) => setName(e.target.value)} name="room-name" defaultValue="eg. hostelclub " />
               </div>
               <div className="grid gap-3">
                 <Label htmlFor="username-1">Discription</Label>
@@ -83,7 +85,7 @@ function CreateRoomCard() {
                   id="discripttion"
                   name="discription"
                   defaultValue="eg. book renting for hostels name"
-                  onChange={(e)=>setDiscription(e.target.value)}
+                  onChange={(e) => setDiscription(e.target.value)}
                 />
               </div>
             </div>
@@ -91,7 +93,7 @@ function CreateRoomCard() {
               <DialogClose asChild>
                 <Button variant="outline">Cancel</Button>
               </DialogClose>
-              <Button onClick={handleSubmit} type="submit">Create Room <Plus/> </Button>
+              <Button onClick={handleSubmit} type="submit">Create Room <Plus /> </Button>
             </DialogFooter>
           </DialogContent>
         </form>

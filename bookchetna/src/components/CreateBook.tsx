@@ -1,4 +1,4 @@
- "use client";
+"use client";
 import axios from "axios";
 import { handleClientError } from "@/util/clientError";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
@@ -6,7 +6,7 @@ import { createBookType, createBookSchema } from "@/schema/books.schema";
 
 import React, { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { FileUp, FileUpIcon, Paperclip, Upload } from "lucide-react";
+import { FileUp, FileUpIcon, Paperclip, Upload, Plus } from "lucide-react";
 import { Button } from "./ui/button";
 import {
   Dialog,
@@ -48,9 +48,9 @@ export default function CreateBook() {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const searchParams = useSearchParams();
-  console.log(searchParams,"search params")
+  console.log(searchParams, "search params")
   const roomId = searchParams.get("room");
-  console.log(roomId,"roomi d")
+  console.log(roomId, "roomi d")
 
   const { register, handleSubmit, formState, control, setValue } = useForm<createBookType>({
     resolver: zodResolver(createBookSchema),
@@ -101,7 +101,10 @@ export default function CreateBook() {
 
   return (
     <>
-      <Button onClick={() => setOpen(true)}>Post a Book</Button>
+      <Button onClick={() => setOpen(true)} size="sm" className="md:px-4 px-2">
+        <span className="hidden md:inline">Post a Book</span>
+        <Plus className="md:hidden h-4 w-4" />
+      </Button>
 
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent>
@@ -216,7 +219,7 @@ export function buildBookFormData(data: createBookType) {
   fd.append("price", pricne);
   fd.append("bookType", data.bookType);
   fd.append("cover", data.cover);
-  fd.append("room",data.roomId.toString())
+  fd.append("room", data.roomId.toString())
 
   return fd;
 }

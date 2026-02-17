@@ -18,38 +18,35 @@ async function Page() {
   }
 
   return (
-    <>
-    
-      <CenterComponent className="min-h-screen" >
-
-        <div className="flex flex-col justify-evenly min-h-screen items-center" >
-
-        <div>
-          <div className="flex gap-3  justify-center items-center flex-col ">
-            <div className="flex justify-center items-center gap-2 " >
-              <Users size={60}  />
-              <p className="font-bold text-xl" >BookRent Rooms</p>
-            </div>
-            <p className="text-gray-300" >
-              Create a new room or join an existing one to start renting books
+    <CenterComponent className="min-h-screen py-20 px-4">
+      <div className="flex flex-col gap-12">
+        {/* Header Section */}
+        <div className="flex flex-col md:flex-row justify-between items-center gap-6 text-center md:text-left">
+          <div className="space-y-2">
+            <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-gray-100 to-gray-500 bg-clip-text text-transparent">
+              BookRent Rooms
+            </h1>
+            <p className="text-gray-400 text-lg max-w-2xl">
+              Create a new room or join an existing community to start sharing and renting books.
             </p>
-      <Button>
-        <Link className="flex gap-1" href={`/room/my-rooms/${session.user.id}`}>
-          My Rooms <WarehouseIcon/>
-        </Link>
-      </Button>
-
           </div>
+
+          <Button asChild className="shrink-0" size="lg">
+            <Link className="flex items-center gap-2" href={`/room/my-rooms/${session.user.id}`}>
+              <WarehouseIcon className="w-5 h-5" />
+              <span>My Rooms</span>
+            </Link>
+          </Button>
         </div>
 
-        <div className="flex flex-wrap  justify-center items-center gap-5">
+        {/* Cards Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
           <CreateRoomCard />
           <JoinRoomCard />
-          <PublicRoomCard/>
+          <PublicRoomCard />
         </div>
-        </div>
-      </CenterComponent>
-    </>
+      </div>
+    </CenterComponent>
   );
 }
 

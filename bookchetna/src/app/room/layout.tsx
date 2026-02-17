@@ -1,7 +1,5 @@
 import Procted from "@/components/Procted";
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import {  ArrowLeft } from "lucide-react";
+import { SmartBackButton } from "@/components/room/SmartBackButton";
 
 export default function HomeLayout({
   children,
@@ -10,16 +8,10 @@ export default function HomeLayout({
 }>) {
   return (
     <Procted>
-      <div className="  min-h-screen">
-        <Button
-          asChild
-          className="fixed top-3 left-3   transition-all duration-300  "
-        >
-          <Link href={"./"} className=" flex  ">
-            {" "}
-            <ArrowLeft /> Back{" "}
-          </Link>
-        </Button>
+      <div className="relative min-h-screen">
+        <div className="absolute top-4 left-4 z-50">
+          <SmartBackButton />
+        </div>
 
         {children}
       </div>

@@ -32,11 +32,12 @@ export default function RootLayout({
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${poppins.variable} antialiased`}
+        suppressHydrationWarning={true}
       >
         <StoreProvider>
 
-        <Provider>
-          {children}
+          <Provider>
+            {children}
           </Provider>
         </StoreProvider>
         <Toaster richColors position="top-center" />

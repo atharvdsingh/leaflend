@@ -43,13 +43,13 @@ function NavbarSec() {
 
 
   return (
-    <>
-      <ButtonGroup>
+    <div className="w-full overflow-x-auto scrollbar-hide">
+      <ButtonGroup className="min-w-max px-4 md:px-0 mx-auto">
         {
           link.map((link, index) => (
 
 
-            <Button className={`${(path.replace(`[1-9]\\d*`, "1") === link.href || path.replace("rental-request", "") === link.href.replace("post", "")) ? ("text-black") : ("text-gray-500")}`} asChild key={index} >
+            <Button className={`${(path.replace(`[1-9]\\d*`, "1") === link.href || path.replace("rental-request", "") === link.href.replace("post", "")) ? ("text-black") : ("text-gray-500")} whitespace-nowrap`} asChild key={index} >
               <Link href={`${link.href}`} >
                 {link.name}
               </Link>
@@ -59,7 +59,7 @@ function NavbarSec() {
         }
 
       </ButtonGroup>
-    </>
+    </div>
   );
 }
 

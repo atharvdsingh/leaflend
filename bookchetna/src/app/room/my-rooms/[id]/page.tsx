@@ -8,7 +8,7 @@ import Link from "next/link";
 import { ArrowLeft, ArrowRight, Users, DoorOpen, Users2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-interface PageProps {       
+interface PageProps {
   params: Promise<{ id: string }>;
 }
 
@@ -65,67 +65,89 @@ async function RoomList({ userId }: { userId: number }) {
 
   if (rooms.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center py-20 gap-4">
-        <DoorOpen size={48} className="text-gray-500" />
-        <p className="text-gray-400 text-lg">
+      <div className="flex flex-col items-center justify-center py-20 gap-4 border border-zinc-800 rounded-xl bg-zinc-900/50">
+        <DoorOpen size={48} className="text-zinc-500" />
+        <p className="text-zinc-400 text-lg">
           You haven&apos;t joined any rooms yet.
         </p>
-        <Button asChild>
+        <Button asChild variant="outline" className="border-zinc-700 text-zinc-300 hover:text-white hover:bg-zinc-800">
           <Link href="/room">Browse Rooms</Link>
         </Button>
       </div>
     );
   }
 
-  return (
-    <div className="flex flex-col gap-3">
-      {rooms.map((room) => {
-        const admin = room.members.find((m) => m.roomRole === "ADMIN");
-        return (
-          <div
-            key={room.id}
-            className="border border-gray-700 rounded-xl px-5 py-4 hover:border-gray-500 transition-colors bg-card"
-          >
-            <div className="flex items-center justify-between">
-              {/* Left: Icon + Room Info */}
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center">
-                  <Users size={20} className="text-gray-400" />
-                </div>
-                <div>
-                  <div className="flex items-center gap-2">
-                    <span className="font-semibold">{room.roomName}</span>
-                    <span className="text-xs bg-green-500/20 text-green-400 px-2 py-0.5 rounded-full border border-green-500/30">
-                      Joined
-                    </span>
-                  </div>
-                  {admin && (
-                    <p className="text-gray-500 text-sm">
-                      Created by {admin.member.name || "Unknown"}
-                    </p>
-                  )}
-                </div>
-              </div>
+  const ownedRooms = rooms.filter((room) =>
+    room.members.some((m) => m.memberId === userId && m.roomRole === "ADMIN")
+  );
 
-              {/* Right: Member count + Enter */}
+  const joinedRooms = rooms.filter((room) =>
+    !room.members.some((m) => m.memberId === userId && m.roomRole === "ADMIN")
+  );
+
+  const RoomCard = ({ room }: { room: typeof rooms[0] }) => {
+    const admin = room.members.find((m) => m.roomRole === "ADMIN");
+    return (
+      <div
+        className="border border-zinc-800 rounded-xl px-5 py-4 hover:border-zinc-600 transition-colors bg-black"
+      >
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 bg-zinc-900 rounded-full flex items-center justify-center border border-zinc-800">
+              <Users size={20} className="text-zinc-400" />
+            </div>
+            <div>
               <div className="flex items-center gap-2">
-                <span className="text-sm border border-gray-600 rounded-full px-3 py-1 text-gray-300">
+                <span className="font-semibold text-white">{room.roomName}</span>
+                <span className="text-xs bg-zinc-900 text-zinc-400 px-2 py-0.5 rounded-full border border-zinc-800">
                   {room.members.length} members
                 </span>
-                <Button size="sm" variant="outline" asChild>
-                  <Link
-                    href={`/home?room=${room.id}&page=1`}
-                    className="flex items-center gap-1"
-                  >
-                    <ArrowRight size={16} />
-                    Opne
-                  </Link>
-                </Button>
               </div>
+              {admin && (
+                <p className="text-zinc-500 text-sm">
+                  Created by {admin.member.name || "Unknown"}
+                </p>
+              )}
             </div>
           </div>
-        );
-      })}
+
+          <Button size="sm" variant="outline" className="border-zinc-700 text-zinc-300 hover:text-white hover:bg-zinc-800" asChild>
+            <Link
+              href={`/home?room=${room.id}&page=1`}
+              className="flex items-center gap-1"
+            >
+              <ArrowRight size={16} />
+              Open
+            </Link>
+          </Button>
+        </div>
+      </div>
+    );
+  };
+
+  return (
+    <div className="flex flex-col gap-10">
+      {ownedRooms.length > 0 && (
+        <div className="flex flex-col gap-4">
+          <h2 className="text-xl font-semibold text-white border-b border-zinc-800 pb-2">Created By You</h2>
+          <div className="grid gap-3">
+            {ownedRooms.map((room) => (
+              <RoomCard key={room.id} room={room} />
+            ))}
+          </div>
+        </div>
+      )}
+
+      {joinedRooms.length > 0 && (
+        <div className="flex flex-col gap-4">
+          <h2 className="text-xl font-semibold text-white border-b border-zinc-800 pb-2">Joined Rooms</h2>
+          <div className="grid gap-3">
+            {joinedRooms.map((room) => (
+              <RoomCard key={room.id} room={room} />
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
@@ -146,18 +168,9 @@ async function Page({ params }: PageProps) {
 
   return (
     <CenterComponent className="min-h-screen py-10">
-      <div className="flex flex-col gap-6">
-        {/* Header */}
-        <div className="flex items-center gap-4">
-          <Button variant="ghost" size="icon" asChild>
-            <Link href="/room">
-              <ArrowLeft size={20} />
-            </Link>
-          </Button>
-          <h1 className="text-2xl font-bold">My Rooms</h1>
-        </div>
+      <div className="flex flex-col gap-8">
+        <h1 className="text-3xl font-bold text-white tracking-tight">My Rooms</h1>
 
-        {/* Room List wrapped in Suspense */}
         <Suspense fallback={<MyRoomsSkeleton />}>
           <RoomList userId={Number(id)} />
         </Suspense>
