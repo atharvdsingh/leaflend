@@ -5,7 +5,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "../api/auth/[...nextauth]/route";
 import CreateRoomCard from "@/components/room/CreateRoomCard";
 import JoinRoomCard from "@/components/room/JoinRoomCard";
-import { Home, Users } from "lucide-react";
+import { Home, Users, WarehouseIcon } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import PublicRoomCard from "@/components/room/PublicRoomCard";
@@ -33,6 +33,12 @@ async function Page() {
             <p className="text-gray-300" >
               Create a new room or join an existing one to start renting books
             </p>
+      <Button>
+        <Link className="flex gap-1" href={`/room/my-rooms/${session.user.id}`}>
+          My Rooms <WarehouseIcon/>
+        </Link>
+      </Button>
+
           </div>
         </div>
 

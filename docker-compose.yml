@@ -19,6 +19,9 @@ services:
       dockerfile: Dockerfile
       target: development
     container_name: leaflend-app
+    environment:
+      - WATCHPACK_POLLING=true
+      - CHOKIDAR_USEPOLLING=true
     env_file:
       - ./bookchetna/.env
     ports:
@@ -31,7 +34,6 @@ services:
       - ./bookchetna:/app
       - /app/node_modules
       - /app/.next
-    
     # ws:
     # build: ./ws
     # container_name: ws-server
@@ -49,4 +51,4 @@ networks:
 volumes:
   postgres_data:
 
-    
+

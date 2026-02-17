@@ -4,7 +4,6 @@ import { ButtonGroup } from "../ui/button-group";
 import { Button } from "../ui/button";
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
-import { HoverCard, HoverCardContent, HoverCardTrigger } from "../ui/hover-card";
 
 
 function NavbarSec() {
@@ -52,16 +51,6 @@ function NavbarSec() {
 
             <Button className={`${(path.replace(`[1-9]\\d*`, "1") === link.href || path.replace("rental-request", "") === link.href.replace("post", "")) ? ("text-black") : ("text-gray-500")}`} asChild key={index} >
               <Link href={`${link.href}`} >
-              if(link.href === "/home"){
-                <HoverCard>
-                  <HoverCardTrigger onClick={(e)=>e.stopPropagation()} >
-                    {"atharv"}
-                  </HoverCardTrigger>
-                  <HoverCardContent>
-                    <p>Hover this is a hover card Card</p>
-                  </HoverCardContent>
-                </HoverCard>
-              }
                 {link.name}
               </Link>
             </Button>
