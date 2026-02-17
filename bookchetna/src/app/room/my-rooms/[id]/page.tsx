@@ -5,7 +5,7 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { prisma } from "@/util/Prisma";
 import CenterComponent from "@/components/CenterComponent";
 import Link from "next/link";
-import { ArrowLeft, ArrowRight, Users, DoorOpen } from "lucide-react";
+import { ArrowLeft, ArrowRight, Users, DoorOpen, Users2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 interface PageProps {       
@@ -118,7 +118,7 @@ async function RoomList({ userId }: { userId: number }) {
                     className="flex items-center gap-1"
                   >
                     <ArrowRight size={16} />
-                    Enter
+                    Opne
                   </Link>
                 </Button>
               </div>

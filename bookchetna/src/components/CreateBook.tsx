@@ -1,4 +1,4 @@
-"use client";
+ "use client";
 import axios from "axios";
 import { handleClientError } from "@/util/clientError";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
@@ -48,7 +48,9 @@ export default function CreateBook() {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const searchParams = useSearchParams();
+  console.log(searchParams,"search params")
   const roomId = searchParams.get("room");
+  console.log(roomId,"roomi d")
 
   const { register, handleSubmit, formState, control, setValue } = useForm<createBookType>({
     resolver: zodResolver(createBookSchema),
@@ -214,7 +216,7 @@ export function buildBookFormData(data: createBookType) {
   fd.append("price", pricne);
   fd.append("bookType", data.bookType);
   fd.append("cover", data.cover);
-  fd.append("room",data.roomId)
+  fd.append("room",data.roomId.toString())
 
   return fd;
 }

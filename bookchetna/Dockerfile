@@ -23,6 +23,11 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
+ENV CHOKIDAR_USEPOLLING=true
+ENV WATCHPACK_POLLING=true
+ENV NEXT_PRIVATE_POLL_INTERVAL_MS=1000
+
+
 # Generate Prisma Client for the container's OS
 RUN npx prisma generate
 
