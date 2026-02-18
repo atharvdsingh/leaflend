@@ -27,7 +27,7 @@ import {
 import { Textarea } from "./ui/textarea";
 import { toast } from "sonner"; // optional (if you use Shadcn toast)
 import { $Enums, BookType } from "@prisma/client";
-import z, { number, object } from "zod";
+import z, { object } from "zod";
 import { api } from "@/lib/axios";
 import { useSearchParams } from "next/navigation";
 
@@ -50,60 +50,35 @@ export default function CreateBook() {
   const searchParams = useSearchParams();
   console.log(searchParams, "search params")
   const roomId = searchParams.get("room");
- 
+
 
   const { register, handleSubmit, formState, control, setValue } = useForm<createBookType>({
     resolver: zodResolver(createBookSchema),
     defaultValues: {
       bookType: "AllGenres",
+
     },
   });
-
-  // Log errors for debugging
-  // React.useEffect(() => {
-  //   if (Object.keys(formState.errors).length > 0) {
-  //     console.log("Form Validation Errors:", formState.errors);
-  //     toast.error("Please check the form for errors"); // Feedback to user
-  //   }
-  // }, [formState.errors]);
-
-  // // Set roomId from searchParams
-  // React.useEffect(() => {
-  //   if (roomId) {
-  //     const parsedRoomId = parseInt(roomId);
-  //     if (!isNaN(parsedRoomId)) {
-  //       setValue("roomId", parsedRoomId);
-  //     }
-  //   }
-  // }, [roomId, setValue]);
   // ... inside component ...
 
   // ... inside component ...
 
-  useEffect(()=>{
+  useEffect(() => {
 
-    if(Object.keys(formState.errors)){
-      console.log("formstate error",formState.errors)
-     
-      toast.error("Fileds are required")
+
+
+
+
+  }, [formState.errors])
+
+  useEffect(() => {
+
+    if (roomId) {
+      setValue("roomId", Number(roomId))
+
     }
 
-    
-
-  },[formState.errors])
-
-  useEffect(()=>{
-
-    if(roomId){
-      if(roomId){
-        console.log(roomId,"room id")
-
-        setValue("roomId",Number(roomId))
-      }
-      
-    }
-
-  },[roomId ,setValue])
+  }, [roomId, setValue])
 
 
   const onSubmit: SubmitHandler<createBookType> = async (
@@ -113,6 +88,8 @@ export default function CreateBook() {
     setLoading(true);
     try {
       const formdata = buildBookFormData(data);
+
+      console.log(formdata.values)
       console.log(formState.errors)
 
       // Include roomId if present in URL
@@ -123,7 +100,8 @@ export default function CreateBook() {
       // price: number;
       // cover: FileList;
       // description: string;
-      console.log(formdata,"form data")
+      console.log("this is form data ", formdata.keys())
+      console.log("formdata values ", Object.fromEntries(formdata.entries()))
 
       const res = await api.post(
         "/mybooks",
@@ -135,7 +113,7 @@ export default function CreateBook() {
         setOpen(false);
       }
     } catch (error: unknown) {
-      console.log(error,"error")
+      console.log(error, "error")
       handleClientError(error);
     } finally {
       setLoading(false);
@@ -266,7 +244,6 @@ export function buildBookFormData(data: createBookType) {
   fd.append("price", pricne);
   fd.append("bookType", data.bookType);
   fd.append("cover", data.cover);
-  fd.append("room", data.roomId.toString())
-
+  fd.append("roomId", data?.roomId?.toString())
   return fd;
 }

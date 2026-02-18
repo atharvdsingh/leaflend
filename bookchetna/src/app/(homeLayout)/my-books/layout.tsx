@@ -11,7 +11,6 @@ export default function HomeLayout({
 }>) {
   return (
     <Procted>
-        <MyBookNavigation/>
      
 
       {children}

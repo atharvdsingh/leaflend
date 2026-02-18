@@ -14,7 +14,7 @@ import React from "react";
 async function Page({
   searchParams,
 }: {
-  searchParams: Promise <{ room?: string }>
+  searchParams: Promise<{ room?: string }>
 }) {
   const _id = await GetTheSession()
   if (!_id) {

@@ -1,84 +1,295 @@
 "use client";
-import React from "react";
+import React, { useState, useRef } from "react";
 import { Button } from "../ui/button";
 import {
   ArrowLeft,
   Book,
-  BookUser,
-  CarTaxiFront,
-  Plus,
+  BookOpen,
+  ChevronDown,
+  Menu,
+  MessageSquare,
   ShoppingCart,
+  X,
 } from "lucide-react";
 import Link from "next/link";
-import { Carter_One } from "next/font/google";
 import CreateBook from "../CreateBook";
 import { useAppSelector } from "@/lib/hooks";
 import { Badge } from "../ui/badge";
-
+import { usePathname, useSearchParams } from "next/navigation";
 
 function Navbar() {
   const bookno: number = useAppSelector((state) => state.cart.NoOfBooks);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  const path = usePathname();
+  const searchParams = useSearchParams();
+  const roomId = searchParams.get("room");
+  const roomParam = roomId ? `&room=${roomId}` : "";
+  const roomParamFirst = roomId ? `?room=${roomId}` : "";
+
+  const navLinks = [
+    { name: "Browse", href: `/home?page=1${roomParam}` },
+    {
+      name: "My Books",
+      href: `/my-books/post${roomParamFirst}`,
+      hasDropdown: true,
+    },
+    { name: "Rentals", href: `/rentedbooks${roomParamFirst}` },
+    { name: "Cart", href: `/cart${roomParamFirst}` },
+  ];
+
+  const myBooksSubLinks = [
+    {
+      label: "My Books",
+      href: `/my-books/post${roomParamFirst}`,
+      icon: BookOpen,
+      description: "Manage your listed books",
+      match: "/my-books/post",
+    },
+    {
+      label: "Rental Requests",
+      href: `/my-books/rental-request${roomParamFirst}`,
+      icon: MessageSquare,
+      description: "View incoming requests",
+      match: "/my-books/rental-request",
+    },
+  ];
+
+  const isActive = (link: (typeof navLinks)[0]) => {
+    if (link.hasDropdown) return path.startsWith("/my-books");
+    if (link.href.startsWith("/home")) return path.startsWith("/home");
+    if (link.href.startsWith("/rentedbooks"))
+      return path.startsWith("/rentedbooks");
+    if (link.href.startsWith("/cart")) return path.startsWith("/cart");
+    return false;
+  };
+
+  const openDropdown = () => {
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    setDropdownOpen(true);
+  };
+  const closeDropdown = () => {
+    timeoutRef.current = setTimeout(() => setDropdownOpen(false), 200);
+  };
 
   return (
-    <div className="flex z-10 items-center max-w-7xl mx-auto justify-between px-4 md:px-0 py-2">
-      <div className="flex justify-center gap-4 items-center ">
-        <Button asChild variant="ghost" className="hidden md:flex">
-          <Link className="flex justify-center gap-2 items-center " href="/">
-            <ArrowLeft />
-            <p>Home</p>
+    <>
+      <nav className="flex items-center justify-between h-12">
+        {/* Left: Logo */}
+        <div className="flex items-center gap-3">
+          <Link
+            href="/"
+            className="hidden md:flex items-center gap-2 text-zinc-400 hover:text-white transition-colors text-sm"
+          >
+            <ArrowLeft className="w-4 h-4" />
           </Link>
-        </Button>
-        <div className="flex justify-center gap-2 items-center font-bold text-xl">
-          <Book /> LeafLend
+          <Link href="/" className="flex items-center gap-2">
+            <Book className="w-5 h-5" />
+            <span className="font-bold text-lg text-white">LeafLend</span>
+          </Link>
         </div>
-      </div>
 
-      {/* Desktop View */}
-      <div className="hidden md:flex justify-center gap-4 items-center ">
-        <CreateBook />
+        {/* Center: Desktop Navigation Tabs */}
+        <div className="hidden md:flex items-center gap-1">
+          {navLinks.map((link, index) => {
+            const active = isActive(link);
 
-        <Button asChild variant="outline">
-          <div>
-            <Link
-              className="flex justify-center gap-2 relative items-center "
-              href={"/cart"}
-            >
-              <ShoppingCart /> Cart
-              {bookno ? (
-                <Badge
-                  variant={"destructive"}
-                  className="absolute -top-2 -right-2 px-1.5 py-0.5"
+            if (link.hasDropdown) {
+              return (
+                <div
+                  key={index}
+                  className="relative"
+                  onMouseEnter={openDropdown}
+                  onMouseLeave={closeDropdown}
                 >
-                  {bookno ? bookno : null}
-                </Badge>
-              ) : null}
-            </Link>
+                  <Link
+                    href={link.href}
+                    className={`inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-sm font-medium transition-all duration-200 ${active
+                        ? "bg-zinc-800 text-white"
+                        : "text-zinc-500 hover:text-white hover:bg-zinc-800/50"
+                      }`}
+                  >
+                    {link.name}
+                    <ChevronDown
+                      className={`w-3 h-3 transition-transform duration-200 ${dropdownOpen ? "rotate-180" : ""}`}
+                    />
+                  </Link>
+
+                  {/* Desktop dropdown */}
+                  <div
+                    style={{
+                      opacity: dropdownOpen ? 1 : 0,
+                      transform: dropdownOpen
+                        ? "translateY(0)"
+                        : "translateY(-4px)",
+                      pointerEvents: dropdownOpen ? "auto" : "none",
+                      transition: "opacity 150ms ease, transform 150ms ease",
+                      position: "absolute",
+                      left: "50%",
+                      top: "100%",
+                      paddingTop: "8px",
+                      zIndex: 50,
+                    }}
+                    className="-translate-x-1/2"
+                  >
+                    <div
+                      className="bg-zinc-950 border border-zinc-800 rounded-xl p-1.5 min-w-[220px]"
+                      style={{
+                        boxShadow: "0 16px 48px rgba(0,0,0,0.7)",
+                      }}
+                    >
+                      {myBooksSubLinks.map((sub) => {
+                        const subActive = path === sub.match;
+                        return (
+                          <Link
+                            key={sub.href}
+                            href={sub.href}
+                            onClick={() => setDropdownOpen(false)}
+                            className={`flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-150 ${subActive
+                                ? "bg-white/10 text-white"
+                                : "text-zinc-400 hover:bg-white/5 hover:text-white"
+                              }`}
+                          >
+                            <div
+                              className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${subActive
+                                  ? "bg-white text-black"
+                                  : "bg-zinc-800 text-zinc-400"
+                                }`}
+                            >
+                              <sub.icon className="w-4 h-4" />
+                            </div>
+                            <div>
+                              <p className="text-sm font-medium">{sub.label}</p>
+                              <p className="text-[11px] text-zinc-500">
+                                {sub.description}
+                              </p>
+                            </div>
+                          </Link>
+                        );
+                      })}
+                    </div>
+                  </div>
+                </div>
+              );
+            }
+
+            return (
+              <Link
+                key={index}
+                href={link.href}
+                className={`inline-flex items-center px-3 py-1.5 rounded-lg text-sm font-medium transition-all duration-200 ${active
+                    ? "bg-zinc-800 text-white"
+                    : "text-zinc-500 hover:text-white hover:bg-zinc-800/50"
+                  }`}
+              >
+                {link.name}
+              </Link>
+            );
+          })}
+        </div>
+
+        {/* Right: Actions */}
+        <div className="flex items-center gap-2">
+          <div className="hidden md:block">
+            <CreateBook />
           </div>
-        </Button>
-      </div>
 
-      {/* Mobile View */}
-      <div className="flex md:hidden gap-2 items-center">
-        <Link href="/cart" className="relative p-2">
-          <ShoppingCart className="w-6 h-6" />
-          {bookno ? (
-            <Badge
-              variant={"destructive"}
-              className="absolute -top-1 -right-1 px-1 py-0.5 text-[10px]"
-            >
-              {bookno}
-            </Badge>
-          ) : null}
-        </Link>
+          <Link href={`/cart${roomParamFirst}`} className="relative p-2">
+            <ShoppingCart className="w-5 h-5 text-zinc-400 hover:text-white transition-colors" />
+            {bookno > 0 && (
+              <Badge
+                variant="destructive"
+                className="absolute -top-0.5 -right-0.5 px-1 py-0 text-[10px] min-w-[16px] h-4 flex items-center justify-center"
+              >
+                {bookno}
+              </Badge>
+            )}
+          </Link>
 
-        {/* We can add a mobile menu here later if needed, but for now specific requirements were limited. 
-            For 'Post a Book' on mobile, we can show a compact version or just the icon. 
-        */}
-        <div className="block md:hidden">
-          <CreateBook />
+          {/* Mobile hamburger */}
+          <button
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="md:hidden p-2 text-zinc-400 hover:text-white transition-colors"
+          >
+            {mobileMenuOpen ? (
+              <X className="w-5 h-5" />
+            ) : (
+              <Menu className="w-5 h-5" />
+            )}
+          </button>
+        </div>
+      </nav>
+
+      {/* Mobile Menu */}
+      <div
+        className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out ${mobileMenuOpen ? "max-h-[400px] opacity-100" : "max-h-0 opacity-0"
+          }`}
+      >
+        <div className="pt-3 pb-2 space-y-1 border-t border-zinc-800/50 mt-3">
+          {navLinks.map((link, index) => {
+            const active = isActive(link);
+
+            if (link.hasDropdown) {
+              return (
+                <div key={index}>
+                  <Link
+                    href={link.href}
+                    onClick={() => setMobileMenuOpen(false)}
+                    className={`flex items-center justify-between w-full px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${active
+                        ? "bg-zinc-800 text-white"
+                        : "text-zinc-400 hover:bg-zinc-800/50 hover:text-white"
+                      }`}
+                  >
+                    {link.name}
+                  </Link>
+                  {/* Always show sub-links under My Books on mobile */}
+                  <div className="ml-4 mt-1 space-y-1 border-l border-zinc-800 pl-3">
+                    {myBooksSubLinks.map((sub) => {
+                      const subActive = path === sub.match;
+                      return (
+                        <Link
+                          key={sub.href}
+                          href={sub.href}
+                          onClick={() => setMobileMenuOpen(false)}
+                          className={`flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm transition-colors ${subActive
+                              ? "text-white bg-zinc-800/50"
+                              : "text-zinc-500 hover:text-white"
+                            }`}
+                        >
+                          <sub.icon className="w-4 h-4" />
+                          {sub.label}
+                        </Link>
+                      );
+                    })}
+                  </div>
+                </div>
+              );
+            }
+
+            return (
+              <Link
+                key={index}
+                href={link.href}
+                onClick={() => setMobileMenuOpen(false)}
+                className={`flex items-center px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${active
+                    ? "bg-zinc-800 text-white"
+                    : "text-zinc-400 hover:bg-zinc-800/50 hover:text-white"
+                  }`}
+              >
+                {link.name}
+              </Link>
+            );
+          })}
+
+          {/* Mobile Post a Book */}
+          <div className="px-3 pt-2">
+            <CreateBook />
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 
