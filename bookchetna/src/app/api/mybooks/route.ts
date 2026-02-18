@@ -19,7 +19,7 @@ export async function POST(req: NextRequest) {
       throw new AppError("Unauthorized", 401, "UNAUTHORIZED");
     }
     const formdata = await req.formData()
-    console.log(formdata)
+    console.log("hello wowld");
 
     const rawData = {
       bookname: formdata.get("bookname"),
@@ -29,7 +29,6 @@ export async function POST(req: NextRequest) {
       cover: formdata.get("cover"),
       roomId:formdata.get("roomId")
     }
-    console.log(rawData)
     const parsedFormData = createBookSchema.parse(rawData)
 
     // const uploadResult:UploadApiResponse = await cloudinaryServies
@@ -40,6 +39,9 @@ export async function POST(req: NextRequest) {
 
     // const uploadResult: UploadApiResponse = await instance.uploadImage(parsedFormData.cover) as UploadApiResponse
     // console.log(uploadResult)
+    //  this line need to remove for saving the cost of uploading to the cloudianry 
+
+    console.log("before creation ")
 
 
 
@@ -51,10 +53,13 @@ export async function POST(req: NextRequest) {
         // price: Number(formdata.get("price")), // Schema missing price
         ownerId: session.user.id,
         status: "AVAILABLE",
-        cover:"",
+        cover: "",
+  
         // cover: uploadResult.secure_url, // Schema uses 'cover'
       },
     });
+
+    console.log("after creation ")
 
     // Link book to room if roomId provided
     const roomId = formdata.get("roomId");
@@ -69,6 +74,7 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json(newBook, { status: 200 })
   } catch (error) {
+    console.log(error)
     return handleApiError(error);
   }
 }
@@ -80,7 +86,6 @@ export async function PUT(req: NextRequest) {
     const session = await GetTheSession()
     if (!session) throw new AppError("user id not authenticated", 400)
     if (!data.book.id) throw new AppError("book id is not given", 400)
-    console.log(data)
 
     const res = await prisma.booksHave.update({
       where: {
@@ -98,6 +103,7 @@ export async function PUT(req: NextRequest) {
       status: 200
     })
   } catch (error) {
+    
     handleApiError(error)
 
   }

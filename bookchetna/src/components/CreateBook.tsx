@@ -4,7 +4,7 @@ import { handleClientError } from "@/util/clientError";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { createBookType, createBookSchema } from "@/schema/books.schema";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FileUp, FileUpIcon, Paperclip, Upload, Plus } from "lucide-react";
 import { Button } from "./ui/button";
@@ -27,7 +27,7 @@ import {
 import { Textarea } from "./ui/textarea";
 import { toast } from "sonner"; // optional (if you use Shadcn toast)
 import { $Enums, BookType } from "@prisma/client";
-import z, { object } from "zod";
+import z, { number, object } from "zod";
 import { api } from "@/lib/axios";
 import { useSearchParams } from "next/navigation";
 
@@ -50,38 +50,80 @@ export default function CreateBook() {
   const searchParams = useSearchParams();
   console.log(searchParams, "search params")
   const roomId = searchParams.get("room");
-  console.log(roomId, "roomi d")
+ 
 
   const { register, handleSubmit, formState, control, setValue } = useForm<createBookType>({
     resolver: zodResolver(createBookSchema),
     defaultValues: {
       bookType: "AllGenres",
-
     },
   });
-  console.log(formState.errors)
+
+  // Log errors for debugging
+  // React.useEffect(() => {
+  //   if (Object.keys(formState.errors).length > 0) {
+  //     console.log("Form Validation Errors:", formState.errors);
+  //     toast.error("Please check the form for errors"); // Feedback to user
+  //   }
+  // }, [formState.errors]);
+
+  // // Set roomId from searchParams
+  // React.useEffect(() => {
+  //   if (roomId) {
+  //     const parsedRoomId = parseInt(roomId);
+  //     if (!isNaN(parsedRoomId)) {
+  //       setValue("roomId", parsedRoomId);
+  //     }
+  //   }
+  // }, [roomId, setValue]);
   // ... inside component ...
 
   // ... inside component ...
+
+  useEffect(()=>{
+
+    if(Object.keys(formState.errors)){
+      console.log("formstate error",formState.errors)
+     
+      toast.error("Fileds are required")
+    }
+
+    
+
+  },[formState.errors])
+
+  useEffect(()=>{
+
+    if(roomId){
+      if(roomId){
+        console.log(roomId,"room id")
+
+        setValue("roomId",Number(roomId))
+      }
+      
+    }
+
+  },[roomId ,setValue])
+
 
   const onSubmit: SubmitHandler<createBookType> = async (
     data: createBookType
   ) => {
+    console.log(data)
     setLoading(true);
-    console.log("hello world");
     try {
       const formdata = buildBookFormData(data);
+      console.log(formState.errors)
 
       // Include roomId if present in URL
-      if (roomId) {
-        formdata.append("roomId", roomId);
-      }
+
       //      title: string;
       // author: string;
       // genre: string;
       // price: number;
       // cover: FileList;
       // description: string;
+      console.log(formdata,"form data")
 
       const res = await api.post(
         "/mybooks",
@@ -93,6 +135,7 @@ export default function CreateBook() {
         setOpen(false);
       }
     } catch (error: unknown) {
+      console.log(error,"error")
       handleClientError(error);
     } finally {
       setLoading(false);
@@ -119,12 +162,14 @@ export default function CreateBook() {
             <div className="space-y-2">
               <Label htmlFor="title">Book Title *</Label>
               <Input id="title" {...register("bookname")} />
+              {formState.errors.bookname && <p className="text-red-500">{formState.errors.bookname.message}</p>}
             </div>
 
             <div className="space-y-2">
               <Label htmlFor="author">Author *</Label>
 
               <Input id="author" {...register("author")} />
+              {formState.errors.author && <p className="text-red-500">{formState.errors.author.message}</p>}
             </div>
 
             <div className="grid grid-cols-2 gap-4">
@@ -146,6 +191,7 @@ export default function CreateBook() {
                         ))}
                       </SelectContent>
                     </Select>
+
                   )}
                 />
               </div>
@@ -161,6 +207,7 @@ export default function CreateBook() {
                     valueAsNumber: true,
                   })}
                 />
+                {formState.errors.price && <p className="text-red-500">{formState.errors.price.message}</p>}
               </div>
             </div>
 
