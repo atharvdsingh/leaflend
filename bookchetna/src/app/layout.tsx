@@ -4,6 +4,7 @@ import "./globals.css";
 import Provider from "./Provider";
 import { Toaster } from "@/components/ui/sonner";
 import StoreProvider from "./StoreProvider";
+import { TooltipProvider } from "@/components/ui/tooltip";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -35,9 +36,10 @@ export default function RootLayout({
         suppressHydrationWarning={true}
       >
         <StoreProvider>
-
           <Provider>
-            {children}
+            <TooltipProvider>
+              {children}
+            </TooltipProvider>
           </Provider>
         </StoreProvider>
         <Toaster richColors position="top-center" />

@@ -29,16 +29,16 @@ function Page() {
 
   return (
     <>
-      <div className="min-h-screen flex flex-col gap-4 p-4 m-auto max-w-7xl">
-        {
-          cart.books.map((book) => <div key={book.id} >
-            <CartCart   {...book} />
-          </div>
-
-          )
-        }
+      <div className="w-full max-w-3xl mx-auto px-4 py-8 min-h-screen">
+        <h1 className="text-2xl font-bold text-white mb-6">Your Cart</h1>
+        <div className="flex flex-col gap-4 mb-8">
+          {
+            cart.books.map((book) => (
+              <CartCart key={book.id} {...book} />
+            ))
+          }
+        </div>
         <Checkout />
-
       </div>
     </>
   );

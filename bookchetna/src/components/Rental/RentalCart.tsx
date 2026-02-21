@@ -1,54 +1,44 @@
 import Image from "next/image";
 import React from "react";
-import { Card } from "../ui/card";
-import type { RentalRequest } from "@prisma/client";
 import type { RentalRequestCartType } from "@/types/databaseRoutesType";
 
-// model RentalRequest {
-//   id Int @id @default(autoincrement())
-//   bookId Int
-//   book   booksHave @relation(fields: [bookId], references: [id])
-//   requesterId Int
-//   requester   users @relation("Requester", fields: [requesterId], references: [id])
-//   ownerId Int
-//   owner   users @relation("Owner", fields: [ownerId], references: [id])
-//   status         rentalRequestEnum @default(PENDING)
-//   requestMessage String?
-//   createdAt DateTime @default(now())
-//   @@unique([bookId,requesterId])
-// }
-
 function RentalCart(props: RentalRequestCartType) {
-  const {} = props;
-  console.log(props)
-
   return (
-    <>
-      <Card className="flex flex-col w-full gap-6 p-4 rounded-[6px] ">
-        <div className="flex items-center space-x-2 gap-4">
-          <Image
-            src={props.book.cover!}
-            className="shrink-0 w-20 h-20 overflow-hidden "
-            alt={props.book.cover}
-            width={20}
-            height={28}
-          />
+    <div className="flex items-center gap-4 sm:gap-6 w-full p-4 bg-black border border-zinc-800 rounded-xl hover:border-zinc-700 hover:bg-zinc-900/50 transition-all duration-200 group">
+      {/* Book Cover */}
+      <div className="relative w-16 h-24 sm:w-20 sm:h-28 shrink-0 rounded-md overflow-hidden bg-zinc-900 border border-zinc-800">
+        <Image
+          src={props.book.cover || "/1.jpg"}
+          alt={props.book.bookname || "Book Cover"}
+          fill
+          className="object-cover transition-transform duration-300 group-hover:scale-105"
+        />
+      </div>
 
-          <div className="flex-1 min-w-0">
-            <p className="line-clamp-1  "> book name -  {props.book.bookname}</p>
-            <p className="text-sm text-white-600">
-              {/* this is for author */}
-              Owner - 
-              {props.owner.name}
-            </p>
+      {/* Content */}
+      <div className="flex-1 min-w-0 flex flex-col justify-center h-full">
+        <h3 className="text-lg font-semibold text-white line-clamp-1 mb-1">
+          {props.book.bookname}
+        </h3>
+        <p className="text-sm text-zinc-400 mb-3">
+          Owner: <span className="text-zinc-300">{props.owner.name}</span>
+        </p>
 
-          </div>
-          <div>
-           <p className={`${props.status=="PENDING" ? ("text-red-600"):("text-green-600")} `} >{props.status}</p>
-          </div>
+        {/* Status Badge */}
+        <div className="mt-auto">
+          <span
+            className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium border ${props.status === "PENDING"
+                ? "bg-zinc-900 border-zinc-700 text-zinc-300"
+                : props.status === "ACCEPTED"
+                  ? "bg-green-500/10 border-green-500/20 text-green-500 font-semibold"
+                  : "bg-red-500/10 border-red-500/20 text-red-500 font-semibold"
+              }`}
+          >
+            {props.status.charAt(0) + props.status.slice(1).toLowerCase()}
+          </span>
         </div>
-      </Card>
-    </>
+      </div>
+    </div>
   );
 }
 

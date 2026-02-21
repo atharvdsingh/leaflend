@@ -16,10 +16,15 @@ import HomeCardSkeleton from "./HomeCardSkeleton";
  * Handles fetching the list of books based on search parameters.
  * Moved from page.tsx to granularly stream this content using Suspense.
  */
-async function BookList({ searchParams }: { searchParams: Promise<{ page: string; room: string }> }) {
+
+
+interface props {
+  page:number,
+  roomId:number
+}
+async function  BookList(props:props) {
   const session = await GetTheSession();
-  const resolvedParams = await searchParams;
-  const roomId = Number(resolvedParams.room);
+  const roomId = props.roomId;
 
   // Artificial delay to demonstrate Suspense (can be removed in production)
   // await new Promise((resolve) => setTimeout(resolve, 2000));
@@ -37,7 +42,7 @@ async function BookList({ searchParams }: { searchParams: Promise<{ page: string
           },
         },
       },
-      skip: Number(resolvedParams.room) * 8 - 8, // NOTE: Logic copied from page.tsx, assuming 'room' param was meant to be used for skip or there is a logic specific to the user code.
+      skip: Number(props.page) * 8 - 8, // NOTE: Logic copied from page.tsx, assuming 'room' param was meant to be used for skip or there is a logic specific to the user code.
       take: 8,                                   // In original code: skip: Number((await searchParams).room) * 8 - 8
     });                                          
   } catch (error) {

@@ -15,11 +15,9 @@ import BookListSkeleton from "@/components/Home/BookListSkeleton";
 async function Page({ searchParams }:{searchParams: Promise< {page:string,room:string}>}) {
   const session = await GetTheSession();
   
-  console.log(await searchParams,"search params")
   const page=Number((await searchParams).page.replaceAll("/",""))
-  console.log(page,"page",(await searchParams).page)
   const roomId=Number((await searchParams).room)
-  console.log("hello world")
+
 
   // ---------------------------------------------------------------------------
   // OLD CODE (Moved to BookList.tsx for Granular Loading / Suspense)
@@ -90,7 +88,7 @@ async function Page({ searchParams }:{searchParams: Promise< {page:string,room:s
   return (
     <>
     
-        <BookList searchParams={searchParams} />
+        <BookList page={page} roomId={roomId} />
 
       <Pagination
         pageNumber={page}
