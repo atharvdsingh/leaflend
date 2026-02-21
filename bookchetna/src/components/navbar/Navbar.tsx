@@ -78,7 +78,7 @@ function Navbar() {
     <>
       <nav className="flex items-center justify-between h-12">
         {/* Left: Logo */}
-        <div className="flex items-center gap-3">
+        <div className="flex flex-1 items-center justify-start gap-3">
           <Link
             href="/"
             className="hidden md:flex items-center gap-2 text-zinc-400 hover:text-white transition-colors text-sm"
@@ -92,7 +92,7 @@ function Navbar() {
         </div>
 
         {/* Center: Desktop Navigation Tabs */}
-        <div className="hidden md:flex items-center gap-1">
+        <div className="hidden md:flex items-center justify-center gap-1">
           {navLinks.map((link, index) => {
             const active = isActive(link);
 
@@ -107,8 +107,8 @@ function Navbar() {
                   <Link
                     href={link.href}
                     className={`inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-sm font-medium transition-all duration-200 ${active
-                        ? "bg-zinc-800 text-white"
-                        : "text-zinc-500 hover:text-white hover:bg-zinc-800/50"
+                      ? "bg-zinc-800 text-white"
+                      : "text-zinc-500 hover:text-white hover:bg-zinc-800/50"
                       }`}
                   >
                     {link.name}
@@ -148,14 +148,14 @@ function Navbar() {
                             href={sub.href}
                             onClick={() => setDropdownOpen(false)}
                             className={`flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-150 ${subActive
-                                ? "bg-white/10 text-white"
-                                : "text-zinc-400 hover:bg-white/5 hover:text-white"
+                              ? "bg-white/10 text-white"
+                              : "text-zinc-400 hover:bg-white/5 hover:text-white"
                               }`}
                           >
                             <div
                               className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${subActive
-                                  ? "bg-white text-black"
-                                  : "bg-zinc-800 text-zinc-400"
+                                ? "bg-white text-black"
+                                : "bg-zinc-800 text-zinc-400"
                                 }`}
                             >
                               <sub.icon className="w-4 h-4" />
@@ -180,8 +180,8 @@ function Navbar() {
                 key={index}
                 href={link.href}
                 className={`inline-flex items-center px-3 py-1.5 rounded-lg text-sm font-medium transition-all duration-200 ${active
-                    ? "bg-zinc-800 text-white"
-                    : "text-zinc-500 hover:text-white hover:bg-zinc-800/50"
+                  ? "bg-zinc-800 text-white"
+                  : "text-zinc-500 hover:text-white hover:bg-zinc-800/50"
                   }`}
               >
                 {link.name}
@@ -191,7 +191,7 @@ function Navbar() {
         </div>
 
         {/* Right: Actions */}
-        <div className="flex items-center gap-2">
+        <div className="flex flex-1 items-center justify-end gap-2">
           <div className="hidden md:block">
             <CreateBook />
           </div>
@@ -238,8 +238,8 @@ function Navbar() {
                     href={link.href}
                     onClick={() => setMobileMenuOpen(false)}
                     className={`flex items-center justify-between w-full px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${active
-                        ? "bg-zinc-800 text-white"
-                        : "text-zinc-400 hover:bg-zinc-800/50 hover:text-white"
+                      ? "bg-zinc-800 text-white"
+                      : "text-zinc-400 hover:bg-zinc-800/50 hover:text-white"
                       }`}
                   >
                     {link.name}
@@ -254,8 +254,8 @@ function Navbar() {
                           href={sub.href}
                           onClick={() => setMobileMenuOpen(false)}
                           className={`flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm transition-colors ${subActive
-                              ? "text-white bg-zinc-800/50"
-                              : "text-zinc-500 hover:text-white"
+                            ? "text-white bg-zinc-800/50"
+                            : "text-zinc-500 hover:text-white"
                             }`}
                         >
                           <sub.icon className="w-4 h-4" />
@@ -274,8 +274,8 @@ function Navbar() {
                 href={link.href}
                 onClick={() => setMobileMenuOpen(false)}
                 className={`flex items-center px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${active
-                    ? "bg-zinc-800 text-white"
-                    : "text-zinc-400 hover:bg-zinc-800/50 hover:text-white"
+                  ? "bg-zinc-800 text-white"
+                  : "text-zinc-400 hover:bg-zinc-800/50 hover:text-white"
                   }`}
               >
                 {link.name}

@@ -123,8 +123,8 @@ export default function CreateBook() {
   return (
     <>
       <Button onClick={() => setOpen(true)} size="sm" className="md:px-4 px-2">
-        <span className="hidden md:inline">Post a Book</span>
-        <Plus className="md:hidden h-4 w-4" />
+        <span className="">Post a Book</span>
+        <Plus className=" h-4 w-4" />
       </Button>
 
       <Dialog open={open} onOpenChange={setOpen}>

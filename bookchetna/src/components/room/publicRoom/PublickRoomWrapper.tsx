@@ -30,7 +30,7 @@ function PublickRoomWrapper(props: Props) {
     const newrooms = await fetchPublicRooms(offset, NUMBER_OF_USERS_TO_FETCH);
     const filterrooms = newrooms.filter(
       (rooms) =>
-        !rooms.members.some((member:any) => member.memberId === props.userId),
+        !rooms.members.some((member: any) => member.memberId === props.userId),
     );
 
     if (newrooms.length === 0) {
@@ -52,12 +52,12 @@ function PublickRoomWrapper(props: Props) {
   }, [inView]);
   if (rooms.length == 0) {
     return (
-          <div className="flex justify-center min-h-screen items-center">
-            <div className="flex justify-center flex-col gap-3  items-center">
-              <House className=" opacity-50 scale-200" />
-              <p className="opacity-50">No Rooms Available</p>
-            </div>
-          </div>
+      <div className="flex justify-center min-h-[60vh] items-center">
+        <div className="flex justify-center flex-col gap-3 items-center">
+          <House className="opacity-50 scale-200" />
+          <p className="opacity-50">No Rooms Available</p>
+        </div>
+      </div>
     );
   }
 

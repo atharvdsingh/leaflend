@@ -27,22 +27,25 @@ function PaginationWrapper(props: PaginationWrapperProps) {
     <>
       <Pagination>
         <PaginationContent>
-          <PaginationItem>
-            {props.currentPage != 1 && <PaginationPrevious href={`?page=${props.currentPage - 1}${roomParam}`} />}
+          {props.currentPage != 1 && (
+            <PaginationItem>
+              <PaginationPrevious href={`?page=${props.currentPage - 1}${roomParam}`} />
+            </PaginationItem>
+          )}
 
-          </PaginationItem>
           <PaginationItem>
             <PaginationLink href={`?page=${props.currentPage}${roomParam}`}>{props.currentPage}</PaginationLink>
           </PaginationItem>
+
           <PaginationItem>
             <PaginationEllipsis />
           </PaginationItem>
-          <PaginationItem>
-            {
-              props.currentPage < (props.totalPages || 1) && <PaginationNext href={`?page=${props.currentPage + 1}${roomParam}`} />
-            }
 
-          </PaginationItem>
+          {props.currentPage < (props.totalPages || 1) && (
+            <PaginationItem>
+              <PaginationNext href={`?page=${props.currentPage + 1}${roomParam}`} />
+            </PaginationItem>
+          )}
         </PaginationContent>
       </Pagination>
     </>

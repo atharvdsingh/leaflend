@@ -17,14 +17,14 @@ import { redirect } from "next/navigation";
  */
 async function RentedBookList({ searchParams }: { searchParams: Promise<{ room?: string }> }) {
   const session = await getServerSession(authOptions);
-  
+
   // NOTE: Logic moved from page.tsx. 
   // Ideally session check should be in middleware or parent layout if critical,
   // but keeping close to original implementation.
   if (!session?.user.id) {
-     // We can't easily redirect inside a component without throwing, 
-     // but usually parent page handles auth check. 
-     // We'll return null or empty to be safe if parent allows it.
+    // We can't easily redirect inside a component without throwing, 
+    // but usually parent page handles auth check. 
+    // We'll return null or empty to be safe if parent allows it.
   }
 
   const resolvedParams = await searchParams;
@@ -58,7 +58,7 @@ async function RentedBookList({ searchParams }: { searchParams: Promise<{ room?:
   if (books.length === 0) {
     return (
       <CenterComponent>
-        <div className="flex justify-center flex-col gap-3  items-center">
+        <div className="flex justify-center min-h-[50vh] flex-col gap-3 items-center">
           <BookOpen className=" opacity-50 scale-200" />
           <p className="opacity-50">You haven&apos;t rented any book</p>
 

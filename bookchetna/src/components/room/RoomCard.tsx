@@ -6,10 +6,12 @@ import {
     Crown,
     Trash2,
     ArrowRight,
-    Delete
+    Delete,
+    Copy
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import CopyRoomInviteButton from "./CopyRoomInviteButton";
 
 interface RoomCardProps {
     room: any;
@@ -83,11 +85,8 @@ export function RoomCard({ room, isAdmin = false }: RoomCardProps) {
                 <span className="text-zinc-500 text-sm font-medium">
                     {isAdmin ? "Invite Code" : "Room ID"}
                 </span>
-                <div className="bg-black/40 border border-zinc-800 rounded-lg px-3 py-1.5">
-                    <span className="text-white font-mono tracking-widest text-sm">
-                        {inviteCode}
-                    </span>
-                </div>
+
+                    <CopyRoomInviteButton inviteCode={inviteCode} />
             </div>
 
             {/* Footer Actions */}

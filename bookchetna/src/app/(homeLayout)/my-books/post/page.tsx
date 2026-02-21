@@ -34,7 +34,7 @@ async function Page({
 
   if (books.length === 0) {
     return <CenterComponent>
-      <div className="flex justify-center flex-col gap-3  items-center">
+      <div className="flex justify-center min-h-[50vh] flex-col gap-3 items-center">
         <Library className=" opacity-50 scale-200" />
         <p className="opacity-50">You haven`&apos;t posted any books yet</p>
 
