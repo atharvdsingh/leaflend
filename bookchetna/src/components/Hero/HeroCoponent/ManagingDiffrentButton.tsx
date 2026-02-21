@@ -15,26 +15,25 @@ import { ArrowRight, Book, LibraryBig, LogOut } from "lucide-react";
 import type { Session } from "next-auth";
 
 interface Props {
-  session:Session
+  session: Session
 }
 
 function ManagingDiffrentButton(props: Props) {
   const [loading, setloading] = useState(false);
-  const {session}=props
+  const { session } = props
 
   const handleONclick = (e: React.FormEvent) => {
     setloading(true);
     e.preventDefault();
-    signIn("google" ,{callbackUrl:"/room"} );
+    signIn("google", { callbackUrl: "/room" });
   };
 
   return (
     <>
       {!session ? (
         <Button
-          className={` flex justify-center items-center  ${
-            loading ? "bg-gray-200" : ""
-          }  `}
+          className={` flex justify-center items-center  ${loading ? "bg-muted" : ""
+            }  `}
           disabled={loading}
           onClick={handleONclick}
         >
@@ -50,10 +49,10 @@ function ManagingDiffrentButton(props: Props) {
               <ArrowRight />
             </div>
           </Button>
-          <Button onClick={()=>signOut()} asChild className="cursor-pointer"  variant={"outline"}>
+          <Button onClick={() => signOut()} asChild className="cursor-pointer" variant={"outline"}>
             <div>
 
-            Log Out <LogOut />
+              Log Out <LogOut />
             </div>
           </Button>
         </div>

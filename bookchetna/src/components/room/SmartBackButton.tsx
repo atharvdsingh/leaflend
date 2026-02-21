@@ -13,7 +13,7 @@ export function SmartBackButton() {
         <Button
             variant="ghost"
             asChild
-            className="group flex items-center gap-2 hover:bg-white/10 text-white transition-all duration-300"
+            className="group flex items-center gap-2 hover:bg-primary/10 text-foreground transition-all duration-300"
         >
             <Link href={isRootRoom ? "/" : "/room"}>
                 <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />

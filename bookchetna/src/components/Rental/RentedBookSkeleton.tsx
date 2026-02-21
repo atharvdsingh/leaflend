@@ -15,18 +15,18 @@ function RentedBookSkeleton() {
         <Card key={i} className="flex flex-col w-full gap-6 p-4 rounded-[6px]">
           <div className="flex items-center space-x-2 gap-4">
             {/* Image Skeleton */}
-            <Skeleton className="shrink-0 w-20 h-20 rounded-md bg-zinc-800" />
+            <Skeleton className="shrink-0 w-20 h-20 rounded-md bg-muted" />
 
             <div className="flex-1 min-w-0 space-y-2">
               {/* Book Name Skeleton */}
-              <Skeleton className="h-4 w-1/3 bg-zinc-800" />
+              <Skeleton className="h-4 w-1/3 bg-muted" />
               {/* Owner Name Skeleton */}
-              <Skeleton className="h-3 w-1/4 bg-zinc-800" />
+              <Skeleton className="h-3 w-1/4 bg-muted" />
             </div>
 
             <div>
               {/* Status Skeleton */}
-               <Skeleton className="h-4 w-16 bg-zinc-800" />
+              <Skeleton className="h-4 w-16 bg-muted" />
             </div>
           </div>
         </Card>

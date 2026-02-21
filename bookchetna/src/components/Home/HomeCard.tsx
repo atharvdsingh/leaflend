@@ -58,7 +58,7 @@ export default function HomeCard(props: booksHave) {
 
   // Kept max-w-64 (256px)
   return (
-    <Card className="max-w-64 w-full rounded-2xl bg-black border-zinc-800 text-white overflow-hidden shadow-2xl">
+    <Card className="max-w-64 w-full rounded-2xl bg-card border-border text-card-foreground overflow-hidden shadow-2xl">
       {/* Image container */}
       <div className="relative">
         <Image
@@ -80,7 +80,7 @@ export default function HomeCard(props: booksHave) {
           <Badge
             variant="default" // Kept user's variant
             // Reduced padding
-            className="absolute top-2 right-2 bg-white text-black hover:bg-white font-medium px-1.5 py-0.5 text-xs"
+            className="absolute top-2 right-2 bg-primary text-primary-foreground hover:bg-primary font-medium px-1.5 py-0.5 text-xs"
           >
             {props.status}
           </Badge>
@@ -90,11 +90,11 @@ export default function HomeCard(props: booksHave) {
       {/* Header: Contains Title and Author - Reduced padding */}
       <CardHeader className="p-2">
         {/* Reduced text size and added truncate */}
-        <CardTitle className="text-base font-semibold text-white truncate">
+        <CardTitle className="text-base font-semibold text-card-foreground truncate">
           {props.bookname}
         </CardTitle>
         {/* Reduced text size */}
-        <CardDescription className="text-zinc-500 text-xs pt-0.5">
+        <CardDescription className="text-muted-foreground text-xs pt-0.5">
           {""}
         </CardDescription>
       </CardHeader>
@@ -102,7 +102,7 @@ export default function HomeCard(props: booksHave) {
       {/* Content: Contains Genre and Price - Reduced padding */}
       <CardContent className="p-2 pt-0">
         <div className="flex justify-between items-center">
-          <span className="text-zinc-500 text-sm">{props.bookType}</span>
+          <span className="text-muted-foreground text-sm">{props.bookType}</span>
           {/* Reduced text size */}
           <span className="text-green-400 font-bold text-sm">{""}</span>
         </div>
@@ -113,7 +113,7 @@ export default function HomeCard(props: booksHave) {
         {/* Made buttons smaller */}
         <Button
           variant="outline"
-          className="text-white border-zinc-700 hover:bg-zinc-800 hover:text-white h-8 px-3 text-xs"
+          className="text-foreground border-border hover:bg-muted hover:text-foreground h-8 px-3 text-xs"
         >
           <BookOpen className="mr-2 h-4 w-4" />
           Details
@@ -122,7 +122,7 @@ export default function HomeCard(props: booksHave) {
         <Button
           disabled={props.status == "BORROWED" || props.status === "RESERVED"}
           onClick={handleOnClickByAddingToTheCart}
-          className="bg-white text-black hover:bg-zinc-200 font-semibold h-8 px-3 text-xs"
+          className="bg-primary text-primary-foreground hover:bg-primary/80 font-semibold h-8 px-3 text-xs"
         >
           <ShoppingCart className="mr-2 h-4 w-4" />
           Rent

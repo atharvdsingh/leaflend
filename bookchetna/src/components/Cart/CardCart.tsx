@@ -13,8 +13,8 @@ function CardCart(props: SerializableBook) {
   };
 
   return (
-    <div className="flex items-center gap-4 sm:gap-6 w-full p-4 bg-black border border-zinc-800 rounded-xl hover:border-zinc-700 hover:bg-zinc-900/50 transition-all duration-200 group relative">
-      <div className="relative w-16 h-24 sm:w-20 sm:h-28 shrink-0 rounded-md overflow-hidden bg-zinc-900 border border-zinc-800">
+    <div className="flex items-center gap-4 sm:gap-6 w-full p-4 bg-card border border-border rounded-xl hover:border-border/80 hover:bg-muted/50 transition-all duration-200 group relative">
+      <div className="relative w-16 h-24 sm:w-20 sm:h-28 shrink-0 rounded-md overflow-hidden bg-muted border border-border">
         <Image
           src={props.cover || "/1.jpg"}
           alt={props.bookname}
@@ -24,16 +24,16 @@ function CardCart(props: SerializableBook) {
       </div>
 
       <div className="flex-1 min-w-0 pr-8">
-        <h3 className="text-lg font-semibold text-white line-clamp-1 mb-1">{props.bookname}</h3>
-        <p className="text-sm text-zinc-400">
-          <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-zinc-900 border border-zinc-800 text-zinc-300">
+        <h3 className="text-lg font-semibold text-foreground line-clamp-1 mb-1">{props.bookname}</h3>
+        <p className="text-sm text-muted-foreground">
+          <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-muted border border-border text-foreground/80">
             {props.bookType}
           </span>
         </p>
       </div>
 
       <button
-        className="absolute top-4 right-4 sm:static sm:top-auto sm:right-auto p-2 text-zinc-500 hover:text-white hover:bg-zinc-800 rounded-md transition-all cursor-pointer"
+        className="absolute top-4 right-4 sm:static sm:top-auto sm:right-auto p-2 text-muted-foreground hover:text-foreground hover:bg-muted rounded-md transition-all cursor-pointer"
         onClick={handleRemoveFromCart}
         aria-label="Remove from cart"
       >

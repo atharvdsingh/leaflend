@@ -23,10 +23,10 @@ async function Page() {
         {/* Header Section */}
         <div className="flex flex-col md:flex-row justify-between items-center gap-6 text-center md:text-left">
           <div className="space-y-2">
-            <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-gray-100 to-gray-500 bg-clip-text text-transparent">
+            <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-foreground/90 to-foreground/50 bg-clip-text text-transparent">
               BookRent Rooms
             </h1>
-            <p className="text-gray-400 text-lg max-w-2xl">
+            <p className="text-muted-foreground text-lg max-w-2xl">
               Create a new room or join an existing community to start sharing and renting books.
             </p>
           </div>

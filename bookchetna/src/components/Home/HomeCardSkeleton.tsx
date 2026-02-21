@@ -14,7 +14,7 @@ import {
   CardContent,
   CardFooter,
   CardHeader,
-  
+
 } from "@/components/ui/card";
 
 import { Skeleton } from "../ui/skeleton";
@@ -38,7 +38,7 @@ export default function HomeCardSkeleton() {
 
   // Kept max-w-64 (256px)
   return (
-    <Card className="max-w-64 w-full rounded-2xl bg-black border-zinc-800 text-white overflow-hidden shadow-2xl">
+    <Card className="max-w-64 w-full rounded-2xl bg-card border-border text-card-foreground overflow-hidden shadow-2xl">
       {/* Image container */}
       <div className="relative">
         {/* <img
@@ -57,16 +57,16 @@ export default function HomeCardSkeleton() {
       <CardHeader className="p-2">
         {/* Reduced text size and added truncate */}
         <Skeleton className="text-base h-4 rounded-full w-10 " />
-        
+
         {/* Reduced text size */}
-        <Skeleton className="text-zinc-500 h-4 w-auto text-xs pt-0.5"/>
-          {""} 
+        <Skeleton className="text-muted-foreground h-4 w-auto text-xs pt-0.5" />
+        {""}
       </CardHeader>
 
       {/* Content: Contains Genre and Price - Reduced padding */}
       <CardContent className="p-2 pt-0">
         <div className="flex justify-between items-center">
-          <Skeleton className="text-zinc-500 h-2 w-15 text-sm"/>
+          <Skeleton className="text-muted-foreground h-2 w-15 text-sm" />
           {/* Reduced text size */}
           <span className="text-green-400 font-bold text-sm">{""}</span>
         </div>
@@ -76,10 +76,10 @@ export default function HomeCardSkeleton() {
       <CardFooter className="p-2 h-4 pt-0 grid grid-cols-2 gap-1.5">
         {/* Made buttons smaller */}
         <Skeleton
-          className="text-white border-zinc-700 rounded-[2px]  hover:bg-zinc-800 hover:text-white h-6 px-3 text-xs"
+          className="text-foreground border-border rounded-[2px] hover:bg-muted hover:text-foreground h-6 px-3 text-xs"
         />
 
-        <Skeleton    className=" text-black hover:bg-zinc-200 rounded-[2px] font-semibold h-6 px-3 text-xs"/>
+        <Skeleton className="text-primary-foreground hover:bg-primary/80 rounded-[2px] font-semibold h-6 px-3 text-xs" />
       </CardFooter>
     </Card>
   );

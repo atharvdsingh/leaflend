@@ -55,16 +55,16 @@ function JoinRoomCard() {
       <Dialog>
         <form>
           <DialogTrigger className='w-full h-full' asChild>
-            <Button variant="ghost" className='w-full h-auto py-8 hover:bg-zinc-900 border-zinc-800 border hover:border-zinc-700 rounded-2xl transition-all duration-300 flex flex-col items-center justify-center gap-4 bg-black' >
+            <Button variant="ghost" className='w-full h-auto py-8 hover:bg-muted border-border border hover:border-border/80 rounded-2xl transition-all duration-300 flex flex-col items-center justify-center gap-4 bg-card' >
 
               <div className='flex flex-col gap-3 justify-center items-center' >
 
 
-                <FolderSymlink className='bg-white size-16 p-3 text-black rounded-full group-hover:scale-110 transition-transform duration-300' />
+                <FolderSymlink className='bg-primary size-16 p-3 text-primary-foreground rounded-full group-hover:scale-110 transition-transform duration-300' />
 
                 <div className="text-center">
-                  <p className='text-xl text-white font-semibold mb-1' >Join with Code</p>
-                  <p className='text-zinc-400 font-normal' >Enter an invite code </p>
+                  <p className='text-xl text-foreground font-semibold mb-1' >Join with Code</p>
+                  <p className='text-muted-foreground font-normal' >Enter an invite code </p>
                 </div>
 
               </div>

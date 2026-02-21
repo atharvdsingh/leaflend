@@ -56,7 +56,7 @@ async function Page({
   return (
     <>
       <div className="w-full max-w-3xl mx-auto px-4 py-8">
-        <h1 className="text-2xl font-bold text-white mb-6">Rental Requests</h1>
+        <h1 className="text-2xl font-bold text-foreground mb-6">Rental Requests</h1>
         <div className="flex flex-col gap-4">
           {books.map((book) => (
             <RequestBookCard key={book.id} {...book} />

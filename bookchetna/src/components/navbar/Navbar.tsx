@@ -81,13 +81,13 @@ function Navbar() {
         <div className="flex flex-1 items-center justify-start gap-3">
           <Link
             href="/"
-            className="hidden md:flex items-center gap-2 text-zinc-400 hover:text-white transition-colors text-sm"
+            className="hidden md:flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors text-sm"
           >
             <ArrowLeft className="w-4 h-4" />
           </Link>
           <Link href="/" className="flex items-center gap-2">
             <Book className="w-5 h-5" />
-            <span className="font-bold text-lg text-white">LeafLend</span>
+            <span className="font-bold text-lg text-foreground">LeafLend</span>
           </Link>
         </div>
 
@@ -107,8 +107,8 @@ function Navbar() {
                   <Link
                     href={link.href}
                     className={`inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-sm font-medium transition-all duration-200 ${active
-                      ? "bg-zinc-800 text-white"
-                      : "text-zinc-500 hover:text-white hover:bg-zinc-800/50"
+                      ? "bg-muted text-foreground"
+                      : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
                       }`}
                   >
                     {link.name}
@@ -135,7 +135,7 @@ function Navbar() {
                     className="-translate-x-1/2"
                   >
                     <div
-                      className="bg-zinc-950 border border-zinc-800 rounded-xl p-1.5 min-w-[220px]"
+                      className="bg-card border border-border rounded-xl p-1.5 min-w-[220px]"
                       style={{
                         boxShadow: "0 16px 48px rgba(0,0,0,0.7)",
                       }}
@@ -148,21 +148,21 @@ function Navbar() {
                             href={sub.href}
                             onClick={() => setDropdownOpen(false)}
                             className={`flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-150 ${subActive
-                              ? "bg-white/10 text-white"
-                              : "text-zinc-400 hover:bg-white/5 hover:text-white"
+                              ? "bg-primary/10 text-foreground"
+                              : "text-muted-foreground hover:bg-primary/5 hover:text-foreground"
                               }`}
                           >
                             <div
                               className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${subActive
-                                ? "bg-white text-black"
-                                : "bg-zinc-800 text-zinc-400"
+                                ? "bg-primary text-primary-foreground"
+                                : "bg-muted text-muted-foreground"
                                 }`}
                             >
                               <sub.icon className="w-4 h-4" />
                             </div>
                             <div>
                               <p className="text-sm font-medium">{sub.label}</p>
-                              <p className="text-[11px] text-zinc-500">
+                              <p className="text-[11px] text-muted-foreground">
                                 {sub.description}
                               </p>
                             </div>
@@ -180,8 +180,8 @@ function Navbar() {
                 key={index}
                 href={link.href}
                 className={`inline-flex items-center px-3 py-1.5 rounded-lg text-sm font-medium transition-all duration-200 ${active
-                  ? "bg-zinc-800 text-white"
-                  : "text-zinc-500 hover:text-white hover:bg-zinc-800/50"
+                  ? "bg-muted text-foreground"
+                  : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
                   }`}
               >
                 {link.name}
@@ -197,7 +197,7 @@ function Navbar() {
           </div>
 
           <Link href={`/cart${roomParamFirst}`} className="relative p-2">
-            <ShoppingCart className="w-5 h-5 text-zinc-400 hover:text-white transition-colors" />
+            <ShoppingCart className="w-5 h-5 text-muted-foreground hover:text-foreground transition-colors" />
             {bookno > 0 && (
               <Badge
                 variant="destructive"
@@ -211,7 +211,7 @@ function Navbar() {
           {/* Mobile hamburger */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden p-2 text-zinc-400 hover:text-white transition-colors"
+            className="md:hidden p-2 text-muted-foreground hover:text-foreground transition-colors"
           >
             {mobileMenuOpen ? (
               <X className="w-5 h-5" />
@@ -227,7 +227,7 @@ function Navbar() {
         className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out ${mobileMenuOpen ? "max-h-[400px] opacity-100" : "max-h-0 opacity-0"
           }`}
       >
-        <div className="pt-3 pb-2 space-y-1 border-t border-zinc-800/50 mt-3">
+        <div className="pt-3 pb-2 space-y-1 border-t border-border mt-3">
           {navLinks.map((link, index) => {
             const active = isActive(link);
 
@@ -238,14 +238,14 @@ function Navbar() {
                     href={link.href}
                     onClick={() => setMobileMenuOpen(false)}
                     className={`flex items-center justify-between w-full px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${active
-                      ? "bg-zinc-800 text-white"
-                      : "text-zinc-400 hover:bg-zinc-800/50 hover:text-white"
+                      ? "bg-muted text-foreground"
+                      : "text-muted-foreground hover:bg-muted/50 hover:text-foreground"
                       }`}
                   >
                     {link.name}
                   </Link>
                   {/* Always show sub-links under My Books on mobile */}
-                  <div className="ml-4 mt-1 space-y-1 border-l border-zinc-800 pl-3">
+                  <div className="ml-4 mt-1 space-y-1 border-l border-border pl-3">
                     {myBooksSubLinks.map((sub) => {
                       const subActive = path === sub.match;
                       return (
@@ -254,8 +254,8 @@ function Navbar() {
                           href={sub.href}
                           onClick={() => setMobileMenuOpen(false)}
                           className={`flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm transition-colors ${subActive
-                            ? "text-white bg-zinc-800/50"
-                            : "text-zinc-500 hover:text-white"
+                            ? "text-foreground bg-muted/50"
+                            : "text-muted-foreground hover:text-foreground"
                             }`}
                         >
                           <sub.icon className="w-4 h-4" />
@@ -274,8 +274,8 @@ function Navbar() {
                 href={link.href}
                 onClick={() => setMobileMenuOpen(false)}
                 className={`flex items-center px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${active
-                  ? "bg-zinc-800 text-white"
-                  : "text-zinc-400 hover:bg-zinc-800/50 hover:text-white"
+                  ? "bg-muted text-foreground"
+                  : "text-muted-foreground hover:bg-muted/50 hover:text-foreground"
                   }`}
               >
                 {link.name}

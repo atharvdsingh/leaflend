@@ -8,57 +8,57 @@ import { toast } from 'sonner'
 import { useRouter } from 'next/navigation'
 
 
-interface props{
-    id:number
+interface props {
+    id: number
 }
 
-function RequestBookCardCancelAndAcceptedButton({id}:props) {
-    const router=useRouter()
-    const handlReject=async()=>{
-         try {
-            const res=await api.post("/rentbook/delete",{id})
-
-            if(res.status!=200){
-                return toast.error("somethinw went wrong")
-            }
-            toast.success(res.data.message)
-            router.refresh()
-        } catch (error) {
-            handleClientError(error)   
-        }
-    }
-
-    const handleAccept=async ()=>{
+function RequestBookCardCancelAndAcceptedButton({ id }: props) {
+    const router = useRouter()
+    const handlReject = async () => {
         try {
-            const res=await api.put("/rentbook",{id})
+            const res = await api.post("/rentbook/delete", { id })
 
-            if(res.status!=200){
+            if (res.status != 200) {
                 return toast.error("somethinw went wrong")
             }
             toast.success(res.data.message)
             router.refresh()
         } catch (error) {
             handleClientError(error)
-            
+        }
+    }
+
+    const handleAccept = async () => {
+        try {
+            const res = await api.put("/rentbook", { id })
+
+            if (res.status != 200) {
+                return toast.error("somethinw went wrong")
+            }
+            toast.success(res.data.message)
+            router.refresh()
+        } catch (error) {
+            handleClientError(error)
+
         }
     }
 
 
     return (
         <>
-        <div className='flex justify-center items-center gap-4'  >
-            <Button onClick={handleAccept} > 
-                <Check/>
-                
-                 </Button>
-            <Button variant={"destructive"} onClick={handlReject} >
+            <div className='flex justify-center items-center gap-4'  >
+                <Button onClick={handleAccept} >
+                    <Check />
 
-                <X className='text-white' />
-            </Button>
+                </Button>
+                <Button variant={"destructive"} onClick={handlReject} >
 
-        </div>
+                    <X className='text-foreground' />
+                </Button>
+
+            </div>
         </>
-        
+
     )
 }
 

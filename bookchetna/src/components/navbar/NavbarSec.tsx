@@ -73,8 +73,8 @@ function NavbarSec() {
                   className={`
                     inline-flex items-center gap-1.5 px-3 sm:px-4 py-1.5 rounded-md text-xs sm:text-sm font-medium transition-all duration-200
                     ${active
-                      ? "text-white"
-                      : "text-zinc-500 hover:text-zinc-300"
+                      ? "text-foreground"
+                      : "text-muted-foreground hover:text-foreground"
                     }
                   `}
                 >
@@ -86,7 +86,7 @@ function NavbarSec() {
 
                 {/* Underline indicator */}
                 {active && (
-                  <div className="absolute bottom-0 left-3 right-3 h-[2px] bg-white rounded-full" />
+                  <div className="absolute bottom-0 left-3 right-3 h-[2px] bg-foreground rounded-full" />
                 )}
 
                 {/* Dropdown */}
@@ -104,7 +104,7 @@ function NavbarSec() {
                   }}
                   className="-translate-x-1/2"
                 >
-                  <div className="bg-zinc-950 border border-zinc-800 rounded-xl p-1.5 min-w-[220px]"
+                  <div className="bg-card border border-border rounded-xl p-1.5 min-w-[220px]"
                     style={{ boxShadow: "0 20px 60px rgba(0,0,0,0.8)" }}
                   >
                     {myBooksSubLinks.map((sub) => {
@@ -117,23 +117,23 @@ function NavbarSec() {
                           className={`
                             flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-150
                             ${subActive
-                              ? "bg-white/10 text-white"
-                              : "text-zinc-400 hover:bg-white/5 hover:text-white"
+                              ? "bg-primary/10 text-foreground"
+                              : "text-muted-foreground hover:bg-primary/5 hover:text-foreground"
                             }
                           `}
                         >
                           <div className={`
                             w-8 h-8 rounded-lg flex items-center justify-center shrink-0
                             ${subActive
-                              ? "bg-white text-black"
-                              : "bg-zinc-800 text-zinc-400"
+                              ? "bg-primary text-primary-foreground"
+                              : "bg-muted text-muted-foreground"
                             }
                           `}>
                             <sub.icon className="w-4 h-4" />
                           </div>
                           <div>
                             <p className="text-sm font-medium">{sub.label}</p>
-                            <p className="text-[11px] text-zinc-500">{sub.description}</p>
+                            <p className="text-[11px] text-muted-foreground">{sub.description}</p>
                           </div>
                         </Link>
                       );
@@ -151,14 +151,14 @@ function NavbarSec() {
               className={`
                 relative inline-flex items-center px-3 sm:px-4 py-1.5 rounded-md text-xs sm:text-sm font-medium transition-all duration-200
                 ${active
-                  ? "text-white"
-                  : "text-zinc-500 hover:text-zinc-300"
+                  ? "text-foreground"
+                  : "text-muted-foreground hover:text-foreground"
                 }
               `}
             >
               {link.name}
               {active && (
-                <span className="absolute bottom-0 left-3 right-3 h-[2px] bg-white rounded-full" />
+                <span className="absolute bottom-0 left-3 right-3 h-[2px] bg-foreground rounded-full" />
               )}
             </Link>
           );

@@ -16,7 +16,7 @@ function AuthButtonSkeleton() {
   return (
     <Skeleton className="flex gap-5 animate-pulse">
       {/* Pure UI placeholder - no logic allowed here */}
-      <div className="bg-gray-700 w-[180px] h-[40px] rounded-md opacity-20"></div>
+      <div className="bg-muted w-[180px] h-[40px] rounded-md opacity-20"></div>
     </Skeleton>
   );
 }

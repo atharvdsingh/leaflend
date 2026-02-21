@@ -72,7 +72,7 @@ async function RentedBookList({ searchParams }: { searchParams: Promise<{ room?:
 
   return (
     <div className="w-full max-w-3xl mx-auto px-4 py-8">
-      <h1 className="text-2xl font-bold text-white mb-6">Your Rented Books</h1>
+      <h1 className="text-2xl font-bold text-foreground mb-6">Your Rented Books</h1>
       <div className="flex flex-col gap-4">
         {books.map((book) => (
           <RentalCart key={book.id} {...book} />

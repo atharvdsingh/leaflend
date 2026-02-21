@@ -36,7 +36,7 @@ function PublickRoomWrapper(props: Props) {
     if (newrooms.length === 0) {
       return (
         <CenterComponent>
-          <div className="text-white">hi there</div>
+          <div className="text-foreground">hi there</div>
         </CenterComponent>
       );
     }

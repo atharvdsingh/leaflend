@@ -35,8 +35,8 @@ function MyBookNavigation() {
             onClick={() => router.push(item.href)}
             className={`flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm transition-colors w-full text-left
               ${isActive
-                ? "bg-white/10 text-white font-medium"
-                : "text-zinc-400 hover:bg-white/5 hover:text-white"
+                ? "bg-primary/10 text-foreground font-medium"
+                : "text-muted-foreground hover:bg-primary/5 hover:text-foreground"
               }`}
           >
             <item.icon className="w-4 h-4" />
