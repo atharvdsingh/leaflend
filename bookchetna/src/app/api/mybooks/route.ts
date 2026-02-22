@@ -36,6 +36,8 @@ export async function POST(req: NextRequest) {
     //   .getCloudinaryInstace()
     //   .uploadImage(parsedFormData.cover) as UploadApiResponse
 
+    const uploadResult:UploadApiResponse= await cloudinaryServies.getCloudinaryInstace().uploadImage(parsedFormData.cover) as UploadApiResponse
+
 
 
     // const uploadResult: UploadApiResponse = await instance.uploadImage(parsedFormData.cover) as UploadApiResponse
@@ -54,9 +56,9 @@ export async function POST(req: NextRequest) {
         // price: Number(formdata.get("price")), // Schema missing price
         ownerId: session.user.id,
         status: "AVAILABLE",
-        cover: "",
+        // cover: "",
   
-        // cover: uploadResult.secure_url, // Schema uses 'cover'
+        cover: uploadResult.secure_url, // Schema uses 'cover'
       },
     });
 

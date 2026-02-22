@@ -17,7 +17,7 @@ services:
     build:
       context: ./bookchetna
       dockerfile: Dockerfile
-      target: development
+      target: runner
     container_name: leaflend-app
     environment:
       - WATCHPACK_POLLING=true
@@ -31,9 +31,9 @@ services:
       - db
     networks:
       - app-network
-    volumes:
-      - ./bookchetna:/app
-      - /app/node_modules
+    # volumes:
+    #   - ./bookchetna:/app
+    #   - /app/node_modules
     # ws:
     # build: ./ws
     # container_name: ws-server
