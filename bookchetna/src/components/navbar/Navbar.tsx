@@ -16,6 +16,7 @@ import CreateBook from "../CreateBook";
 import { useAppSelector } from "@/lib/hooks";
 import { Badge } from "../ui/badge";
 import { usePathname, useSearchParams } from "next/navigation";
+import SetTheme from "../SetTheme";
 
 function Navbar() {
   const bookno: number = useAppSelector((state) => state.cart.NoOfBooks);
@@ -170,6 +171,7 @@ function Navbar() {
                         );
                       })}
                     </div>
+                    
                   </div>
                 </div>
               );
@@ -195,6 +197,7 @@ function Navbar() {
           <div className="hidden md:block">
             <CreateBook />
           </div>
+          
 
           <Link href={`/cart${roomParamFirst}`} className="relative p-2">
             <ShoppingCart className="w-5 h-5 text-muted-foreground hover:text-foreground transition-colors" />
@@ -207,6 +210,8 @@ function Navbar() {
               </Badge>
             )}
           </Link>
+                  <SetTheme/>
+
 
           {/* Mobile hamburger */}
           <button
@@ -282,11 +287,14 @@ function Navbar() {
               </Link>
             );
           })}
+                  <SetTheme/>
+
 
           {/* Mobile Post a Book */}
           <div className="px-3 pt-2">
             <CreateBook />
           </div>
+          
         </div>
       </div>
     </>

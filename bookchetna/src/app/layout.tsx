@@ -5,6 +5,7 @@ import Provider from "./Provider";
 import { Toaster } from "@/components/ui/sonner";
 import StoreProvider from "./StoreProvider";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { ThemeProvider } from "@/components/Theme-provider";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -30,15 +31,24 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark">
+    <html lang="en" suppressHydrationWarning >
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${poppins.variable} antialiased`}
-        suppressHydrationWarning={true}
+        suppressHydrationWarning
       >
         <StoreProvider>
           <Provider>
             <TooltipProvider>
-              {children}
+              <ThemeProvider attribute="class"
+                defaultTheme="system"
+                enableSystem
+
+                disableTransitionOnChange
+
+              >
+
+                {children}
+              </ThemeProvider>
             </TooltipProvider>
           </Provider>
         </StoreProvider>

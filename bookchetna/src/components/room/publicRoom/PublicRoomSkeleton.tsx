@@ -9,7 +9,7 @@ import AllPublicRoomCardSkeleton from "./SkeletonAllPublicRoomCard";
  */
 function PublicRoomSkeleton() {
   return (
-    <div className="flex gap-3 mt-20 mx-4 flex-col">
+    <div className="flex gap-3 pt-20 mx-4 flex-col">
       {/* Show 5 skeletons while loading */}
       {Array.from({ length: 5 }).map((_, key) => (
         <AllPublicRoomCardSkeleton key={key} />

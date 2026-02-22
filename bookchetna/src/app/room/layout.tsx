@@ -9,8 +9,10 @@ export default function HomeLayout({
   return (
     <Procted>
       <div className="relative min-h-screen">
-        <div className="absolute top-4 left-4 z-50">
-          <SmartBackButton />
+        <div className="absolute top-4 inset-x-0 z-50 pointer-events-none">
+          <div className="max-w-7xl mx-auto px-4 pointer-events-auto flex justify-start">
+            <SmartBackButton />
+          </div>
         </div>
 
         {children}

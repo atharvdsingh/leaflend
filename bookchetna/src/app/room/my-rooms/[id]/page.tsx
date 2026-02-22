@@ -193,13 +193,7 @@ async function Page({ params }: PageProps) {
           </div>
 
           <div className="relative z-10 space-y-6">
-            <Link
-              href="/room"
-              className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors text-sm font-medium group"
-            >
-              <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
-              Back to Browse Rooms
-            </Link>
+          
 
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
               <div className="space-y-2">

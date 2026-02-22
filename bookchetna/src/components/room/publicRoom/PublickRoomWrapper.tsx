@@ -23,33 +23,41 @@ function PublickRoomWrapper(props: Props) {
   );
   const [loading, setLoadig] = useState<boolean>(false);
   const [offset, setOffset] = useState<number>(8);
+  const [hasMore, setHasMore] = useState<boolean>(true);
   const { ref, inView } = useInView();
+
   const loadMOreData = async () => {
+    if (!hasMore || loading) return;
     setLoadig(true);
 
     const newrooms = await fetchPublicRooms(offset, NUMBER_OF_USERS_TO_FETCH);
-    const filterrooms = newrooms.filter(
-      (rooms) =>
-        !rooms.members.some((member: any) => member.memberId === props.userId),
-    );
 
     if (newrooms.length === 0) {
-      return (
-        <CenterComponent>
-          <div className="text-foreground">hi there</div>
-        </CenterComponent>
-      );
+      setHasMore(false);
+      setLoadig(false);
+      return;
     }
+
+    const filterrooms = newrooms.filter(
+      (room) =>
+        !room.members.some((member: any) => member.memberId === props.userId),
+    );
 
     setRoom((rooms) => [...rooms, ...filterrooms]);
     setOffset((offset) => offset + NUMBER_OF_USERS_TO_FETCH);
+
+    if (newrooms.length < NUMBER_OF_USERS_TO_FETCH) {
+      setHasMore(false);
+    }
+
     setLoadig(false);
   };
+
   useEffect(() => {
-    if (inView && !loading) {
+    if (inView && !loading && hasMore) {
       loadMOreData();
     }
-  }, [inView]);
+  }, [inView, loading, hasMore]);
   if (rooms.length == 0) {
     return (
       <div className="flex justify-center min-h-[60vh] items-center">
@@ -63,7 +71,7 @@ function PublickRoomWrapper(props: Props) {
 
   return (
     <>
-      <div className="flex gap-3 mt-20 mx-4 flex-col ">
+      <div className="flex gap-3 pt-20 mx-4 flex-col ">
         {rooms.map((room) => (
           <AllPublicRoomCard key={room.id} room={room} />
         ))}
@@ -74,7 +82,7 @@ function PublickRoomWrapper(props: Props) {
             <AllPublicRoomCardSkeleton key={key} />
           ))}
       </div>
-      <div ref={ref}></div>
+      {hasMore && <div ref={ref} className="h-10"></div>}
     </>
   );
 }
