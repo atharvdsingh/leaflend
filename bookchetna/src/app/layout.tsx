@@ -21,7 +21,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Leaflend | Peer-to-Peer Book Sharing",
+  title: "BookChetna | Peer-to-Peer Book Sharing",
   description: "Join the largest community-driven book rental marketplace. Rent books, earn money, and read more.",
 };
 

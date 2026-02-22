@@ -44,9 +44,9 @@ export default function NotFound() {
                 </Link>
             </Button>
             <Button asChild variant="outline" size="lg" className="border-border hover:bg-muted/50 text-foreground">
-                <Link href="/books" className="flex items-center gap-2">
+                <Link href="/room" className="flex items-center gap-2">
                     <BookOpen className="w-4 h-4" />
-                    Browse Books
+                    Browse Rooms
                 </Link>
             </Button>
         </div>

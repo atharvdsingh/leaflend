@@ -88,7 +88,7 @@ function Navbar() {
           </Link>
           <Link href="/" className="flex items-center gap-2">
             <Book className="w-5 h-5" />
-            <span className="font-bold text-lg text-foreground">LeafLend</span>
+            <span className="font-bold text-lg text-foreground">BookChetna</span>
           </Link>
         </div>
 
@@ -171,7 +171,7 @@ function Navbar() {
                         );
                       })}
                     </div>
-                    
+
                   </div>
                 </div>
               );
@@ -197,7 +197,7 @@ function Navbar() {
           <div className="hidden md:block">
             <CreateBook />
           </div>
-          
+
 
           <Link href={`/cart${roomParamFirst}`} className="relative p-2">
             <ShoppingCart className="w-5 h-5 text-muted-foreground hover:text-foreground transition-colors" />
@@ -210,7 +210,7 @@ function Navbar() {
               </Badge>
             )}
           </Link>
-                  <SetTheme/>
+          <SetTheme />
 
 
           {/* Mobile hamburger */}
@@ -287,14 +287,13 @@ function Navbar() {
               </Link>
             );
           })}
-                  <SetTheme/>
 
 
           {/* Mobile Post a Book */}
           <div className="px-3 pt-2">
             <CreateBook />
           </div>
-          
+
         </div>
       </div>
     </>
