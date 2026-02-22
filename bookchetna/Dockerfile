@@ -13,8 +13,7 @@ WORKDIR /app
 FROM base AS deps
 COPY package.json package-lock.json ./ 
 # Install all dependencies (including devDependencies for building)
-RUN npm ci 
-
+RUN npm ci --ignore-scripts
 # ==========================================
 # STAGE 3: Development
 # ==========================================
@@ -59,6 +58,7 @@ WORKDIR /app
 
 ENV NODE_ENV production
 ENV NEXT_TELEMETRY_DISABLED 1
+
 
 # Create a non-root user for security
 RUN addgroup --system --gid 1001 nodejs
