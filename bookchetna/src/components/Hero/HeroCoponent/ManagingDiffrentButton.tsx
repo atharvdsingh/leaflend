@@ -42,12 +42,14 @@ function ManagingDiffrentButton(props: Props) {
       ) : (
         <div className="flex gap-5">
           <Button asChild className="flex  ">
-            <div>
+            
               {/* <Link href={"/home/page=1"}>Get Started</Link> */}
-              <Link href={"/room"}>Get Started</Link>
-
+              <Link href={"/room"}>Get Started
+              
               <ArrowRight />
-            </div>
+              </Link>
+
+            
           </Button>
           <Button onClick={() => signOut()} asChild className="cursor-pointer" variant={"outline"}>
             <div>

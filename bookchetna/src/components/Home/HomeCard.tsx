@@ -62,7 +62,7 @@ export default function HomeCard(props: booksHave) {
       {/* Image container */}
       <div className="relative">
         <Image
-          src={props.cover!}
+          src={props.cover || "/1.jpg"}
           alt={props.bookname}
           width={40}
           height={40}

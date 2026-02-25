@@ -116,7 +116,7 @@ export default function MyBooksCard() {
                 {/* Image container */}
                 <div className="relative">
                   <Image
-                    src={book.cover || "/"}
+                    src={book.cover || "/1.jpg"}
                     alt={`Cover image of ${book.bookname}`}
                     // Changed to h-40 (160px)
                     className="w-full h-40  object-cover"

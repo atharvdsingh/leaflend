@@ -52,7 +52,11 @@ export default function RootLayout({
             </TooltipProvider>
           </Provider>
         </StoreProvider>
-        <Toaster richColors position="top-center" />
+        <Toaster  position="top-center" 
+        toastOptions={{
+          className: "bg-background text-foreground",
+        }}
+        />
       </body>
     </html>
   );
