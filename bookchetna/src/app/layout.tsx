@@ -21,8 +21,53 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "BookChetna | Peer-to-Peer Book Sharing",
-  description: "Join the largest community-driven book rental marketplace. Rent books, earn money, and read more.",
+  metadataBase: new URL("https://book.sanchenta.in"),
+  title: {
+    default: "BookChetna | Peer-to-Peer Book Sharing",
+    template: "%s | BookChetna",
+  },
+  description:
+    "Join the largest community-driven book rental marketplace. Rent books, earn money, and read more.",
+  keywords: [
+    "book rental",
+    "rent books online",
+    "peer to peer book sharing",
+    "earn money from books",
+    "used books",
+    "BookChetna",
+    "book marketplace",
+  ],
+  authors: [{ name: "BookChetna" }],
+  creator: "BookChetna",
+  alternates: {
+    canonical: "https://book.sanchenta.in",
+  },
+  openGraph: {
+    type: "website",
+    locale: "en_IN",
+    url: "https://book.sanchenta.in",
+    siteName: "BookChetna",
+    title: "BookChetna | Peer-to-Peer Book Sharing",
+    description:
+      "Rent books from neighbors, lend yours to earn money. The smartest way to read.",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "BookChetna | Peer-to-Peer Book Sharing",
+    description:
+      "Rent books from neighbors, lend yours to earn money. The smartest way to read.",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
 };
 
 export default function RootLayout({
@@ -33,7 +78,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning >
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${poppins.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} animate-fade-in-blur ${poppins.variable} antialiased`}
         suppressHydrationWarning
       >
         <StoreProvider>
@@ -52,10 +97,10 @@ export default function RootLayout({
             </TooltipProvider>
           </Provider>
         </StoreProvider>
-        <Toaster  position="top-center" 
-        toastOptions={{
-          className: "bg-background text-foreground",
-        }}
+        <Toaster position="top-center"
+          toastOptions={{
+            className: "bg-background text-foreground",
+          }}
         />
       </body>
     </html>

@@ -63,7 +63,7 @@ export default function HomeCard(props: booksHave) {
       <div className="relative">
         <Image
           src={props.cover || "/1.jpg"}
-          alt={props.bookname}
+          alt={`Cover of ${props.bookname}${props.author ? ` by ${props.author}` : ""}`}
           width={40}
           height={40}
           className="w-full h-40  object-cover"
