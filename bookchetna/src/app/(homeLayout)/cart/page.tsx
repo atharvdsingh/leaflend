@@ -6,13 +6,15 @@ import { Button } from "@/components/ui/button";
 import type { RootState } from "@/store/store";
 import { ShoppingCart } from "lucide-react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import React from "react";
 import { useSelector } from "react-redux";
 
 
 function Page() {
   const cart = useSelector((state: RootState) => state.cart);
-
+  const searchparsms= useSearchParams()
+  const roomId = searchparsms.get("room") ? Number(searchparsms.get("room")) : undefined;
   if (cart.NoOfBooks === 0) {
     return (
       <CenterComponent>
@@ -20,7 +22,7 @@ function Page() {
           <ShoppingCart className=" opacity-50 scale-200" />
           <p className="opacity-50">No Books Available</p>
           <Button asChild>
-            <Link href={"/home"}>Browse Book</Link>
+            <Link href={`/home?page=&room=${roomId}`}>Browse Book</Link>
           </Button>
         </div>
       </CenterComponent>

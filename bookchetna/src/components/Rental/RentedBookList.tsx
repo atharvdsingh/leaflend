@@ -63,7 +63,7 @@ async function RentedBookList({ searchParams }: { searchParams: Promise<{ room?:
           <p className="opacity-50">You haven&apos;t rented any book</p>
 
           <Button asChild>
-            <Link href={"/home"}>Browse Book</Link>
+            <Link href={`/home?page=&room=${roomId}`}>Browse Book</Link>
           </Button>
         </div>
       </CenterComponent>
