@@ -22,7 +22,7 @@ function Page() {
           <ShoppingCart className=" opacity-50 scale-200" />
           <p className="opacity-50">No Books Available</p>
           <Button asChild>
-            <Link href={`/home?page=&room=${roomId}`}>Browse Book</Link>
+            <Link href={`/home?page=1&room=${roomId}`}>Browse Book</Link>
           </Button>
         </div>
       </CenterComponent>
