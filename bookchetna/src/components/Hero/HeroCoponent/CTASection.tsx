@@ -37,10 +37,10 @@ export default function CTASection() {
                 asChild 
                 variant="outline" 
                 size="lg" 
-                className="border-white/30 text-white hover:bg-white/10 hover:text-white h-12 px-8 rounded-full backdrop-blur-sm"
+                className="border-white/30  hover:bg-white/10 hover:text-white h-12 px-8 rounded-full backdrop-blur-sm"
               >
-                <Link href="/books" className="flex items-center gap-2">
-                    Browse Library <ArrowRight className="w-4 h-4" />
+                <Link href="/books" className="flex text-green-700 cursor-pointer items-center gap-2">
+                    Browse Books <ArrowRight className="w-4  h-4" />
                 </Link>
               </Button>
             </div>

@@ -9,6 +9,19 @@ import { Home, Users, WarehouseIcon } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import PublicRoomCard from "@/components/room/PublicRoomCard";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Book Sharing Rooms",
+  description:
+    "Create or join book sharing rooms on BookChetna. Organize your community, share books, and connect with fellow readers.",
+  keywords: [
+    "book sharing rooms",
+    "book club",
+    "community reading",
+    "BookChetna rooms",
+  ],
+};
 
 async function Page() {
   const session = await getServerSession(authOptions);

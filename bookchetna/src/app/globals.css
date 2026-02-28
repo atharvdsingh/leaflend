@@ -160,3 +160,25 @@
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
 }
+
+
+/* 1. Define the animation instructions */
+@keyframes fadeInBlur {
+  0% {
+    opacity: 0.2;
+    filter: blur(5px);
+  }
+  100% {
+    opacity: 1;
+    filter: blur(0px);
+  }
+}
+/* 2. Create a utility class that triggers the animation */
+.animate-fade-in-blur {
+  animation: fadeInBlur 0.5s ease-out forwards;
+  /* Optional: Wait slightly before starting */
+  animation-delay: 0s; 
+  /* Initial state while waiting */
+  opacity: 0.4;
+  filter: blur(3px);
+}
