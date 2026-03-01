@@ -17,7 +17,7 @@ export default function CopyRoomInviteButton({ inviteCode }: { inviteCode: strin
     <Tooltip>
       <TooltipTrigger asChild>
         <div onClick={handleOneClick} className="bg-card/40 border border-border rounded-lg px-3 py-1.5 hover:bg-muted/50 transition-colors">
-          <span className="text-foreground flex justify-center items-center cursor-pointer font-mono tracking-widest text-sm gap-2">
+          <span className="text-foreground flex justify-center items-center cursor-pointer font-mono  text-sm gap-2">
             {inviteCode}
             <Copy size={15} />
           </span>

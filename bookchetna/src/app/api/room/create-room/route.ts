@@ -47,3 +47,21 @@ export async function POST(req: NextRequest) {
     return handleApiError(error);
   }
 }
+return respons;
+    });
+
+if (!respons) {
+  throw new AppError("something went wront", 500);
+}
+return NextResponse.json(
+  {
+    message: "room created successfully",
+    data: respons,
+    success: true,
+  },
+  { status: 200 },
+);
+  } catch (error) {
+  return handleApiError(error);
+}
+}

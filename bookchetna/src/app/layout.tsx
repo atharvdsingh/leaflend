@@ -84,18 +84,18 @@ export default function RootLayout({
       >
         <StoreProvider>
           <Provider>
-            <TooltipProvider>
               <ThemeProvider attribute="class"
                 defaultTheme="system"
                 enableSystem
-
+                
                 disableTransitionOnChange
-
-              >
+                
+                >
+                <TooltipProvider>
 
                 {children}
-              </ThemeProvider>
             </TooltipProvider>
+              </ThemeProvider>
           </Provider>
         </StoreProvider>
         <Toaster position="top-center"
