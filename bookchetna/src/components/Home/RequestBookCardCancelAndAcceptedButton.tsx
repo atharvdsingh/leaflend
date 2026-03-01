@@ -2,7 +2,7 @@
 import React from 'react'
 import { Button } from '../ui/button'
 import { Check, Cross, X } from 'lucide-react'
-import { api } from '@/lib/axios'
+import { rejectRentalRequest, acceptRentalRequest } from '@/services/rentbook.services'
 import { handleClientError } from '@/util/clientError'
 import { toast } from 'sonner'
 import { useRouter } from 'next/navigation'
@@ -16,7 +16,7 @@ function RequestBookCardCancelAndAcceptedButton({ id }: props) {
     const router = useRouter()
     const handlReject = async () => {
         try {
-            const res = await api.post("/rentbook/delete", { id })
+            const res = await rejectRentalRequest(id)
 
             if (res.status != 200) {
                 return toast.error("somethinw went wrong")
@@ -30,7 +30,7 @@ function RequestBookCardCancelAndAcceptedButton({ id }: props) {
 
     const handleAccept = async () => {
         try {
-            const res = await api.put("/rentbook", { id })
+            const res = await acceptRentalRequest(id)
 
             if (res.status != 200) {
                 return toast.error("somethinw went wrong")

@@ -33,7 +33,7 @@ import type { booksHave, BookStatus } from "@prisma/client";
 import { useDispatch, useSelector } from "react-redux";
 import { AddToCart } from "@/store/features/cartSlice";
 import type { RootState } from "@/store/store";
-import { api } from "@/lib/axios";
+import { deleteMyBook, toggleMyBookVisibility } from "@/services/mybook.services";
 import { toast } from "sonner";
 import { addNewMyBook, removeMyBook, visibilityStatusChanged } from "@/store/features/mybookSlice";
 import type { SerializableBook } from "@/types/bookstypeforRedux";
@@ -61,7 +61,7 @@ export default function MyBooksCard() {
 
   const handleDeleteTheVideo = async (book: SerializableBook) => {
     try {
-      const res = await api.post("/mybooks/deletebook", { id: book.id });
+      const res = await deleteMyBook(book.id);
 
       if (res.status == 200) {
         toast.success("book removed succesfully");
@@ -80,7 +80,7 @@ export default function MyBooksCard() {
 
   const handleVisibilityStatus = async (book: SerializableBook) => {
     try {
-      const res = await api.put("/mybooks", { book })
+      const res = await toggleMyBookVisibility(book)
       if (!res || res.data.status != 200) {
         return toast.error("something went wrong")
       }

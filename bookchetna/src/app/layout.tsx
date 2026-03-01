@@ -78,25 +78,27 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning >
       <body
-        className={`${geistSans.variable} ${geistMono.variable} animate-fade-in-blur ${poppins.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${poppins.variable} antialiased`}
         suppressHydrationWarning
       >
-        <StoreProvider>
-          <Provider>
-            <TooltipProvider>
-              <ThemeProvider attribute="class"
-                defaultTheme="system"
-                enableSystem
+        <div className="animate-fade-in-blur">
+          <StoreProvider>
+            <Provider>
+              <TooltipProvider>
+                <ThemeProvider attribute="class"
+                  defaultTheme="system"
+                  enableSystem
 
-                disableTransitionOnChange
+                  disableTransitionOnChange
 
-              >
+                >
 
-                {children}
-              </ThemeProvider>
-            </TooltipProvider>
-          </Provider>
-        </StoreProvider>
+                  {children}
+                </ThemeProvider>
+              </TooltipProvider>
+            </Provider>
+          </StoreProvider>
+        </div>
         <Toaster position="top-center"
           toastOptions={{
             className: "bg-background text-foreground",

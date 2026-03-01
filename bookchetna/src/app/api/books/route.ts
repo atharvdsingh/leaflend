@@ -1,10 +1,9 @@
 import { handleApiError } from "@/util/HandleError";
 import { AppError } from "@/util/AppError";
-import { prisma } from "@/util/Prisma";
-import type { booksHave } from "@prisma/client";
 import { getServerSession } from "next-auth";
 import { NextResponse, type NextRequest } from "next/server";
 import { authOptions } from "../auth/[...nextauth]/route";
+import { getBooks } from "@/services/book.server.service";
 
 export async function GET(request: NextRequest) {
     try {
@@ -16,11 +15,7 @@ export async function GET(request: NextRequest) {
         const { searchParams } = new URL(request.url);
         const roomId = searchParams.get("room");
 
-        const books: booksHave[] = await prisma.booksHave.findMany({
-            where: roomId ? {
-                room: { some: { roomId: Number(roomId) } }
-            } : {}
-        });
+        const books = await getBooks(roomId);
         return NextResponse.json(books, { status: 200 });
     } catch (error) {
         return handleApiError(error);

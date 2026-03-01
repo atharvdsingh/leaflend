@@ -17,7 +17,7 @@ import { Label } from "@/components/ui/label"
 import { FolderSymlink, Plus } from 'lucide-react'
 import { handleClientError } from '@/util/clientError'
 import { toast } from 'sonner'
-import { api } from '@/lib/axios'
+import { joinRoomByCode } from '@/services/room.services'
 import { useRouter } from 'next/navigation'
 
 
@@ -34,9 +34,7 @@ function JoinRoomCard() {
       if (id! < 100000 || id > 999999) {
         return toast.error("We only support 6 (six) digit number ")
       }
-      const respons = await api.post("/room/join-room", {
-        roomId: id
-      })
+      const respons = await joinRoomByCode(id!)
       if (respons.status != 200) {
         return toast.error("something went wront")
       }

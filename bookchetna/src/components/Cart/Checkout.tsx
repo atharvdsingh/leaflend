@@ -8,7 +8,7 @@ import { toast } from "sonner";
 import type { ErrorType } from "@/types/ErrorType";
 import { handleClientError } from "@/util/clientError";
 import { AddToCart, EmptyCart } from "@/store/features/cartSlice";
-import { api } from "@/lib/axios";
+import { createRentalRequest } from "@/services/rentbook.services";
 
 
 function Checkout() {
@@ -23,7 +23,7 @@ function Checkout() {
       console.log("putting the id ")
       console.log(booksId);
 
-      const data = await api.post("/rentbook", booksId)
+      const data = await createRentalRequest(booksId)
       console.log(data)
       if (data.status != 200) {
         toast.error("something went wrong")

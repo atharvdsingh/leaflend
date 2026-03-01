@@ -28,7 +28,7 @@ import { Textarea } from "./ui/textarea";
 import { toast } from "sonner"; // optional (if you use Shadcn toast)
 import { $Enums, BookType } from "@prisma/client";
 import z, { object } from "zod";
-import { api } from "@/lib/axios";
+import { createBook } from "@/services/mybook.services";
 import { useSearchParams } from "next/navigation";
 
 export interface PostBookFormData {
@@ -103,10 +103,7 @@ export default function CreateBook() {
       console.log("this is form data ", formdata.keys())
       console.log("formdata values ", Object.fromEntries(formdata.entries()))
 
-      const res = await api.post(
-        "/mybooks",
-        formdata
-      );
+      const res = await createBook(formdata);
       if (res.status == 200) {
 
         toast.success("Book posted successfully!");

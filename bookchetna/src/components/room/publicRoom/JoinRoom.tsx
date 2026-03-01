@@ -1,6 +1,6 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { api } from "@/lib/axios";
+import { joinPublicRoom } from "@/services/room.services";
 import { handleClientError } from "@/util/clientError";
 import { LogIn } from "lucide-react";
 import Link from "next/link";
@@ -22,7 +22,7 @@ function JoinRoom(props: Props) {
       setLoading(true);
 
       console.log(roomId);
-      const respons = await api.post("/room/public", { roomId: roomId });
+      const respons = await joinPublicRoom(roomId);
       console.log(respons);
       if (respons.data.success != true) {
         toast.error("something wrong wrong");

@@ -16,7 +16,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Plus } from "lucide-react";
 import { toast } from "sonner";
-import { api } from "@/lib/axios";
+import { createRoom } from "@/services/room.services";
 import { handleClientError } from "@/util/clientError";
 import { useRouter } from "next/navigation";
 
@@ -30,10 +30,7 @@ function CreateRoomCard() {
       if (name.length < 5) {
         return toast.error("Room name is required More then 5 words")
       }
-      const body = await api.post("/room/create-room", {
-        roomName: name,
-        discription: discription
-      })
+      const body = await createRoom(name, discription)
       if (body.status != 200) {
         toast.error("Something Went Wrong")
       }
