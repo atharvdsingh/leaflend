@@ -3,9 +3,8 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import CenterComponent from "@/components/CenterComponent";
 import RentalCart from "@/components/Rental/RentalCart";
 import { Button } from "@/components/ui/button";
-import type { RentalRequestCartType } from "@/types/databaseRoutesType";
-import { prisma } from "@/util/Prisma";
 import { BookOpen } from "lucide-react";
+import { getMyRentedBooks } from "@/services/rental.service";
 import { getServerSession } from "next-auth";
 import Link from "next/link";
 import { redirect } from "next/navigation";
@@ -33,27 +32,7 @@ async function RentedBookList({ searchParams }: { searchParams: Promise<{ room?:
   // Artificial delay for Suspense demo
   // await new Promise((resolve) => setTimeout(resolve, 2000));
 
-  const books: RentalRequestCartType[] = await prisma.rentalRequest.findMany({
-    where: {
-      requesterId: session?.user.id,
-      ...(roomId && {
-        book: { room: { some: { roomId: roomId } } }
-      })
-    },
-    include: {
-      book: {
-        select: {
-          bookname: true,
-          cover: true,
-        },
-      },
-      owner: {
-        select: {
-          name: true,
-        },
-      },
-    },
-  }) as RentalRequestCartType[];
+  const books = await getMyRentedBooks(session?.user.id ?? 0, roomId);
 
   if (books.length === 0) {
     return (

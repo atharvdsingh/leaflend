@@ -2,7 +2,7 @@ import React, { Suspense } from "react";
 import { redirect } from "next/navigation";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
-import { prisma } from "@/util/Prisma";
+import { getUserRooms } from "@/services/room.service";
 import CenterComponent from "@/components/CenterComponent";
 import Link from "next/link";
 import {
@@ -62,23 +62,7 @@ function MyRoomsSkeleton() {
 
 /* ── Server Component ── */
 async function RoomList({ userId }: { userId: number }) {
-  const rooms = await prisma.room.findMany({
-    where: {
-      members: {
-        some: {
-          memberId: userId,
-          status: "ACTIVE",
-        },
-      },
-    },
-    include: {
-      members: {
-        where: { status: "ACTIVE" },
-        include: { member: true },
-      },
-      books: true,
-    },
-  });
+  const rooms = await getUserRooms(userId);
 
   const ownedRooms = rooms.filter((room) =>
     room.members.some((m) => m.memberId === userId && m.roomRole === "ADMIN")
@@ -193,7 +177,7 @@ async function Page({ params }: PageProps) {
           </div>
 
           <div className="relative z-10 space-y-6">
-          
+
 
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
               <div className="space-y-2">

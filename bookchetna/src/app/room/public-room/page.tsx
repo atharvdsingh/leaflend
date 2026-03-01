@@ -10,16 +10,19 @@ import PublickRoomWrapper from "@/components/room/publicRoom/PublickRoomWrapper"
 import type { roomTypeForCardWithName } from "@/types/databaseRoutesType";
 import PublicRoomList from "@/components/room/publicRoom/PublicRoomList";
 import PublicRoomSkeleton from "@/components/room/publicRoom/PublicRoomSkeleton";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Public Reading Rooms | BookChetna",
+  description: "Browse public reading rooms in your area. Join rooms to borrow books or share your own collection with neighbors.",
+  keywords: ["public reading rooms", "book clubs", "local book sharing", "rent books locally"],
+};
 
 // Moved type to @/types/databaseRoutesType.ts to avoid circular deps
 // export type roomTypeForCardWithName = Prisma.roomGetPayload<{ ... }>
 
 async function Page() {
   const session = await getServerSession(authOptions);
-  
-  if (!session?.user.id) {
-    redirect("./");
-  }
 
   // ---------------------------------------------------------------------------
   // OLD CODE (Moved to PublicRoomList.tsx for Granular Loading / Suspense)
@@ -61,7 +64,7 @@ async function Page() {
   // New Route-Level Loading implementation
   // PublicRoomList (Async Component) + loading.tsx
   return (
-      <PublicRoomList />
+    <PublicRoomList />
   );
 }
 

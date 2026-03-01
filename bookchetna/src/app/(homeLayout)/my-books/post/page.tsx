@@ -3,8 +3,7 @@ import CreateBook from "@/components/CreateBook";
 import BookCardWrapper from "@/components/Home/BookCardWrapper";
 import MyBooksCard from "@/components/Home/MybooksCard";
 import { GetTheSession } from "@/util/GetTheSession";
-import { prisma } from "@/util/Prisma";
-import type { booksHave } from "@prisma/client";
+import { getMyPostedBooks } from "@/services/book.service";
 import { Library } from "lucide-react";
 
 
@@ -23,14 +22,7 @@ async function Page({
 
   const roomId = Number((await searchParams).room)
 
-  const books: booksHave[] = await prisma.booksHave.findMany({
-    where: {
-      ownerId: _id.user.id,
-      ...(roomId && {
-        room: { some: { roomId: roomId } }
-      })
-    }
-  })
+  const books = await getMyPostedBooks(_id.user.id, roomId || undefined);
 
   if (books.length === 0) {
     return <CenterComponent>

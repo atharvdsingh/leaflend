@@ -3,7 +3,7 @@ import BookCardWrapper from "@/components/Home/BookCardWrapper";
 import RequestBookCard from "@/components/Home/RequestBookCard";
 import type { RequestedBooksForApprovel } from "@/types/databaseRoutesType";
 import { GetTheSession } from "@/util/GetTheSession";
-import { prisma } from "@/util/Prisma";
+import { getRentalRequestsForApproval } from "@/services/rental.service";
 import { MessageCircleOff } from "lucide-react";
 import { redirect } from "next/navigation";
 
@@ -20,27 +20,7 @@ async function Page({
   const roomId = searchParams?.room ? Number(searchParams.room) : undefined;
 
   const books: RequestedBooksForApprovel[] =
-    await prisma.rentalRequest.findMany({
-      where: {
-        ownerId: session.user.id,
-        ...(roomId && {
-          book: { room: { some: { roomId: roomId } } }
-        })
-      },
-      include: {
-        book: {
-          select: {
-            bookname: true,
-            cover: true,
-          },
-        },
-        requester: {
-          select: {
-            name: true,
-          },
-        },
-      },
-    });
+    await getRentalRequestsForApproval(session.user.id, roomId);
 
   if (books.length === 0) {
     return (

@@ -2,21 +2,19 @@ import CenterComponent from "@/components/CenterComponent";
 import HomeCard from "@/components/Home/HomeCard";
 import NoBooks from "@/components/Home/NoBooks";
 import PaginationWrapper from "@/components/PaginationWrapper";
-import { prisma } from "@/util/Prisma";
 import type { booksHave } from "@prisma/client";
 import React, { Suspense } from "react";
 import Pagination from "./Pagination";
 import { GetTheSession } from "@/util/GetTheSession";
-import { toast } from "sonner";
-import { handleClientError } from "@/util/clientError";
 import BookList from "@/components/Home/BookList";
 import BookListSkeleton from "@/components/Home/BookListSkeleton";
+import { getAvailableBooksCount } from "@/services/book.service";
 
-async function Page({ searchParams }:{searchParams: Promise< {page:string,room:string}>}) {
+async function Page({ searchParams }: { searchParams: Promise<{ page: string, room: string }> }) {
   const session = await GetTheSession();
-  
-  const page=Number((await searchParams).page.replaceAll("/",""))
-  const roomId=Number((await searchParams).room)
+
+  const page = Number((await searchParams).page.replaceAll("/", ""))
+  const roomId = Number((await searchParams).room)
 
 
   // ---------------------------------------------------------------------------
@@ -72,23 +70,12 @@ async function Page({ searchParams }:{searchParams: Promise< {page:string,room:s
   // For now, keeping it here as it wasn't explicitly requested to move pagination.
   // HOWEVER, since 'books' query is gone, we re-fetch 'totalRow' locally 
   // or acknowledge that Pagination might render before list logic.
-   const totalRow = await prisma.booksHave.count({
-    where: {
-      ownerId: {
-        not: session?.user.id,
-      },
-      room: {
-        some: {
-          roomId: roomId,
-        },
-      },
-    },
-  });
+  const totalRow = await getAvailableBooksCount(roomId, session?.user.id);
 
   return (
     <>
-    
-        <BookList page={page} roomId={roomId} />
+
+      <BookList page={page} roomId={roomId} />
 
       <Pagination
         pageNumber={page}

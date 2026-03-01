@@ -23,6 +23,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL("https://book.sanchenta.in"),
   title: {
+    
     default: "BookChetna | Peer-to-Peer Book Sharing",
     template: "%s | BookChetna",
   },

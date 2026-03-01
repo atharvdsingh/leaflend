@@ -7,6 +7,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState, type FormEvent } from "react";
 import { toast } from "sonner";
+import { useSession, signIn } from "next-auth/react";
 
 interface Props {
   roomId: number;
@@ -14,10 +15,16 @@ interface Props {
 
 function JoinRoom(props: Props) {
   const router = useRouter();
+  const { data: session } = useSession();
   const { roomId } = props;
   const [Loading, setLoading] = useState<boolean>(false);
   async function handleJoinRoom() {
-    // e.preventDefault()
+    if (!session?.user) {
+      toast.error("Please login to join a room");
+      signIn();
+      return;
+    }
+
     try {
       setLoading(true);
 

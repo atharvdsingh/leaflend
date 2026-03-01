@@ -1,7 +1,6 @@
 import FirstPage from "@/components/Hero/HeroCoponent/FirstPage";
 import SecondSection from "@/components/Hero/HeroCoponent/SecondSection";
 import HowItWorks from "@/components/Hero/HeroCoponent/HowItWorks";
-import FAQ from "@/components/Hero/HeroCoponent/FAQ";
 import CTASection from "@/components/Hero/HeroCoponent/CTASection";
 import { Metadata } from "next";
 
@@ -72,10 +71,6 @@ export default async function Home() {
 
       <section id="how-it-works" className="w-full">
         <HowItWorks />
-      </section>
-
-      <section id="faq" className="w-full">
-        <FAQ />
       </section>
 
       <section id="cta" className="w-full mb-12">
