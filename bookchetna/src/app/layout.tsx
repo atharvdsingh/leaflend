@@ -21,7 +21,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://book.sanchenta.in"),
+  metadataBase: new URL("https://book.sanchetna.in"),
   title: {
     default: "BookChetna | Peer-to-Peer Book Sharing",
     template: "%s | BookChetna",
@@ -40,12 +40,12 @@ export const metadata: Metadata = {
   authors: [{ name: "BookChetna" }],
   creator: "BookChetna",
   alternates: {
-    canonical: "https://book.sanchenta.in",
+    canonical: "https://book.sanchetna.in",
   },
   openGraph: {
     type: "website",
     locale: "en_IN",
-    url: "https://book.sanchenta.in",
+    url: "https://book.sanchetna.in",
     siteName: "BookChetna",
     title: "BookChetna | Peer-to-Peer Book Sharing",
     description:

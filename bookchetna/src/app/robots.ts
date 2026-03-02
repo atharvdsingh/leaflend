@@ -9,6 +9,6 @@ export default function robots(): MetadataRoute.Robots {
                 disallow: ["/home", "/my-books", "/cart", "/rentedbooks", "/api/"],
             },
         ],
-        sitemap: "https://book.sanchenta.in/sitemap.xml",
+        sitemap: "https://book.sanchetna.in/sitemap.xml",
     };
 }

@@ -10,12 +10,12 @@ export const metadata: Metadata = {
   description: "Join BookChetna, the premier peer-to-peer book rental marketplace. Rent books locally, list your own collection to earn money, and connect with a community of readers.",
   keywords: ["rent books", "online book rental", "earn money from books", "p2p book sharing", "used books", "book library", "BookChetna"],
   alternates: {
-    canonical: "https://book.sanchenta.in",
+    canonical: "https://book.sanchetna.in",
   },
   openGraph: {
     title: "BookChetna | Rent Books & Earn Money",
     description: "The smart way to read. Rent books from neighbors or lend yours to earn extra income.",
-    url: "https://book.sanchenta.in",
+    url: "https://book.sanchetna.in",
     siteName: "BookChetna",
     locale: "en_IN",
     type: "website",
@@ -34,20 +34,20 @@ const jsonLd = {
     {
       "@type": "WebSite",
       name: "BookChetna",
-      url: "https://book.sanchenta.in",
+      url: "https://book.sanchetna.in",
       description:
         "The premier peer-to-peer book rental marketplace. Rent books locally, list your collection to earn money.",
       potentialAction: {
         "@type": "SearchAction",
-        target: "https://book.sanchenta.in/home?search={search_term_string}",
+        target: "https://book.sanchetna.in/home?search={search_term_string}",
         "query-input": "required name=search_term_string",
       },
     },
     {
       "@type": "Organization",
       name: "BookChetna",
-      url: "https://book.sanchenta.in",
-      logo: "https://book.sanchenta.in/favicon.ico",
+      url: "https://book.sanchetna.in",
+      logo: "https://book.sanchetna.in/favicon.ico",
       sameAs: [],
     },
   ],
