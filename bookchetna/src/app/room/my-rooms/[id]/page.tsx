@@ -26,7 +26,6 @@ interface PageProps {
   params: Promise<{ id: string }>;
 }
 
-/* ── Skeleton shown while rooms load ── */
 function RoomCardSkeleton() {
   return (
     <div className="bg-muted border border-border rounded-xl p-6 animate-pulse">
@@ -60,7 +59,6 @@ function MyRoomsSkeleton() {
 }
 
 
-/* ── Server Component ── */
 async function RoomList({ userId }: { userId: number }) {
   const rooms = await prisma.room.findMany({
     where: {
