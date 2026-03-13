@@ -94,13 +94,14 @@ model room {
   visibility  visibilityStatusEnum @default(SHOW)
   members RoomMembership[]
   books  roomAndBook[]
+  
 }
 
 model RoomMembership {
   id       Int              @id @default(autoincrement())
   memberId Int
   roomId   Int
-  room     room             @relation(fields: [roomId], references: [id])
+  room     room             @relation(fields: [roomId], references: [id],onDelete: Cascade)
   member   users            @relation(fields: [memberId], references: [id])
   status   MembershipStatus @default(ACTIVE)
   roomRole RoomRole         @default(MEMBER)
@@ -113,7 +114,7 @@ model roomAndBook {
   bookId Int
   roomId Int
   book booksHave @relation(references: [id],fields: [bookId])
-  room room @relation(fields: [roomId],references: [id])
+  room room @relation(fields: [roomId],references: [id],onDelete: Cascade)
   @@unique([bookId,roomId])
 }
 

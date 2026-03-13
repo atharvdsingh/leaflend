@@ -1,5 +1,6 @@
 import { prisma } from "@/util/Prisma";
 import { AppError } from "@/util/AppError";
+import { handleApiError } from "@/util/HandleError";
 
 /**
  * Create a room and assign the user as ADMIN.
@@ -70,6 +71,7 @@ export async function getMyRooms(userId: number) {
     return rooms;
 }
 
+
 /**
  * Get public rooms with pagination plus member info.
  */
@@ -115,4 +117,40 @@ export async function joinPublicRoom(roomId: number, userId: number) {
     }
 
     return membership;
+}
+
+export async function deleteRoomById({
+
+roomId,memberId
+}:{
+    roomId:number,memberId:number
+}
+)
+{
+
+    try {
+        console.log(roomId)
+        console.log(memberId)
+            const user= await prisma.roomMembership.findFirst({
+                where:{
+                    roomId:roomId,
+                    memberId:memberId
+                    
+                }
+            })
+            if(!(user?.roomRole==="ADMIN")){
+                return null
+            }
+            return await prisma.room.delete({
+                where:{
+                    id:roomId
+                }
+                
+            }
+        )
+
+    } catch (error) {
+        return handleApiError(error)
+    }
+
 }

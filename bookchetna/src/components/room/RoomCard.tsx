@@ -12,14 +12,16 @@ import {
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import CopyRoomInviteButton from "./CopyRoomInviteButton";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "../ui/dialog";
+import { Dialog, DialogClose, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "../ui/dialog";
+import MyRoomDeleteButton from "./MyRoomDeleteButton";
 
 interface RoomCardProps {
   room: any;
   isAdmin?: boolean;
+  userId?:number
 }
 
-export function RoomCard({ room, isAdmin = false }: RoomCardProps) {
+export function RoomCard({ room, isAdmin = false ,userId }: RoomCardProps) {
   // Mock data for missing fields as requested
   const mockDate = "2/18/2026";
   const inviteCode = room.id.toString().padStart(6, "0");
@@ -104,31 +106,11 @@ export function RoomCard({ room, isAdmin = false }: RoomCardProps) {
           </Link>
         </Button>
 
-        {isAdmin && (
-          <Dialog>
-            <DialogTrigger asChild>
-              <Button
-                variant={"destructive"}
-                className="rounded-lg cursor-pointer text-black flex-1 transition-all"
-              >
-                <Trash2 className="w-5 h-5" />
-                Delete Room
-              </Button>
-            </DialogTrigger>
-            <DialogContent>
-            <DialogHeader>
-                <DialogTitle>
-
-                Delete Room
-                </DialogTitle>
-                <DialogDescription>
-                    By deleting your room yo&apos;ll loss your users and their books
-                </DialogDescription>
-            </DialogHeader>
-
-            </DialogContent>
-          </Dialog>
-        )}
+        {/* 
+        here is the logic */} 
+        {
+          isAdmin && <MyRoomDeleteButton userId={userId!} roomId={room.roomId} />
+        }
       </div>
     </div>
   );

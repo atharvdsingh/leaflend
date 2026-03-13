@@ -123,7 +123,7 @@ async function RoomList({ userId }: { userId: number }) {
         {ownedRooms.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
             {ownedRooms.map((room) => (
-              <RoomCard key={room.id} room={room} isAdmin={true} />
+              <RoomCard key={room.id} room={room} userId={userId} isAdmin={true} />
             ))}
           </div>
         ) : (
@@ -151,7 +151,7 @@ async function RoomList({ userId }: { userId: number }) {
         {joinedRooms.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
             {joinedRooms.map((room) => (
-              <RoomCard key={room.id} room={room} isAdmin={false} />
+              <RoomCard key={room.id} userId={userId} room={room} isAdmin={false} />
             ))}
           </div>
         ) : (

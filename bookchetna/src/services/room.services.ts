@@ -1,5 +1,8 @@
 import { api } from "@/lib/axios";
 import type { roomTypeForCardWithName } from "@/types/databaseRoutesType";
+import { AppError } from "@/util/AppError";
+import { prisma } from "@/util/Prisma";
+import { Prisma } from "@prisma/client";
 
 /**
  * Create a new room (POST /room/create-room).
@@ -40,3 +43,4 @@ export async function fetchPublicRooms(
     );
     return res.data.data as roomTypeForCardWithName[];
 }
+
