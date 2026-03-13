@@ -1,4 +1,4 @@
-# 📚 Leaflend
+# 📚 Bookchetna
 
 **Connect. Share. Read.**  
 A modern peer-to-peer book sharing platform that turns every bookshelf into a community library.
