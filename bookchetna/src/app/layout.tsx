@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Poppins } from "next/font/google";
+import { Geist, Geist_Mono, Poppins,Google_Sans_Flex } from "next/font/google";
 import "./globals.css";
 import Provider from "./Provider";
 import { Toaster } from "@/components/ui/sonner";
@@ -19,6 +19,12 @@ const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
 });
+
+const googlesans=Google_Sans_Flex({
+  weight:["400","500","600"],
+  subsets:["latin"],
+  variable:"--font-googlesens"
+})
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://book.sanchetna.in"),
