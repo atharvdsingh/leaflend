@@ -23,7 +23,7 @@ export default function CopyRoomInviteButton({ inviteCode }: { inviteCode: strin
           </span>
         </div>
       </TooltipTrigger>
-      <TooltipContent className="bg-popover text-popover-foreground">
+      <TooltipContent className="bg-popover-foreground text-popover">
         <p>Copy Invite Code</p>
       </TooltipContent>
     </Tooltip>

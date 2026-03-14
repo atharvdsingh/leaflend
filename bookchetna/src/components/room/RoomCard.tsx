@@ -14,6 +14,7 @@ import { Badge } from "@/components/ui/badge";
 import CopyRoomInviteButton from "./CopyRoomInviteButton";
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "../ui/dialog";
 import MyRoomDeleteButton from "./MyRoomDeleteButton";
+import LeaveRoom from "./LeaveRoom";
 
 interface RoomCardProps {
   room: any;
@@ -28,6 +29,7 @@ export function RoomCard({ room, isAdmin = false ,userId }: RoomCardProps) {
 
   const memberCount = room.members.length;
   const adminMember = room.members.find((m: any) => m.roomRole === "ADMIN");
+
 
   return (
     <div className="w-full max-w-sm bg-card border border-border rounded-2xl p-5 relative group hover:border-border/80 transition-colors shadow-2xl shadow-black/40">
@@ -106,10 +108,9 @@ export function RoomCard({ room, isAdmin = false ,userId }: RoomCardProps) {
           </Link>
         </Button>
 
-        {/* 
-        here is the logic */} 
         {
-          isAdmin && <MyRoomDeleteButton userId={userId!} roomId={room.roomId} />
+          
+          isAdmin?(<MyRoomDeleteButton userId={userId!} roomId={room.id} />):(<LeaveRoom userId={userId!} roomId={room.id} />) 
         }
       </div>
     </div>

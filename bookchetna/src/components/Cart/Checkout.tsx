@@ -34,9 +34,7 @@ function Checkout() {
 
       toast.success("books have been rented")
       dispatch(EmptyCart())
-      // ... inside component ...
 
-      // ... inside component ...
 
     } catch (error: unknown) {
       handleClientError(error);
@@ -57,7 +55,7 @@ function Checkout() {
           </CardHeader>
 
           <CardFooter>
-            <Button className="w-full font-bold " onClick={handleOnclick}>
+            <Button disabled={loading}  className="w-full font-bold " onClick={handleOnclick}>
               Checkout
             </Button>
           </CardFooter>

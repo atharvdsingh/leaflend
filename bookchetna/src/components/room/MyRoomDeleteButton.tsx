@@ -10,39 +10,41 @@ import {
   DialogTrigger,
 } from "../ui/dialog";
 import { Button } from "../ui/button";
-import { Trash2 } from "lucide-react";
+import { Cross, CrossIcon, Trash2, X } from "lucide-react";
 import { handleClientError } from "@/util/clientError";
-import deleteMyRoomById from "@/actions/deleteMyRoom";
 import { toast } from "sonner";
+import { deleteMyRoomById } from "@/actions/RoomService";
 
 
 
-
-export default function MyRoomDeleteButton({roomId,userId}:{
-    roomId:number,userId:number
+export default function MyRoomDeleteButton({ roomId, userId }: {
+  roomId: number, userId: number
 }) {
-    const [loading,setLoading]=useState<boolean>(false)
-     const handleRoomdelete= async (roomId:number,userId:number)=>{
-        try {
-            setLoading(true)
-            console.log("userid",userId)
-            console.log("roomid",roomId)
-            const data = await deleteMyRoomById(roomId,userId)
-            if(data){
-                toast.success("room deleted successfully ")
-            }
-            
-        } catch (error) {
-            handleClientError(error)
-        }  finally{
-            setLoading(false)
-        }
+  const [loading, setLoading] = useState<boolean>(false)
+  const [open, setOpen] = useState<boolean>(false)
 
-     }
+  const handleRoomdelete = async () => {
+    try {
+      setLoading(true)
+      console.log("userid", userId)
+      console.log("roomid", roomId)
+      const data = await deleteMyRoomById(roomId, userId)
+      if (data) {
+        toast.success("room deleted successfully ")
+        setOpen(false)
+      }
 
-    return (
+    } catch (error) {
+      handleClientError(error)
+    } finally {
+      setLoading(false)
+    }
+
+  }
+
+  return (
     <>
-      <Dialog>
+      <Dialog open={open} onOpenChange={setOpen}  >
         <DialogTrigger asChild>
           <Button
             variant={"destructive"}
@@ -52,7 +54,7 @@ export default function MyRoomDeleteButton({roomId,userId}:{
             Delete Room
           </Button>
         </DialogTrigger>
-        <DialogContent>
+        <DialogContent className=" border border-muted-foreground " >
           <DialogHeader>
             <DialogTitle>Delete Room</DialogTitle>
             <DialogDescription>
@@ -61,10 +63,13 @@ export default function MyRoomDeleteButton({roomId,userId}:{
           </DialogHeader>
           <div className="flex justify-between items-center">
             <DialogClose asChild>
-              <Button variant={"default"}>cancle</Button>
+              <Button variant={"default"}>
+                <X />
+                Cancle</Button>
             </DialogClose>
-            <Button disabled={loading} onClick={()=>handleRoomdelete(userId,roomId)} variant={"destructive"}>
-              delete room <Trash2 />
+            <Button disabled={loading} onClick={handleRoomdelete} variant={"destructive"}>
+              <Trash2 />
+              Delete Room
             </Button>
           </div>
         </DialogContent>
