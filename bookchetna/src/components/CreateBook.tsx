@@ -2,7 +2,8 @@
 import axios from "axios";
 import { handleClientError } from "@/util/clientError";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
-import { createBookType, createBookSchema } from "@/schema/books.schema";
+import { createBookType, createBookSchema } from "@/schema/books.schema"
+import { useRouter } from "next/navigation";
 
 import React, { useEffect, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -51,6 +52,7 @@ export default function CreateBook() {
   console.log(searchParams, "search params")
   const roomId = searchParams.get("room");
 
+  const router = useRouter();
 
   const { register, handleSubmit, formState, control, setValue } = useForm<createBookType>({
     resolver: zodResolver(createBookSchema),
@@ -107,6 +109,7 @@ export default function CreateBook() {
       if (res.status == 200) {
 
         toast.success("Book posted successfully!");
+        router.refresh();
         setOpen(false);
       }
     } catch (error: unknown) {

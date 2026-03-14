@@ -14,6 +14,7 @@ import { Cross, CrossIcon, Trash2, X } from "lucide-react";
 import { handleClientError } from "@/util/clientError";
 import { toast } from "sonner";
 import { deleteMyRoomById } from "@/actions/RoomService";
+import { useRouter } from "next/navigation";
 
 
 
@@ -22,6 +23,8 @@ export default function MyRoomDeleteButton({ roomId, userId }: {
 }) {
   const [loading, setLoading] = useState<boolean>(false)
   const [open, setOpen] = useState<boolean>(false)
+
+  const router = useRouter()
 
   const handleRoomdelete = async () => {
     try {
@@ -32,6 +35,7 @@ export default function MyRoomDeleteButton({ roomId, userId }: {
       if (data) {
         toast.success("room deleted successfully ")
         setOpen(false)
+        router.refresh()
       }
 
     } catch (error) {
@@ -65,7 +69,7 @@ export default function MyRoomDeleteButton({ roomId, userId }: {
             <DialogClose asChild>
               <Button variant={"default"}>
                 <X />
-                Cancle</Button>
+                Cancel</Button>
             </DialogClose>
             <Button disabled={loading} onClick={handleRoomdelete} variant={"destructive"}>
               <Trash2 />

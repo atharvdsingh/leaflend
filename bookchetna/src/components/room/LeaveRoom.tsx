@@ -15,6 +15,7 @@ import { LogOut, X } from "lucide-react";
 import { LeaveRoomByRoomId } from "@/actions/RoomService";
 import { toast } from "sonner";
 import { handleClientError } from "@/util/clientError";
+import { useRouter } from "next/navigation";
 export default function LeaveRoom({
   roomId,
   userId,
@@ -24,13 +25,15 @@ export default function LeaveRoom({
 }) {
   const [loading, setLoading] = useState<boolean>(false);
   const [open, setOpen] = useState<boolean>(false);
+  const router = useRouter()
   const handleLeaveRoom = async () => {
     try {
       setLoading(true);
       const res = await LeaveRoomByRoomId(roomId, userId);
       if (res) {
         setOpen(false);
-        return toast.success("Room Exited successfully");
+        toast.success("Room Exited successfully");
+        return router.refresh() 
       }
     } catch (error) {
       handleClientError(error);

@@ -68,11 +68,10 @@ function FAQItem({ question, answer }: { question: string; answer: string }) {
           <Plus className="h-5 w-5 text-muted-foreground shrink-0" />
         )}
       </button>
-      
+
       <div
-        className={`overflow-hidden transition-all duration-300 ease-in-out ${
-          isOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
-        }`}
+        className={`overflow-hidden transition-all duration-300 ease-in-out ${isOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
+          }`}
       >
         <div className="p-6 pt-0 text-muted-foreground leading-relaxed">
           {answer}

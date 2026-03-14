@@ -22,7 +22,7 @@ interface cardDataType {
   description: string;
 }
 
-const cardData:cardDataType[] = [
+const cardData: cardDataType[] = [
   {
     icon: BookOpen,
     title: "Vast Book Collection",
@@ -58,12 +58,12 @@ const cardData:cardDataType[] = [
 function SecondSection() {
   return (
     <div className="relative py-24 px-4 sm:px-6 lg:px-8 bg-background overflow-hidden">
-      
+
       {/* Decorative Background */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-green-900/10 blur-[100px] rounded-full -z-10" />
 
       <div className="max-w-7xl mx-auto flex flex-col items-center">
-        
+
         {/* Header */}
         <div className="text-center max-w-3xl mx-auto space-y-6 mb-16">
           <Badge
@@ -79,7 +79,7 @@ function SecondSection() {
               Share and Discover Books
             </span>
           </h2>
-          
+
           <p className="text-lg text-muted-foreground leading-relaxed">
             Whether you&apos;re looking to save money on books or earn extra income
             from your collection, we provide the tools to make it simple and secure.
@@ -92,12 +92,12 @@ function SecondSection() {
             const CardIcon = card.icon;
 
             return (
-              <Card 
-                key={index} 
+              <Card
+                key={index}
                 className="group relative overflow-hidden bg-card/50 backdrop-blur-sm border-border/50 hover:border-green-500/30 transition-all duration-300 hover:shadow-2xl hover:shadow-green-900/5 hover:-translate-y-1"
               >
                 <div className="absolute inset-0 bg-gradient-to-br from-green-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                
+
                 <CardHeader>
                   <div className="w-12 h-12 rounded-lg bg-secondary flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
                     <CardIcon className="w-6 h-6 text-green-500" />
@@ -106,9 +106,9 @@ function SecondSection() {
                     <h3 className="text-xl font-bold tracking-tight">{card.title}</h3>
                   </CardContent>
                 </CardHeader>
-                
+
                 <CardFooter className="text-muted-foreground leading-relaxed">
-                   {card.description}
+                  {card.description}
                 </CardFooter>
               </Card>
             );

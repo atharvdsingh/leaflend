@@ -8,15 +8,15 @@ import AuthButtonSkeleton from "./AuthButtonSkeleton";
 async function FirstPage() {
   return (
     <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
-      
+
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-green-500/10 dark:bg-green-500/5 blur-[120px] rounded-full pointer-events-none" />
       <div className="absolute bottom-0 right-0 w-[600px] h-[400px] bg-primary/5 blur-[100px] rounded-full pointer-events-none" />
 
       <div className="flex flex-wrap w-full max-w-7xl mx-auto px-6 sm:px-12 py-12 md:py-20 gap-12 lg:gap-0 items-center">
-        
+
         {/* LEFT SECTION (Types) */}
         <div className="flex flex-col gap-8 items-start justify-center w-full lg:w-1/2 z-10">
-          
+
           <Button
             size="sm"
             variant="outline"
@@ -40,43 +40,43 @@ async function FirstPage() {
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
-             <Suspense fallback={<AuthButtonSkeleton />}>
-               <AuthButtons />
-             </Suspense>
-        
+            <Suspense fallback={<AuthButtonSkeleton />}>
+              <AuthButtons />
+            </Suspense>
+
           </div>
 
-   
+
 
         </div>
 
         {/* RIGHT SECTION (Image) */}
         <div className="relative w-full lg:w-1/2 min-h-[400px] md:min-h-[600px] flex justify-center items-center">
-             
-             {/* Decorative Elements */}
-             <div className="absolute top-10 right-10 w-24 h-24 bg-gradient-to-br from-green-400 to-green-600 rounded-2xl rotate-12 opacity-10 blur-xl animate-pulse" />
-             
-             <div className="relative w-[300px] sm:w-[400px] h-[450px] sm:h-[550px] transition-transform hover:scale-[1.02] duration-700 ease-out">
-                <Image
-                  src="/bg.jpg"
-                  alt="Reading a book"
-                  fill
-                  priority
-                  className="object-cover rounded-[40px] shadow-2xl shadow-green-900/10 border border-border/50"
-                  sizes="(max-width: 768px) 100vw, 50vw"
-                />
-                
-                {/* Floating Card */}
-                <div className="absolute -bottom-6 -left-6 bg-card border border-border p-4 rounded-2xl shadow-xl flex items-center gap-3 animate-bounce [animation-duration:3s]">
-                    <div className="bg-green-100 dark:bg-green-900/30 p-2.5 rounded-full text-green-600">
-                        <ArrowRight className="w-5 h-5 -rotate-45" />
-                    </div>
-                    <div>
-                        <p className="text-xs text-muted-foreground uppercase tracking-wider font-semibold">Active Rentals</p>
-                        <p className="text-lg font-bold">120+ Today</p>
-                    </div>
-                </div>
-             </div>
+
+          {/* Decorative Elements */}
+          <div className="absolute top-10 right-10 w-24 h-24 bg-gradient-to-br from-green-400 to-green-600 rounded-2xl rotate-12 opacity-10 blur-xl animate-pulse" />
+
+          <div className="relative w-[300px] sm:w-[400px] h-[450px] sm:h-[550px] transition-transform hover:scale-[1.02] duration-700 ease-out">
+            <Image
+              src="/bg.jpg"
+              alt="Reading a book"
+              fill
+              priority
+              className="object-cover rounded-[40px] shadow-2xl shadow-green-900/10 border border-border/50"
+              sizes="(max-width: 768px) 100vw, 50vw"
+            />
+
+            {/* Floating Card */}
+            <div className="absolute -bottom-6 -left-6 bg-card border border-border p-4 rounded-2xl shadow-xl flex items-center gap-3 animate-bounce [animation-duration:3s]">
+              <div className="bg-green-100 dark:bg-green-900/30 p-2.5 rounded-full text-green-600">
+                <ArrowRight className="w-5 h-5 -rotate-45" />
+              </div>
+              <div>
+                <p className="text-xs text-muted-foreground uppercase tracking-wider font-semibold">Active Rentals</p>
+                <p className="text-lg font-bold">120+ Today</p>
+              </div>
+            </div>
+          </div>
 
         </div>
       </div>
