@@ -59,7 +59,7 @@ export default function MyBooksCard() {
   const cart = useSelector((state: RootState) => state.mybooks.myallBooks);
   const dispatch = useDispatch();
 
-  const handleDeleteTheVideo = async (book: SerializableBook) => {
+  const handleDeleteThebook = async (book: SerializableBook) => {
     try {
       const res = await deleteMyBook(book.id);
 
@@ -68,9 +68,7 @@ export default function MyBooksCard() {
         dispatch(removeMyBook(book.id))
 
       }
-      // ... inside component ...
 
-      // ... inside component ...
 
     } catch (error) {
       handleClientError(error);
@@ -85,7 +83,7 @@ export default function MyBooksCard() {
         return toast.error("something went wrong")
       }
       toast.success(res.data.message)
-      dispatch(visibilityStatusChanged(book))
+      dispatch(visibilityStatusChanged(book.id))
 
 
     } catch (error) {
@@ -172,7 +170,7 @@ export default function MyBooksCard() {
 
                   <Button
                     disabled={book.status == "BORROWED"}
-                    onClick={() => handleDeleteTheVideo(book)}
+                    onClick={() => handleDeleteThebook(book)}
                     className="bg-primary text-primary-foreground hover:bg-primary/80 font-semibold h-8 px-3 text-xs"
                   >
                     <Trash />

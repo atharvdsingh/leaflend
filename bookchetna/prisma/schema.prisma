@@ -113,7 +113,7 @@ model roomAndBook {
   id Int @id @default(autoincrement())
   bookId Int
   roomId Int
-  book booksHave @relation(references: [id],fields: [bookId])
+  book booksHave @relation(references: [id],fields: [bookId],onDelete: Cascade)
   room room @relation(fields: [roomId],references: [id],onDelete: Cascade)
   @@unique([bookId,roomId])
 }

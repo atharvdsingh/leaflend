@@ -21,7 +21,7 @@ export async function POST(request: Request) {
 
         const deleted = await deleteBook(body.id, session.user.id);
 
-        return NextResponse.json(deleted, { status: 200 });
+        return NextResponse.json({data:deleted}, { status: 200 });
 
     } catch (error) {
         return handleApiError(error);

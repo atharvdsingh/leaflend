@@ -65,6 +65,7 @@ export async function toggleBookVisibility(bookId: number) {
  */
 export async function deleteBook(bookId: number, userId: number) {
     const book = await prisma.booksHave.findUnique({ where: { id: bookId } });
+    console.log(book)
 
     if (!book) {
         throw new Error("Book not found");
