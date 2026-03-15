@@ -13,6 +13,19 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
+  db_chat:
+    image: postgres:15-alpine
+    container_name: postgres-chat
+    environment:
+      POSTGRES_USER: chat
+      POSTGRES_PASSWORD: chatsecretpassword
+      POSTGRES_DB: postgres
+    ports:
+      - "5433:5432"
+    networks:
+      - app-network
+    volumes:
+      - postgres_data_chat:/var/lib/postgresql/data
   client:
     build:
       context: ./bookchetna
@@ -35,15 +48,21 @@ services:
     volumes:
       - ./bookchetna:/app
       - /app/node_modules
-    # ws:
-    # build: ./ws
-    # container_name: ws-server
-    # ports:
-    #   - "5000:5000"
-    # depends_on:
-    #   - db
-    # networks:
-    #   - app-network
+  ws:
+    build:
+      context: ./ws
+      dockerfile: Dockerfile
+      target: development
+    container_name: ws-server
+    ports:
+      - "5000:5000"
+    depends_on:
+      - db_chat
+    networks:
+      - app-network
+    volumes:
+      - ./ws:/app
+      - /app/node_modules
 
 networks:
   app-network:
@@ -51,5 +70,6 @@ networks:
 
 volumes:
   postgres_data:
+  postgres_data_chat:
 
 
