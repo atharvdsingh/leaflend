@@ -5,8 +5,9 @@ import { AuthModule } from './auth/auth.module';
 import { RedisModule } from './redis/redis.module';
 import { WebsocketModule } from './websocket/websocket.module';
 import { ConfigModule } from '@nestjs/config';
-import { PrismaService } from './prisma/prisma.service';
 import configService from './config/configService';
+import { PrismaService } from './prisma.service';
+import { ChatGateway } from './chat/chat.gateway';
 
 @Module({
   imports: [AuthModule, RedisModule, WebsocketModule,ConfigModule.forRoot({
@@ -14,6 +15,8 @@ import configService from './config/configService';
     load:[configService]
   })],
   controllers: [AppController],
-  providers: [AppService, PrismaService],
+  providers: [AppService,PrismaService, ChatGateway],
+  
+  
 })
 export class AppModule {}

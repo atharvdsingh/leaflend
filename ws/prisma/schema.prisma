@@ -5,7 +5,7 @@
 
 generator client {
   provider = "prisma-client"
-  output          = "../src/generated/prisma"
+  output   = "../src/generated/prisma"
   moduleFormat = "cjs"
 }
 
@@ -13,23 +13,20 @@ datasource db {
   provider = "postgresql"
 }
 
+
 model users {
-  id String @id 
-  name String?
-  email String?
-  sendMessage chat[] @relation("sendsMessages")
-  receiveMessages chat [] @relation("receivedMessages")
+  id              String  @id
+  name            String?
+  email           String?
+  sendMessage     chat[]  @relation("sendsMessages")
+  receiveMessages chat[]  @relation("receivedMessages")
 }
-
 model chat {
-  id String @id @default(nanoid())
-  senderId String 
+  id         String   @id @default(nanoid())
+  senderId   String
   receiverId String
-  sender users @relation( "sendsMessages", fields: [senderId] , references: [id])
-  receiver users @relation("receivedMessages", fields: [receiverId],references: [id])
-  messages String
-  createdAt DateTime @default(now())
-}
-
-
-
+  sender     users    @relation("sendsMessages", fields: [senderId], references: [id])
+  receiver   users    @relation("receivedMessages", fields: [receiverId], references: [id])
+  messages   String
+  createdAt  DateTime @default(now())
+} 
