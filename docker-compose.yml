@@ -54,6 +54,8 @@ services:
       dockerfile: Dockerfile
       target: development
     container_name: ws-server
+    env_file:
+      - ./ws/.env
     ports:
       - "5000:5000"
     depends_on:
@@ -62,7 +64,6 @@ services:
       - app-network
     volumes:
       - ./ws:/app
-      - /app/node_modules
 
 networks:
   app-network:

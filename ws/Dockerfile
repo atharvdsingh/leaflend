@@ -1,47 +1,43 @@
+# ── Base ──
 FROM node:20-alpine AS base
-
 WORKDIR /app
 
-FROM base as deps
-
+# ── Dependencies ──
+FROM base AS deps
 COPY package.json package-lock.json ./
 RUN npm ci
 
-FROM base as development
-
+# ── Development (for docker-compose dev mode) ──
+FROM base AS development
 WORKDIR /app
-COPY --from=deps /app/node_modules ./node_modules
-
 COPY . .
-
-RUN npx prisma generate
-
 EXPOSE 5000
-CMD [ "npm","run","start:dev" ]
+CMD ["sh", "-c", "npm install && npx prisma generate && npm run start:dev"]
 
-FROM base as builder
-
+# ── Builder ──
+FROM base AS builder
 WORKDIR /app
-
 COPY --from=deps /app/node_modules ./node_modules
-
 COPY . .
-
 RUN npx prisma generate
-
 RUN npm run build
 
-FROM  base AS runner
-
+# ── Production Runner ──
+FROM base AS runner
 WORKDIR /app
+ENV NODE_ENV=production
 
-RUN  addgroup --system --gid 1001 nodetjs
-RUN  adduser --system --uid 1001 nest
+RUN addgroup --system --gid 1001 nodejs
+RUN adduser --system --uid 1001 nest
 
-COPY --from=builder ./dist ./app
+# Install only production dependencies
+COPY package.json package-lock.json ./
+RUN npm ci --only=production --ignore-scripts
+
+# Copy compiled output and prisma client
+COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma
 
 USER nest
-
 EXPOSE 5000
-
-CMD [ "npm","run","start:prod" ]
+CMD ["node", "dist/main"]
