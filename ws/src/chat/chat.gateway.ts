@@ -39,6 +39,7 @@ export class ChatGateway {
       timestamp?: Date;
     },
   ) {
+    console.log(data)
     this.server.to(data.roomId).emit("receive_message", data)
 
   }

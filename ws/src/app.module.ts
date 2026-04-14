@@ -16,7 +16,7 @@ import { ChatModule } from './chat/chat.module';
     load:[configService]
   }), ChatModule],
   controllers: [AppController],
-  providers: [AppService,PrismaService, ChatGateway],
+  providers: [AppService,PrismaService],
   
   
 })
