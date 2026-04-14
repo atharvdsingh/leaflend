@@ -40,6 +40,7 @@ export class cloudinaryServies {
       });
 
       console.log(result);
+      console.log(result)
       return result;
     } catch (error) {
       const message = error instanceof Error ? error.message : "Unknown error";
