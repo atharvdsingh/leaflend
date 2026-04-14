@@ -8,7 +8,7 @@ import {
 
 import { Socket, Server } from 'socket.io';
 @WebSocketGateway({
-  namespace: '/chat',
+  
 
   cors: {
     origin: process.env.FRONTEND_URL,
