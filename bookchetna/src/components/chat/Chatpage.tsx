@@ -9,21 +9,22 @@ import { Input } from "../ui/input";
 import { Send } from "lucide-react";
 import { Button } from "../ui/button";
 
-export default function Chatpage({ roomId,userId }: { roomId: string,userId:number }) {
+export default function Chatpage({ roomId, userId }: { roomId: string, userId: number }) {
   const { isConnected } = useSocketStatus();
   const { message, sendMessage, setMessage } = useChat(roomId);
-  const [input,setInput]=useState<string>()
-  const handleOnSubmit=async (e:React.FormEvent<HTMLFormElement>)=>{
+  const [input, setInput] = useState<string>("")
+  const handleOnSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    if(input?.trim().length==0) return ;
-    sendMessage({content:input!,
-      senderId:userId,
-      roomId:roomId
+    if (input?.trim().length == 0) return;
+    sendMessage({
+      content: input!,
+      senderId: userId,
+      roomId: roomId
     })
     setInput("")
-    
+
   }
-  
+console.log(userId)
 
   return (
     <>
@@ -33,18 +34,18 @@ export default function Chatpage({ roomId,userId }: { roomId: string,userId:numb
           {message.map((msg, index) => (
             <div
               key={index}
-              className={`flex ${msg.senderId === userId ? "justify-start" : "justify-end"}`}
+              className={`flex ${msg.senderId !== userId ? "justify-start " : "justify-end text-neutral-200 "}`}
             >
               <p className={`p-2 rounded-lg `}>{msg.content}</p>
             </div>
           ))}
         </div>
         <form onSubmit={handleOnSubmit} action="" className="flex items-center gap-4   m-6 justify-between ">
-          <Input onChange={(e)=>setInput(e.target.value) } value={input} placeholder="Type a Message" className="flex-1 w-full" />
-          
-          <Button  type="submit" >
+          <Input onChange={(e) => setInput(e.target.value)} value={input} placeholder="Type a Message" className="flex-1 w-full" />
 
-          <Send className="flex  justify-center items-center" />
+          <Button type="submit" >
+
+            <Send className="flex  justify-center items-center" />
           </Button>
         </form>
       </CenterComponent>
