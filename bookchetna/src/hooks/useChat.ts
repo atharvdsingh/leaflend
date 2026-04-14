@@ -7,9 +7,11 @@ export const useChat = (roomID: string) => {
   useEffect(() => {
     if (!roomID) return;
     socket.emit("join_room", roomID);
+    
     const handleNewMessage = (message: Message) => {
       setMessage((prev) => [...prev, message]);
     };
+    
 
     socket.on("receive_message", handleNewMessage);
     return () => {
@@ -21,4 +23,5 @@ export const useChat = (roomID: string) => {
     socket.emit("send_message",content)
 
   },[message])
+  return {message,sendMessage,setMessage}
 };

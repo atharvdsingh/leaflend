@@ -6,9 +6,9 @@ interface socketContextType{
     isConnected:boolean;   
 }
 
-const socketContext=createContext<socketContextType>({isConnected:false})
+  const socketContext=createContext<socketContextType>({isConnected:false})
 
-export const socketProvider=({Children}:{Children:React.ReactNode})=>{
+export const SocketProvider=({children}:{children:React.ReactNode})=>{
     const [isConnected,setIsConnected] = useState<boolean>(false);
     useEffect(()=>{
         socket.connect()
@@ -24,7 +24,7 @@ export const socketProvider=({Children}:{Children:React.ReactNode})=>{
     },[])
     return (
         <socketContext.Provider value={{isConnected}}>
-            {Children}
+            {children}
         </socketContext.Provider>
     )
 }

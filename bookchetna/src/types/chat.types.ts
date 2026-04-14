@@ -1,8 +1,8 @@
 export interface Message{
     content:string;
-    senderId:string;
+    senderId:number;
     roomId:number | string;
-    timestamp:Date;
+    timestamp?:Date;
 }
 export interface serverToClient{
     receive_message:(message:Message)=>void;
