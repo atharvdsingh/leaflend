@@ -1,22 +1,25 @@
 import { prisma } from "@/util/Prisma";
 import { createBookSchema } from "@/schema/books.schema";
 import type { SerializableBook } from "@/types/bookstypeforRedux";
+import { cloudinaryServies } from "@/util/cloudinary";
+import { UploadApiResponse } from "cloudinary";
 
-/**
- * Create a new book and optionally link it to a room.
- */
+
 export async function createBook(formdata: FormData, ownerId: number) {
+
     const rawData = {
         bookname: formdata.get("bookname"),
         author: formdata.get("author"),
         price: Number(formdata.get("price")),
         bookType: formdata.get("bookType"),
-        cover: formdata.get("cover"),
+        cover: formdata.get("cover") ,
         roomId: Number(formdata.get("roomId")),
     };
 
     const parsedFormData = createBookSchema.parse(rawData);
 
+     const cover:UploadApiResponse=await cloudinaryServies.getCloudinaryInstace().uploadImage(parsedFormData.cover) as UploadApiResponse
+    console.log("cover",cover)
     const newBook = await prisma.booksHave.create({
         data: {
             bookname: parsedFormData.bookname,
@@ -24,11 +27,10 @@ export async function createBook(formdata: FormData, ownerId: number) {
             bookType: parsedFormData.bookType,
             ownerId: ownerId,
             status: "AVAILABLE",
-            cover: "",
+            cover: cover.secure_url,
         },
     });
 
-    // Link book to room if roomId provided
     const roomId = formdata.get("roomId");
     if (roomId) {
         await prisma.roomAndBook.create({
@@ -42,9 +44,7 @@ export async function createBook(formdata: FormData, ownerId: number) {
     return newBook;
 }
 
-/**
- * Toggle the visibility status of a book.
- */
+
 export async function toggleBookVisibility(bookId: number) {
     const book = await prisma.booksHave.findUnique({ where: { id: bookId } });
     if (!book) return null;
@@ -60,9 +60,9 @@ export async function toggleBookVisibility(bookId: number) {
     return updated;
 }
 
-/**
- * Delete a book owned by the given user.
- */
+
+
+
 export async function deleteBook(bookId: number, userId: number) {
     const book = await prisma.booksHave.findUnique({ where: { id: bookId } });
     console.log(book)

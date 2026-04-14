@@ -10,7 +10,7 @@ function CenterComponent(props: Props) {
     const {children,className} = props
 
     return (
-        <div className={`animate-fade-in-blur max-w-7xl mx-auto px-4  ${className} `}   >
+        <div className={` ${className}  animate-fade-in-blur max-w-7xl mx-auto px-4  `}   >
             {children}
         </div>
         

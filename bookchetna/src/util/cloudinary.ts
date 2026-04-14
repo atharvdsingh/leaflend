@@ -19,11 +19,11 @@ export class cloudinaryServies {
       return this.cloudinaryInstance;
     }
   }
-  private constructor() {}
+  private constructor() { }
   async uploadImage(file: File) {
     try {
       const byte = await file.arrayBuffer();
-      const buffer = await Buffer.from(byte);
+        const buffer = Buffer.from(byte);
       const result: UploadApiResponse = await new Promise((resolve, reject) => {
         cloudinary.uploader
           .upload_stream(
@@ -38,10 +38,13 @@ export class cloudinaryServies {
           )
           .end(buffer);
       });
+
       console.log(result);
       return result;
     } catch (error) {
-      return error;
+      const message = error instanceof Error ? error.message : "Unknown error";
+      console.error("Cloudinary upload error:", error);
+      throw new AppError(`Failed to upload image: ${message}`, 500);
     }
   }
 }

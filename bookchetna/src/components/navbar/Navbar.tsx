@@ -38,7 +38,8 @@ function Navbar() {
       hasDropdown: true,
     },
     { name: "Rentals", href: `/rentedbooks${roomParamFirst}` },
-    { name: "Cart", href: `/cart${roomParamFirst}` },
+    {name:"Chat",href:`/chat/${roomId}/${roomParamFirst}`}
+
   ];
 
   const myBooksSubLinks = [

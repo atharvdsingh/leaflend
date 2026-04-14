@@ -18,7 +18,7 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json(newBook, { status: 200 });
   } catch (error) {
-    console.log(error);
+    console.log(error)
     return handleApiError(error);
   }
 }
