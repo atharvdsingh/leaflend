@@ -30,7 +30,7 @@ export class ChatGateway {
     return '';
   }
   @SubscribeMessage('send_message')
-  handlereceiveMessage(
+   handlereceiveMessage(
     @MessageBody()
     data: {
       content: string;
@@ -40,7 +40,7 @@ export class ChatGateway {
     },
   ) {
     console.log(data)
-    this.server.to(data.roomId).emit("receive_message", data)
+     this.server.to(data.roomId).emit("receive_message", data)
 
   }
 }
