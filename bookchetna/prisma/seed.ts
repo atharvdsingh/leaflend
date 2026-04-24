@@ -160,7 +160,7 @@ async function main() {
     console.log(`   🔗 ${Math.min(createdBooks.length, createdRooms.length * 20)} book-room links`);
 }
 
-function randomDate(daysBack) {
+function randomDate(daysBack:number) {
     const now = new Date();
     const past = new Date(now.getTime() - daysBack * 24 * 60 * 60 * 1000);
     return new Date(past.getTime() + Math.random() * (now.getTime() - past.getTime()));
