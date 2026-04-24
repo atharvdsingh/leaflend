@@ -11,7 +11,7 @@ import { Socket, Server } from 'socket.io';
   namespace: '/chat',
 
   cors: {
-    origin: process.env.FRONTEND_URL,
+    origin: "*",
     credentials: true,
     methods: ['GET', 'POST'],
   },
