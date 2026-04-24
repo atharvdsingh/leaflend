@@ -1,9 +1,8 @@
 "use client";
-import React, { useReducer } from "react";
+import React, { useState } from "react";
 
-// --- Icon Imports ---
-// Assumes `lucide-react` is installed (`npm install lucide-react`)
 import { BookOpen, Fullscreen, ShoppingCart } from "lucide-react";
+import BookDetailDialog from "@/components/Home/BookDetailDialog";
 
 // --- Shadcn UI Component Imports ---
 // These components are assumed to be in your project, added via:
@@ -44,6 +43,7 @@ interface Props {
 }
 
 export default function HomeCard(props: booksHave) {
+  const [detailOpen, setDetailOpen] = useState(false);
   const cart = useSelector((state: RootState) => state.cart);
   const dispatch = useDispatch();
 
@@ -64,8 +64,10 @@ export default function HomeCard(props: booksHave) {
         <Image
           src={props.cover || "/1.jpg"}
           alt={`Cover of ${props.bookname}${props.author ? ` by ${props.author}` : ""}`}
-          width={40}
-          height={40}
+          width={300}
+          height={200}
+          placeholder="blur"
+          blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mN88eLFfwAJowPFn/oYQgAAAABJRU5ErkJggg=="
           className="w-full h-40  object-cover"
         />
         {/* <img
@@ -113,6 +115,7 @@ export default function HomeCard(props: booksHave) {
         {/* Made buttons smaller */}
         <Button
           variant="outline"
+          onClick={() => setDetailOpen(true)}
           className="text-foreground border-border hover:bg-muted hover:text-foreground h-8 px-3 text-xs"
         >
           <BookOpen className="mr-2 h-4 w-4" />
@@ -128,6 +131,14 @@ export default function HomeCard(props: booksHave) {
           Rent
         </Button>
       </CardFooter>
+
+      <BookDetailDialog
+        book={props}
+        open={detailOpen}
+        onOpenChange={setDetailOpen}
+        onAddToCart={handleOnClickByAddingToTheCart}
+        isCartDisabled={props.status === "BORROWED" || props.status === "RESERVED"}
+      />
     </Card>
   );
 }

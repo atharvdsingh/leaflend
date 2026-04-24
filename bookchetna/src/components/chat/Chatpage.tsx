@@ -6,7 +6,7 @@ import { Message } from "@/types/chat.types";
 import { useSocketStatus } from "../providers/ChatContextProvider";
 import { useChat } from "@/hooks/useChat";
 import { Input } from "../ui/input";
-import { Send } from "lucide-react";
+import { Image, Send } from "lucide-react";
 import { Button } from "../ui/button";
 
 export default function Chatpage({ roomId, userId }: { roomId: string, userId: number }) {
@@ -34,9 +34,14 @@ console.log(userId)
           {message.map((msg, index) => (
             <div
               key={index}
-              className={`flex ${msg.senderId !== userId ? "justify-start " : "justify-end text-neutral-200 "}`}
+              className={`flex items-center gap-2 ${msg.senderId !== userId ? "justify-start " : "justify-end    "}`}
             >
-              <p className={`p-2 rounded-lg `}>{msg.content}</p>
+              <p className={`px-2 my-2 rounded-[2px]  text-background bg-foreground `}>{msg.content}</p>
+              {
+                msg.timestamp && (
+                  <p className="text-xs text-muted-foreground">{new Date(msg.timestamp).toLocaleTimeString()}</p>
+                )
+              }
             </div>
           ))}
         </div>

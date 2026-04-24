@@ -7,7 +7,12 @@ const nextConfig: NextConfig = {
       protocol:'https',
       hostname:'res.cloudinary.com',
       pathname:'/**'
+    },{
+      protocol:'https',
+      hostname:'covers.openlibrary.org',
+      pathname:'/**'
     }]
+
     
   },
   output: "standalone",

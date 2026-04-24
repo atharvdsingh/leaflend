@@ -6,6 +6,7 @@ import { Toaster } from "@/components/ui/sonner";
 import StoreProvider from "./StoreProvider";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { ThemeProvider } from "@/components/Theme-provider";
+import { Analytics } from "@vercel/analytics/next"
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -105,6 +106,7 @@ export default function RootLayout({
             </Provider>
           </StoreProvider>
         </div>
+        <Analytics/>
         <Toaster position="top-center"
           toastOptions={{
             className: "bg-background text-foreground",
