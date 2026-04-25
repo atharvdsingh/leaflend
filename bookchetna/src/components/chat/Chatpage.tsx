@@ -17,7 +17,7 @@ export default function Chatpage({ roomId, userId }: { roomId: string, userId: n
     e.preventDefault()
     if (input?.trim().length == 0) return;
     sendMessage({
-      content: input!,
+      message: input!,
       senderId: userId,
       roomId: roomId
     })
@@ -36,7 +36,7 @@ console.log(userId)
               key={index}
               className={`flex items-center gap-2 ${msg.senderId !== userId ? "justify-start " : "justify-end    "}`}
             >
-              <p className={`px-2 my-2 rounded-[2px]  text-background bg-foreground `}>{msg.content}</p>
+              <p className={`px-2 my-2 rounded-[2px]  text-background bg-foreground `}>{msg.message}</p>
               {
                 msg.timestamp && (
                   <p className="text-xs text-muted-foreground">{new Date(msg.timestamp).toLocaleTimeString()}</p>

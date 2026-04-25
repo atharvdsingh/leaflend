@@ -4,8 +4,8 @@
 // Get a free hosted Postgres database in seconds: `npx create-db`
 
 generator client {
-  provider = "prisma-client"
-  output   = "../src/generated/prisma"
+  provider     = "prisma-client"
+  output       = "../src/generated/prisma"
   moduleFormat = "cjs"
 }
 
@@ -13,20 +13,18 @@ datasource db {
   provider = "postgresql"
 }
 
-
-model users {
-  id              String  @id
-  name            String?
-  email           String?
-  sendMessage     chat[]  @relation("sendsMessages")
-  receiveMessages chat[]  @relation("receivedMessages")
-}
 model chat {
   id         String   @id @default(nanoid())
-  senderId   String
-  receiverId String
-  sender     users    @relation("sendsMessages", fields: [senderId], references: [id])
-  receiver   users    @relation("receivedMessages", fields: [receiverId], references: [id])
+  senderId   Int
+  receiverId Int
   messages   String
   createdAt  DateTime @default(now())
-} 
+}
+
+model groupChat {
+  id        String   @id @default(nanoid())
+  roomId    String
+  senderId  Int
+  message   String
+  createdAt DateTime @default(now())
+}

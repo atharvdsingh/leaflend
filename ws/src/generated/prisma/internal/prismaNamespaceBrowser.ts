@@ -51,8 +51,8 @@ export const AnyNull = runtime.AnyNull
 
 
 export const ModelName = {
-  users: 'users',
-  chat: 'chat'
+  chat: 'chat',
+  groupChat: 'groupChat'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -71,15 +71,6 @@ export const TransactionIsolationLevel = runtime.makeStrictEnum({
 export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
 
 
-export const UsersScalarFieldEnum = {
-  id: 'id',
-  name: 'name',
-  email: 'email'
-} as const
-
-export type UsersScalarFieldEnum = (typeof UsersScalarFieldEnum)[keyof typeof UsersScalarFieldEnum]
-
-
 export const ChatScalarFieldEnum = {
   id: 'id',
   senderId: 'senderId',
@@ -89,6 +80,17 @@ export const ChatScalarFieldEnum = {
 } as const
 
 export type ChatScalarFieldEnum = (typeof ChatScalarFieldEnum)[keyof typeof ChatScalarFieldEnum]
+
+
+export const GroupChatScalarFieldEnum = {
+  id: 'id',
+  roomId: 'roomId',
+  senderId: 'senderId',
+  message: 'message',
+  createdAt: 'createdAt'
+} as const
+
+export type GroupChatScalarFieldEnum = (typeof GroupChatScalarFieldEnum)[keyof typeof GroupChatScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -105,12 +107,4 @@ export const QueryMode = {
 } as const
 
 export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
-
-
-export const NullsOrder = {
-  first: 'first',
-  last: 'last'
-} as const
-
-export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
 

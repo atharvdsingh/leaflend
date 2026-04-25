@@ -18,12 +18,12 @@ export { Prisma }
 export * as $Enums from './enums.js'
 export * from './enums.js';
 /**
- * Model users
- * 
- */
-export type users = Prisma.usersModel
-/**
  * Model chat
  * 
  */
 export type chat = Prisma.chatModel
+/**
+ * Model groupChat
+ * 
+ */
+export type groupChat = Prisma.groupChatModel

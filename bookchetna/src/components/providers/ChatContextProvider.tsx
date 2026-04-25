@@ -15,9 +15,8 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
         const onConnect = () => setIsConnected(true)
         const onDisconnect = () => setIsConnected(false)
         const onConnectError = (err: Error) => {
-            console.error("[Socket] Connection error:", err.message)
-            console.error("[Socket] Description:", (err as any).description)
-            console.error("[Socket] Transport:", socket.io.engine?.transport?.name)
+            console.log(err)
+     
         }
         socket.on("connect", onConnect)
         socket.on("disconnect", onDisconnect)

@@ -13,7 +13,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import CreateBook from "../CreateBook";
-import { useAppSelector } from "@/lib/hooks";
+import { useAppSelector } from "@/hooks/hooks";
 import { Badge } from "../ui/badge";
 import { usePathname, useSearchParams } from "next/navigation";
 import SetTheme from "../SetTheme";

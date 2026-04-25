@@ -1,5 +1,5 @@
 export interface Message{
-    content:string;
+    message:string;
     senderId:number;
     roomId:number | string;
     timestamp?:Date;

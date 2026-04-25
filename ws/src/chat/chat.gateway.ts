@@ -7,6 +7,8 @@ import {
 } from '@nestjs/websockets';
 
 import { Socket, Server } from 'socket.io';
+import { ChatdbService } from 'src/chatdb/chatdb.service';
+import { Prisma } from 'src/generated/prisma/client';
 @WebSocketGateway({
 
 
@@ -20,26 +22,23 @@ export class ChatGateway {
   @WebSocketServer()
   server: Server;
 
+  constructor(private readonly chatdbService: ChatdbService) { }
+
   @SubscribeMessage('join_room')
   handleMessage(
     @MessageBody() roomId: string,
     @ConnectedSocket() client: Socket,
   ): string {
-    console.log(roomId)
     client.join(roomId);
     return '';
   }
   @SubscribeMessage('send_message')
-  handlereceiveMessage(
+  async handleSendMessage(
     @MessageBody()
-    data: {
-      content: string;
-      senderId: string;
-      roomId: string;
-      timestamp?: Date;
-    },
+    data: Prisma.groupChatCreateInput
   ) {
-    console.log(data)
+    console.log(data) 
+    await this.chatdbService.saveGropChat(data)
     this.server.to(data.roomId).emit("receive_message", data)
 
   }

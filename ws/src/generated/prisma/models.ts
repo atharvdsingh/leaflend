@@ -8,6 +8,6 @@
  *
  * 🟢 You can import this file directly.
  */
-export type * from './models/users.js'
 export type * from './models/chat.js'
+export type * from './models/groupChat.js'
 export type * from './commonInputTypes.js'

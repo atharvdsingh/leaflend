@@ -5,5 +5,5 @@ const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 export const socket: Socket<serverToClient, clientToServer> = io(`${BACKEND_URL}`, {
     autoConnect: false,
     reconnection: true,
-    transports: ['polling', 'websocket']
+    transports: [ 'websocket']
 });
