@@ -30,7 +30,7 @@ services:
     build:
       context: ./bookchetna
       dockerfile: Dockerfile
-      target: development
+      target: runner
     container_name: leaflend-app
     environment:
       - WATCHPACK_POLLING=true
@@ -52,7 +52,7 @@ services:
     build:
       context: ./ws
       dockerfile: Dockerfile
-      target: development
+      target: runner
     container_name: ws-server
     env_file:
       - ./ws/.env
