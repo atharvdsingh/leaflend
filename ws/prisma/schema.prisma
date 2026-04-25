@@ -27,4 +27,5 @@ model groupChat {
   senderId  Int
   message   String
   createdAt DateTime @default(now())
+  @@index([roomId])
 }

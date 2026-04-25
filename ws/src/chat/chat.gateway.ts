@@ -38,7 +38,7 @@ export class ChatGateway {
     data: Prisma.groupChatCreateInput
   ) {
     console.log(data) 
-    await this.chatdbService.saveGropChat(data)
+    await this.chatdbService.save(data)
     this.server.to(data.roomId).emit("receive_message", data)
 
   }
