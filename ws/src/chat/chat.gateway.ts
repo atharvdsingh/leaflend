@@ -8,10 +8,10 @@ import {
 
 import { Socket, Server } from 'socket.io';
 @WebSocketGateway({
-  
+
 
   cors: {
-    origin: process.env.FRONTEND_URL,
+    origin: process.env.FRONTEND_URL?.split(','),
     credentials: true,
     methods: ['GET', 'POST'],
   },
@@ -30,7 +30,7 @@ export class ChatGateway {
     return '';
   }
   @SubscribeMessage('send_message')
-   handlereceiveMessage(
+  handlereceiveMessage(
     @MessageBody()
     data: {
       content: string;
@@ -40,7 +40,7 @@ export class ChatGateway {
     },
   ) {
     console.log(data)
-     this.server.to(data.roomId).emit("receive_message", data)
+    this.server.to(data.roomId).emit("receive_message", data)
 
   }
 }
