@@ -1,9 +1,10 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import type { booksHave } from "@prisma/client";
-import { ShoppingCart, Calendar, User, BookOpen } from "lucide-react";
+import { ShoppingCart, Calendar, User, BookOpen, Star, StarHalf } from "lucide-react";
+import { toast } from "sonner";
 
 import {
     Dialog,
@@ -16,6 +17,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 interface BookDetailDialogProps {
     book: booksHave;
@@ -37,6 +39,25 @@ export default function BookDetailDialog({
         RESERVED: "bg-amber-600/90 text-white border-amber-500",
         BORROWED: "bg-red-600/90 text-white border-red-500",
     };
+
+    const [reviews, setReviews] = useState<any[]>([]);
+    const [avgRating, setAvgRating] = useState<number>(0);
+    const [loadingReviews, setLoadingReviews] = useState(true);
+
+    useEffect(() => {
+        if (open) {
+            setLoadingReviews(true);
+            fetch(`/api/books/reviews?bookId=${book.id}`)
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) {
+                        setReviews(data.data);
+                        setAvgRating(data.average);
+                    }
+                })
+                .finally(() => setLoadingReviews(false));
+        }
+    }, [open, book.id]);
 
     const formattedDate = new Date(book.publishDate).toLocaleDateString("en-US", {
         year: "numeric",
@@ -69,6 +90,13 @@ export default function BookDetailDialog({
                                 <User className="h-3.5 w-3.5" />
                                 by {book.author}
                             </DialogDescription>
+                        )}
+                        {!loadingReviews && reviews.length > 0 && (
+                            <div className="flex items-center gap-1 mt-1 text-yellow-500">
+                                <Star className="h-4 w-4 fill-yellow-500" />
+                                <span className="text-sm font-semibold text-foreground/80">{avgRating}</span>
+                                <span className="text-xs text-muted-foreground ml-1">({reviews.length} reviews)</span>
+                            </div>
                         )}
                     </DialogHeader>
 
@@ -110,6 +138,35 @@ export default function BookDetailDialog({
                                 </span>
                             </div>
                         )}
+                    </div>
+
+                    <Separator className="my-4" />
+
+                    <div className="space-y-4">
+                        <h4 className="font-semibold text-sm">Reviews</h4>
+
+                        {/* Recent Reviews List */}
+                        <ScrollArea className="h-40 w-full pr-4">
+                            {loadingReviews ? (
+                                <p className="text-xs text-muted-foreground text-center mt-4">Loading reviews...</p>
+                            ) : reviews.length === 0 ? (
+                                <p className="text-xs text-muted-foreground text-center mt-4">No reviews yet.</p>
+                            ) : (
+                                <div className="space-y-3">
+                                    {reviews.map((rev) => (
+                                        <div key={rev.id} className="text-sm pb-2 border-b border-border last:border-0">
+                                            <div className="flex items-center justify-between mb-1">
+                                                <span className="font-medium text-foreground/80">{rev.user?.name || "Anonymous"}</span>
+                                                <div className="flex text-yellow-500">
+                                                    {[...Array(rev.rating)].map((_, i) => <Star key={i} className="h-3 w-3 fill-yellow-500" />)}
+                                                </div>
+                                            </div>
+                                            <p className="text-muted-foreground text-xs">{rev.comment}</p>
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+                        </ScrollArea>
                     </div>
 
                     <Separator className="my-4" />

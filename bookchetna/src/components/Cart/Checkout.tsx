@@ -9,39 +9,37 @@ import type { ErrorType } from "@/types/ErrorType";
 import { handleClientError } from "@/util/clientError";
 import { AddToCart, EmptyCart } from "@/store/features/cartSlice";
 import { createRentalRequest } from "@/services/rentbook.services";
+import { useRouter, useSearchParams } from "next/navigation";
 
 
 function Checkout() {
   const [loading, setLoading] = useState(false)
   const dispatch = useDispatch()
+  const router = useRouter();
+  const searchParams = useSearchParams();
   const NoOfBooks = useSelector((items: RootState) => items.cart);
   const booksId = NoOfBooks.books.map((books) => books.id)
-  console.log(booksId)
+
   const handleOnclick = async () => {
     try {
       setLoading(true)
-      console.log("putting the id ")
-      console.log(booksId);
 
       const data = await createRentalRequest(booksId)
-      console.log(data)
       if (data.status != 200) {
         toast.error("something went wrong")
+        setLoading(false);
         return;
       }
-      console.log("error ", data)
-
 
       toast.success("books request have been sent")
       dispatch(EmptyCart())
-
+      const roomId = searchParams.get("room");
+      router.push(roomId ? `/rentedbooks?room=${roomId}` : `/rentedbooks`); // Assuming /rentedbooks is where they view their loans
 
     } catch (error: unknown) {
+      setLoading(false);
       handleClientError(error);
     }
-
-
-
   };
 
   return (
@@ -55,7 +53,7 @@ function Checkout() {
           </CardHeader>
 
           <CardFooter>
-            <Button disabled={loading}  className="w-full font-bold " onClick={handleOnclick}>
+            <Button disabled={loading} className="w-full font-bold " onClick={handleOnclick}>
               Request books for rent
             </Button>
           </CardFooter>

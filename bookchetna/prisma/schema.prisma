@@ -25,6 +25,7 @@ model users {
   borrowedBooks borrows[]        @relation("Borrower")
   givenBooks    borrows[]        @relation("Owner")
   joinedRoom    RoomMembership[]
+  reviews       Review[]
 }
 
 model booksHave {
@@ -45,9 +46,26 @@ model booksHave {
 
   rentalRequests RentalRequest[]
   borrows        borrows[]
-  room roomAndBook[] 
+  room           roomAndBook[] 
+  reviews        Review[]
 
   @@index([ownerId])
+}
+
+model Review {
+  id        Int      @id @default(autoincrement())
+  rating    Int
+  comment   String   @db.Text
+  createdAt DateTime @default(now())
+
+  bookId Int
+  book   booksHave @relation(fields: [bookId], references: [id], onDelete: Cascade)
+
+  userId Int
+  user   users     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([bookId])
+  @@index([userId])
 }
 
 model RentalRequest {

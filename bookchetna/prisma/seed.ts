@@ -21,17 +21,17 @@ const BOOK_COVERS = [
     "https://covers.openlibrary.org/b/isbn/054792822X-L.jpg",
 ];
 
-function randomElement(arr) {
+function randomElement<T>(arr: T[]): T {
     return arr[Math.floor(Math.random() * arr.length)];
 }
 
-function randomDate(daysBack) {
+function randomDate(daysBack: number) {
     const now = new Date();
     const past = new Date(now.getTime() - daysBack * 24 * 60 * 60 * 1000);
     return new Date(past.getTime() + Math.random() * (now.getTime() - past.getTime()));
 }
 
-function generateUsers(count) {
+function generateUsers(count: number) {
     const users = [];
     for (let i = 0; i < count; i++) {
         const name = `${randomElement(FIRST_NAMES)} ${randomElement(LAST_NAMES)}`;
@@ -69,7 +69,7 @@ async function main() {
 
     // 1. Ensure at least 12 Users exists
     const dbUsers = await prisma.users.findMany();
-    let userIds = dbUsers.map(u => u.id);
+    let userIds = dbUsers.map((u: any) => u.id);
 
     if (userIds.length < 12) {
         const needed = 12 - userIds.length;
@@ -79,7 +79,7 @@ async function main() {
             data: mockUsers,
         });
         const updatedDbUsers = await prisma.users.findMany();
-        userIds = updatedDbUsers.map(u => u.id);
+        userIds = updatedDbUsers.map((u: any) => u.id);
     } else {
         console.log(`👤 Found ${userIds.length} existing users. No new users needed.`);
     }

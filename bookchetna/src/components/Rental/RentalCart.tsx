@@ -6,6 +6,15 @@ import { MessageCircle } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { useSearchParams } from "next/navigation";
+import { Star } from "lucide-react";
+import { Textarea } from "@/components/ui/textarea";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 
 import { toast } from "sonner";
 
@@ -15,6 +24,12 @@ function RentalCart(props: RentalRequestCartType) {
   const dmHref = `/chat/dm/${props.ownerId}${currentParams ? `?${currentParams}` : ""}`;
 
   const [isReturning, setIsReturning] = useState(false);
+
+  const [isReviewOpen, setIsReviewOpen] = useState(false);
+  const [newRating, setNewRating] = useState(5);
+  const [newComment, setNewComment] = useState("");
+  const [isSubmittingReview, setIsSubmittingReview] = useState(false);
+
   const activeBorrow = props.book.borrows?.[0]; // Uses the array directly if it exists
 
   function formatTimeLeft(dateInput: Date | string | null) {
@@ -47,6 +62,38 @@ function RentalCart(props: RentalRequestCartType) {
       toast.error("Something went wrong");
     } finally {
       setIsReturning(false);
+    }
+  };
+
+  const handleSubmitReview = async () => {
+    if (!newComment.trim()) {
+      toast.error("Please add a comment");
+      return;
+    }
+    setIsSubmittingReview(true);
+    try {
+      const res = await fetch("/api/books/review", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          bookId: props.bookId,
+          rating: newRating,
+          comment: newComment,
+        }),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        toast.success("Review posted successfully!");
+        setIsReviewOpen(false);
+        setNewComment("");
+        setNewRating(5);
+      } else {
+        toast.error(data.message || "Failed to post review");
+      }
+    } catch (e) {
+      toast.error("Something went wrong");
+    } finally {
+      setIsSubmittingReview(false);
     }
   };
 
@@ -183,6 +230,46 @@ function RentalCart(props: RentalRequestCartType) {
                 >
                   {isReturning ? "Returning..." : "Return Book"}
                 </Button>
+
+                <Dialog open={isReviewOpen} onOpenChange={setIsReviewOpen}>
+                  <DialogTrigger asChild>
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      className="h-7 text-xs bg-muted/30"
+                    >
+                      <Star className="mr-1.5 h-3 w-3 text-yellow-500" />
+                      Write Review
+                    </Button>
+                  </DialogTrigger>
+                  <DialogContent className="sm:max-w-md bg-card border-border">
+                    <DialogHeader>
+                      <DialogTitle>Write a Review for {props.book.bookname}</DialogTitle>
+                    </DialogHeader>
+                    <div className="space-y-4 py-2">
+                      <div className="flex gap-1">
+                        {[1, 2, 3, 4, 5].map((star) => (
+                          <Star
+                            key={star}
+                            onClick={() => setNewRating(star)}
+                            className={`h-6 w-6 cursor-pointer ${star <= newRating ? 'fill-yellow-500 text-yellow-500' : 'text-muted-foreground'}`}
+                          />
+                        ))}
+                      </div>
+                      <Textarea
+                        placeholder="What did you think of the book?"
+                        value={newComment}
+                        onChange={(e) => setNewComment(e.target.value)}
+                        className="h-24 resize-none text-sm"
+                      />
+                      <div className="flex justify-end pt-2">
+                        <Button disabled={isSubmittingReview} onClick={handleSubmitReview}>
+                          {isSubmittingReview ? "Posting..." : "Post Review"}
+                        </Button>
+                      </div>
+                    </div>
+                  </DialogContent>
+                </Dialog>
               </div>
             )}
           </div>
