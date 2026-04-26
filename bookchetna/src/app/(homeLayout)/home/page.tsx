@@ -11,12 +11,16 @@ import { toast } from "sonner";
 import { handleClientError } from "@/util/clientError";
 import BookList from "@/components/Home/BookList";
 import BookListSkeleton from "@/components/Home/BookListSkeleton";
+import { redirect } from "next/navigation";
 
 async function Page({ searchParams }: { searchParams: Promise<{ page: string, room: string }> }) {
   const session = await GetTheSession();
   const resolvedParams = await searchParams;
+  if (!resolvedParams?.room) {
+    redirect("/room");
+  }
   const page = Number(resolvedParams?.page?.replaceAll("/", "") || "1");
-  const roomId = Number(resolvedParams?.room || "0");
+  const roomId = Number(resolvedParams.room);
 
 
   // ---------------------------------------------------------------------------

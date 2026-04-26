@@ -1,3 +1,4 @@
+"use client";
 import React from 'react'
 import type { RequestedBooksForApprovel } from '@/types/databaseRoutesType'
 import RequestBookCardCancelAndAcceptedButton from './RequestBookCardCancelAndAcceptedButton'
@@ -5,8 +6,12 @@ import Image from 'next/image'
 import { MessageCircle } from 'lucide-react'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
+import { useSearchParams } from 'next/navigation'
 
 function RequestBookCard(props: RequestedBooksForApprovel) {
+  const searchParams = useSearchParams();
+  const currentParams = searchParams.toString();
+  const dmHref = `/chat/dm/${props.requesterId}${currentParams ? `?${currentParams}` : ""}`;
   return (
     <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6 w-full p-4 bg-card border border-border rounded-xl hover:border-border/80 hover:bg-muted/50 transition-all duration-200 group">
       <div className="flex items-center gap-4 sm:gap-6 flex-1 min-w-0">
@@ -46,7 +51,7 @@ function RequestBookCard(props: RequestedBooksForApprovel) {
         {props.status === "PENDING" && (
           <RequestBookCardCancelAndAcceptedButton id={props.id} />
         )}
-        <Link href={`/chat/dm/${props.requesterId}`}>
+        <Link href={dmHref}>
           <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-foreground transition-colors" aria-label={`Chat with ${props.requester.name}`} title="Message Requester">
             <MessageCircle className="h-5 w-5" />
           </Button>

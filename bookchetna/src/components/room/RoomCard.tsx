@@ -8,7 +8,6 @@ import {
   ArrowRight,
   Delete,
   Copy,
-  MessageCircle,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -110,18 +109,11 @@ export function RoomCard({ room, isAdmin = false, userId }: RoomCardProps) {
                         YOU
                       </span>
                     </div>
-                  ) : (
-                    <div className="shrink-0 pl-2 flex items-center gap-1">
-                      <Link href={`/chat/dm/${m.memberId}`}>
-                        <Button variant="ghost" size="icon" className="h-8 w-8 text-muted-foreground hover:text-foreground transition-colors" aria-label={`Message ${m.member?.name}`}>
-                          <MessageCircle className="h-4 w-4" />
-                        </Button>
-                      </Link>
-                      {isAdmin && (
-                        <RemoveMemberButton roomId={room.id} memberId={m.memberId} memberName={m.member?.name || "Unknown User"} />
-                      )}
+                  ) : isAdmin ? (
+                    <div className="shrink-0 pl-2">
+                      <RemoveMemberButton roomId={room.id} memberId={m.memberId} memberName={m.member?.name || "Unknown User"} />
                     </div>
-                  )}
+                  ) : null}
                 </li>
               ))}
             </ul>

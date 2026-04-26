@@ -1,11 +1,16 @@
+"use client";
 import Image from "next/image";
 import React from "react";
 import type { RentalRequestCartType } from "@/types/databaseRoutesType";
 import { MessageCircle } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { useSearchParams } from "next/navigation";
 
 function RentalCart(props: RentalRequestCartType) {
+  const searchParams = useSearchParams();
+  const currentParams = searchParams.toString();
+  const dmHref = `/chat/dm/${props.ownerId}${currentParams ? `?${currentParams}` : ""}`;
   return (
     <div className="flex items-center gap-4 sm:gap-6 w-full p-4 bg-card border border-border rounded-xl hover:border-border/80 hover:bg-muted/50 transition-all duration-200 group">
       <div className="flex items-center gap-4 sm:gap-6 flex-1 min-w-0">
@@ -46,7 +51,7 @@ function RentalCart(props: RentalRequestCartType) {
 
       {/* Chat Button */}
       <div className="shrink-0 pl-2">
-        <Link href={`/chat/dm/${props.ownerId}`}>
+        <Link href={dmHref}>
           <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-foreground transition-colors" aria-label={`Chat with ${props.owner.name}`} title="Message Owner">
             <MessageCircle className="h-5 w-5" />
           </Button>
