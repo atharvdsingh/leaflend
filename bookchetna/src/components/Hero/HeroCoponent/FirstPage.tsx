@@ -67,15 +67,7 @@ async function FirstPage() {
             />
 
             {/* Floating Card */}
-            <div className="absolute -bottom-6 -left-6 bg-card border border-border p-4 rounded-2xl shadow-xl flex items-center gap-3 animate-bounce [animation-duration:3s]">
-              <div className="bg-green-100 dark:bg-green-900/30 p-2.5 rounded-full text-green-600">
-                <ArrowRight className="w-5 h-5 -rotate-45" />
-              </div>
-              <div>
-                <p className="text-xs text-muted-foreground uppercase tracking-wider font-semibold">Active Rentals</p>
-                <p className="text-lg font-bold">120+ Today</p>
-              </div>
-            </div>
+ 
           </div>
 
         </div>

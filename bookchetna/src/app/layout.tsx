@@ -108,7 +108,7 @@ export default function RootLayout({
           </StoreProvider>
         </div>
         <Analytics />
-        <Toaster position="top-center"
+        <Toaster position="top-right"
           toastOptions={{
             className: "bg-background text-foreground",
           }}

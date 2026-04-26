@@ -33,6 +33,7 @@ export async function POST(req: Request) {
                 borrowerId: updatedRequest.requesterId,
                 ownerId: updatedRequest.ownerId,
                 status: "ACTIVE",
+                dueDate: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000), // 14-day rental
             }
         });
 

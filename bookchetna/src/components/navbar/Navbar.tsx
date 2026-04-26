@@ -33,13 +33,13 @@ function Navbar() {
 
   const navLinks = [
     { name: "Browse", href: `/home?page=1${roomParam}` },
-    { name: "Rooms", href: `/room` },
     {
       name: "My Books",
       href: `/my-books/post${roomParamFirst}`,
       hasDropdown: true,
     },
     { name: "Rentals", href: `/rentedbooks${roomParamFirst}` },
+    { name: "Rooms", href: `/room` },
     { name: "Chat", href: `/chat/${roomId}/${roomParamFirst}` }
   ];
 

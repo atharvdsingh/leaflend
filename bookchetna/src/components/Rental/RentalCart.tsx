@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import React from "react";
+import React, { useState } from "react";
 import type { RentalRequestCartType } from "@/types/databaseRoutesType";
 import { MessageCircle } from "lucide-react";
 import Link from "next/link";
@@ -13,6 +13,42 @@ function RentalCart(props: RentalRequestCartType) {
   const searchParams = useSearchParams();
   const currentParams = searchParams.toString();
   const dmHref = `/chat/dm/${props.ownerId}${currentParams ? `?${currentParams}` : ""}`;
+
+  const [isReturning, setIsReturning] = useState(false);
+  const activeBorrow = props.book.borrows?.[0]; // Uses the array directly if it exists
+
+  function formatTimeLeft(dateInput: Date | string | null) {
+    if (!dateInput) return "";
+    const now = new Date();
+    const diff = new Date(dateInput).getTime() - now.getTime();
+    const days = Math.floor(Math.abs(diff) / (1000 * 60 * 60 * 24));
+    const isOverdue = diff < 0;
+    if (days === 0) return isOverdue ? "Overdue today" : "Due today";
+    return isOverdue ? `Overdue by ${days} day${days > 1 ? 's' : ''}` : `${days} day${days > 1 ? 's' : ''} left`;
+  }
+
+  const handleReturn = async () => {
+    if (!activeBorrow) return;
+    try {
+      setIsReturning(true);
+      const res = await fetch("/api/rentbook/return", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ borrowId: activeBorrow.id }),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        toast.success("Book returned successfully!");
+        window.location.reload();
+      } else {
+        toast.error(data.message || "Failed to return book");
+      }
+    } catch (e) {
+      toast.error("Something went wrong");
+    } finally {
+      setIsReturning(false);
+    }
+  };
 
   const loadRazorpayScript = () => {
     return new Promise((resolve) => {
@@ -123,7 +159,7 @@ function RentalCart(props: RentalRequestCartType) {
               {props.status.charAt(0) + props.status.slice(1).toLowerCase()}
             </span>
 
-            {props.status === "ACCEPTED" && (
+            {props.status === "ACCEPTED" && !activeBorrow && (
               <Button
                 onClick={handlePayment}
                 size="sm"
@@ -131,6 +167,23 @@ function RentalCart(props: RentalRequestCartType) {
               >
                 Pay Now
               </Button>
+            )}
+
+            {props.status === "PAID" && activeBorrow && (
+              <div className="flex items-center gap-3">
+                <span className={`text-xs font-semibold ${activeBorrow.dueDate && new Date(activeBorrow.dueDate).getTime() < Date.now() ? "text-red-500" : "text-yellow-600"}`}>
+                  {formatTimeLeft(activeBorrow.dueDate)}
+                </span>
+                <Button
+                  onClick={handleReturn}
+                  disabled={isReturning}
+                  size="sm"
+                  variant="outline"
+                  className="h-7 text-xs"
+                >
+                  {isReturning ? "Returning..." : "Return Book"}
+                </Button>
+              </div>
             )}
           </div>
         </div>

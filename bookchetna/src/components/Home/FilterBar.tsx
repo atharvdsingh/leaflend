@@ -49,21 +49,28 @@ export default function FilterBar({ roomId }: FilterBarProps) {
 
     const updateQueryParams = (search: string, cat: string) => {
         const params = new URLSearchParams(searchParams.toString());
-        params.set("page", "1"); // Reset to page 1 on new filter
+        let changed = false;
 
-        if (search) {
-            params.set("search", search);
-        } else {
-            params.delete("search");
+        const currentSearchParam = params.get("search") || "";
+        const currentCategoryParam = params.get("category") || "All";
+
+        if (search !== currentSearchParam) {
+            changed = true;
+            if (search) params.set("search", search);
+            else params.delete("search");
         }
 
-        if (cat && cat !== "All") {
-            params.set("category", cat);
-        } else {
-            params.delete("category");
+        const effectiveCat = cat || "All";
+        if (effectiveCat !== currentCategoryParam) {
+            changed = true;
+            if (cat && cat !== "All") params.set("category", cat);
+            else params.delete("category");
         }
 
-        router.push(`/home?${params.toString()}`);
+        if (changed) {
+            params.set("page", "1"); // Only reset to page 1 if the user actually typed a new filter
+            router.push(`/home?${params.toString()}`);
+        }
     };
 
     return (

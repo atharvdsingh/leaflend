@@ -23,27 +23,7 @@ export default function CTASection() {
               Join thousands of readers who are already sharing books and earning money. It takes less than 2 minutes to list your first book.
             </p>
 
-            <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
-              <Button
-                asChild
-                size="lg"
-                className="bg-white text-green-700 hover:bg-green-50 hover:scale-105 transition-all font-semibold h-12 px-8 rounded-full shadow-lg"
-              >
-                <Link href="/register">
-                  Start Renting Now
-                </Link>
-              </Button>
-              <Button
-                asChild
-                variant="outline"
-                size="lg"
-                className="border-white/30  hover:bg-white/10 hover:text-white h-12 px-8 rounded-full backdrop-blur-sm"
-              >
-                <Link href="/books" className="flex text-green-700 cursor-pointer items-center gap-2">
-                  Browse Books <ArrowRight className="w-4  h-4" />
-                </Link>
-              </Button>
-            </div>
+
           </div>
 
         </div>

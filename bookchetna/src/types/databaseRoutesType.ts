@@ -14,9 +14,13 @@ export interface AllBooksType {
 export type RentalRequestCartType = (RentalRequest & {
   book: {
     bookname: string,
-    cover: string,
-    price: number,
-
+    cover: string | null,
+    price: number | null,
+    borrows?: {
+      id: number;
+      dueDate: Date | null;
+      startDate: Date;
+    }[];
   }, owner: {
     name: string | null
   }

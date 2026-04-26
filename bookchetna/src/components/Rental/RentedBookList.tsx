@@ -45,7 +45,11 @@ async function RentedBookList({ searchParams }: { searchParams: Promise<{ room?:
         select: {
           bookname: true,
           cover: true,
-          price:true
+          price: true,
+          borrows: {
+            where: { status: "ACTIVE", borrowerId: session?.user.id },
+            select: { id: true, dueDate: true, startDate: true }
+          }
         },
       },
       owner: {

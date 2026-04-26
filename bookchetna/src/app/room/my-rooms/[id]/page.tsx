@@ -21,9 +21,11 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { RoomCard } from "@/components/room/RoomCard";
+import RoomSearchInput from "@/components/room/RoomSearchInput";
 
 interface PageProps {
   params: Promise<{ id: string }>;
+  searchParams: Promise<{ search?: string }>;
 }
 
 function RoomCardSkeleton() {
@@ -59,9 +61,10 @@ function MyRoomsSkeleton() {
 }
 
 
-async function RoomList({ userId }: { userId: number }) {
+async function RoomList({ userId, search }: { userId: number, search?: string }) {
   const rooms = await prisma.room.findMany({
     where: {
+      ...(search && { roomName: { contains: search, mode: 'insensitive' } }),
       members: {
         some: {
           memberId: userId,
@@ -168,7 +171,7 @@ async function RoomList({ userId }: { userId: number }) {
 }
 
 /* ── Main Page ── */
-async function Page({ params }: PageProps) {
+async function Page({ params, searchParams }: PageProps) {
   const session = await getServerSession(authOptions);
 
   if (!session?.user.id) {
@@ -176,6 +179,8 @@ async function Page({ params }: PageProps) {
   }
 
   const { id } = await params;
+  const resolvedSearchParams = await searchParams;
+  const search = resolvedSearchParams?.search || "";
 
   if (String(session.user.id) !== id) {
     redirect("/room");
@@ -191,7 +196,7 @@ async function Page({ params }: PageProps) {
           </div>
 
           <div className="relative z-10 space-y-6">
-          
+
 
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
               <div className="space-y-2">
@@ -202,24 +207,13 @@ async function Page({ params }: PageProps) {
               </div>
 
               {/* Search Bar */}
-              <div className="relative group w-full md:w-96">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground w-4 h-4 group-focus-within:text-foreground/80 transition-colors" />
-                <Input
-                  placeholder="Search rooms..."
-                  className="bg-card/40 border-border/50 pl-10 h-11 focus:bg-card focus:ring-1 focus:ring-border transition-all text-sm rounded-xl"
-                />
-                <div className="absolute right-2 top-1/2 -translate-y-1/2 px-2 py-1 bg-muted/50 rounded-lg border border-border/50">
-                  <span className="text-xs text-muted-foreground font-medium">
-                    {session.user.name || "User"}
-                  </span>
-                </div>
-              </div>
+              <RoomSearchInput userName={session.user.name || "User"} />
             </div>
           </div>
         </div>
 
         <Suspense fallback={<MyRoomsSkeleton />}>
-          <RoomList userId={Number(id)} />
+          <RoomList userId={Number(id)} search={search} />
         </Suspense>
       </div>
     </CenterComponent>
