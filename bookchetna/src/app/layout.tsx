@@ -7,6 +7,7 @@ import StoreProvider from "./StoreProvider";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { ThemeProvider } from "@/components/Theme-provider";
 import { Analytics } from "@vercel/analytics/next"
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -14,7 +15,7 @@ const geistSans = Geist({
 const poppins = Poppins({
   subsets: ["latin"],
   weight: ["400", "500", "600"],
-  variable: "--font-poppins", // we’ll use this for selective CSS
+  variable: "--font-poppins",
 });
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
@@ -106,7 +107,7 @@ export default function RootLayout({
             </Provider>
           </StoreProvider>
         </div>
-        <Analytics/>
+        <Analytics />
         <Toaster position="top-center"
           toastOptions={{
             className: "bg-background text-foreground",
