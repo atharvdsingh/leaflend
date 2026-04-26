@@ -17,6 +17,7 @@ import { useAppSelector } from "@/hooks/hooks";
 import { Badge } from "../ui/badge";
 import { usePathname, useSearchParams } from "next/navigation";
 import SetTheme from "../SetTheme";
+import JoinWithRoomId from "../JoinWithRoomId";
 
 function Navbar() {
   const bookno: number = useAppSelector((state) => state.cart.NoOfBooks);
@@ -32,14 +33,14 @@ function Navbar() {
 
   const navLinks = [
     { name: "Browse", href: `/home?page=1${roomParam}` },
+    { name: "Rooms", href: `/room` },
     {
       name: "My Books",
       href: `/my-books/post${roomParamFirst}`,
       hasDropdown: true,
     },
     { name: "Rentals", href: `/rentedbooks${roomParamFirst}` },
-    {name:"Chat",href:`/chat/${roomId}/${roomParamFirst}`}
-
+    { name: "Chat", href: `/chat/${roomId}/${roomParamFirst}` }
   ];
 
   const myBooksSubLinks = [
@@ -195,7 +196,8 @@ function Navbar() {
 
         {/* Right: Actions */}
         <div className="flex flex-1 items-center justify-end gap-2">
-          <div className="hidden md:block">
+          <div className="hidden md:flex items-center gap-2">
+            {roomId && <JoinWithRoomId roomId={roomId} />}
             <CreateBook />
           </div>
 
@@ -291,7 +293,8 @@ function Navbar() {
 
 
           {/* Mobile Post a Book */}
-          <div className="px-3 pt-2">
+          <div className="px-3 pt-2 flex flex-col gap-2">
+            {roomId && <JoinWithRoomId roomId={roomId} />}
             <CreateBook />
           </div>
 
