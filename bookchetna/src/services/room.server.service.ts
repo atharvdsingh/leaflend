@@ -127,50 +127,89 @@ export async function deleteRoomById({
 }
 ) {
 
-        console.log(roomId)
-        console.log(memberId)
-        const user = await prisma.roomMembership.findFirst({
-            where: {
-                roomId: roomId,
-                memberId: memberId
-
-            }
-        })
-        if (!(user?.roomRole === "ADMIN")) {
-            throw new AppError("only admin can delete the room",403)
-        }
-        return await prisma.room.delete({
-            where: {
-                id: roomId
-            }
+    console.log(roomId)
+    console.log(memberId)
+    const user = await prisma.roomMembership.findFirst({
+        where: {
+            roomId: roomId,
+            memberId: memberId
 
         }
-        )
+    })
+    if (!(user?.roomRole === "ADMIN")) {
+        throw new AppError("only admin can delete the room", 403)
+    }
+    return await prisma.room.delete({
+        where: {
+            id: roomId
+        }
 
-    
+    }
+    )
+
+
 
 }
 
-export async function leaveRoomByRoomid({roomId,userId}:{roomId:number,userId:number}){
-    const user= await prisma.roomMembership.findFirst({
-        where:{
-            roomId:roomId,
-            memberId:userId
+export async function leaveRoomByRoomid({ roomId, userId }: { roomId: number, userId: number }) {
+    const user = await prisma.roomMembership.findFirst({
+        where: {
+            roomId: roomId,
+            memberId: userId
         }
     })
-    if(!user){
-        throw new AppError("User does not belonges to room ",403)
+    if (!user) {
+        throw new AppError("User does not belonges to room ", 403)
     }
-    if(user.roomRole=="ADMIN"){
+    if (user.roomRole == "ADMIN") {
         throw new AppError("Admin can't leave its own room ", 403)
     }
     return await prisma.roomMembership.delete({
-        where:{
-            memberId_roomId:{
-                roomId:roomId,
-                memberId:userId
+        where: {
+            memberId_roomId: {
+                roomId: roomId,
+                memberId: userId
             }
         }
     })
 
+}
+
+export async function removeMemberFromRoom({ roomId, adminId, memberIdToRemove }: { roomId: number, adminId: number, memberIdToRemove: number }) {
+    // Check if the requester is an ADMIN
+    const requester = await prisma.roomMembership.findFirst({
+        where: {
+            roomId: roomId,
+            memberId: adminId
+        }
+    });
+
+    if (!requester || requester.roomRole !== "ADMIN") {
+        throw new AppError("Only an admin can remove members", 403);
+    }
+
+    // Verify the member to remove actually exists in the room
+    const memberToRemove = await prisma.roomMembership.findFirst({
+        where: {
+            roomId: roomId,
+            memberId: memberIdToRemove
+        }
+    });
+
+    if (!memberToRemove) {
+        throw new AppError("User does not belong to the room", 404);
+    }
+
+    if (memberToRemove.roomRole === "ADMIN") {
+        throw new AppError("Cannot remove an admin from the room", 403);
+    }
+
+    return await prisma.roomMembership.delete({
+        where: {
+            memberId_roomId: {
+                roomId: roomId,
+                memberId: memberIdToRemove
+            }
+        }
+    });
 }

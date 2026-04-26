@@ -15,6 +15,7 @@ import CopyRoomInviteButton from "./CopyRoomInviteButton";
 import { Sheet, SheetClose, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "../ui/sheet";
 import MyRoomDeleteButton from "./MyRoomDeleteButton";
 import LeaveRoom from "./LeaveRoom";
+import RemoveMemberButton from "./RemoveMemberButton";
 
 interface RoomCardProps {
   room: any;
@@ -102,13 +103,17 @@ export function RoomCard({ room, isAdmin = false, userId }: RoomCardProps) {
                       </div>
                     </div>
                   </div>
-                  {m.memberId === userId && (
+                  {m.memberId === userId ? (
                     <div className="shrink-0 pl-2">
                       <span className="inline-flex items-center rounded-full bg-muted px-2.5 py-1 text-[10px] font-semibold tracking-wide text-muted-foreground ring-1 ring-inset ring-border/50 shadow-sm">
                         YOU
                       </span>
                     </div>
-                  )}
+                  ) : isAdmin ? (
+                    <div className="shrink-0 pl-2">
+                      <RemoveMemberButton roomId={room.id} memberId={m.memberId} memberName={m.member?.name || "Unknown User"} />
+                    </div>
+                  ) : null}
                 </li>
               ))}
             </ul>
