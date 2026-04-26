@@ -32,6 +32,7 @@ async function Page({
           select: {
             bookname: true,
             cover: true,
+            price: true,
           },
         },
         requester: {
