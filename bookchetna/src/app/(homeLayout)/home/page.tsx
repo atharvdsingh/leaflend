@@ -12,11 +12,11 @@ import { handleClientError } from "@/util/clientError";
 import BookList from "@/components/Home/BookList";
 import BookListSkeleton from "@/components/Home/BookListSkeleton";
 
-async function Page({ searchParams }:{searchParams: Promise< {page:string,room:string}>}) {
+async function Page({ searchParams }: { searchParams: Promise<{ page: string, room: string }> }) {
   const session = await GetTheSession();
-  
-  const page=Number((await searchParams).page.replaceAll("/",""))
-  const roomId=Number((await searchParams).room)
+  const resolvedParams = await searchParams;
+  const page = Number(resolvedParams?.page?.replaceAll("/", "") || "1");
+  const roomId = Number(resolvedParams?.room || "0");
 
 
   // ---------------------------------------------------------------------------
@@ -72,7 +72,7 @@ async function Page({ searchParams }:{searchParams: Promise< {page:string,room:s
   // For now, keeping it here as it wasn't explicitly requested to move pagination.
   // HOWEVER, since 'books' query is gone, we re-fetch 'totalRow' locally 
   // or acknowledge that Pagination might render before list logic.
-   const totalRow = await prisma.booksHave.count({
+  const totalRow = await prisma.booksHave.count({
     where: {
       ownerId: {
         not: session?.user.id,
@@ -87,8 +87,8 @@ async function Page({ searchParams }:{searchParams: Promise< {page:string,room:s
 
   return (
     <>
-    
-        <BookList page={page} roomId={roomId} />
+
+      <BookList page={page} roomId={roomId} />
 
       <Pagination
         pageNumber={page}

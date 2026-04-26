@@ -2,6 +2,9 @@ import React from 'react'
 import type { RequestedBooksForApprovel } from '@/types/databaseRoutesType'
 import RequestBookCardCancelAndAcceptedButton from './RequestBookCardCancelAndAcceptedButton'
 import Image from 'next/image'
+import { MessageCircle } from 'lucide-react'
+import Link from 'next/link'
+import { Button } from '@/components/ui/button'
 
 function RequestBookCard(props: RequestedBooksForApprovel) {
   return (
@@ -39,11 +42,16 @@ function RequestBookCard(props: RequestedBooksForApprovel) {
       </div>
 
       {/* Action Buttons */}
-      {props.status === "PENDING" && (
-        <div className='flex sm:flex-col justify-end sm:justify-center items-center gap-2 mt-2 sm:mt-0 shrink-0 sm:border-l sm:border-border sm:pl-6 pt-4 sm:pt-0 border-t border-border/50'>
+      <div className='flex sm:flex-col justify-end sm:justify-center items-center gap-2 mt-2 sm:mt-0 shrink-0 sm:pl-6 pt-4 sm:pt-0 '>
+        {props.status === "PENDING" && (
           <RequestBookCardCancelAndAcceptedButton id={props.id} />
-        </div>
-      )}
+        )}
+        <Link href={`/chat/dm/${props.requesterId}`}>
+          <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-foreground transition-colors" aria-label={`Chat with ${props.requester.name}`} title="Message Requester">
+            <MessageCircle className="h-5 w-5" />
+          </Button>
+        </Link>
+      </div>
     </div>
   )
 }

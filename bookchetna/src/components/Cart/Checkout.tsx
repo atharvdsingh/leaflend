@@ -32,7 +32,7 @@ function Checkout() {
       console.log("error ", data)
 
 
-      toast.success("books have been rented")
+      toast.success("books request have been sent")
       dispatch(EmptyCart())
 
 
@@ -56,7 +56,7 @@ function Checkout() {
 
           <CardFooter>
             <Button disabled={loading}  className="w-full font-bold " onClick={handleOnclick}>
-              Checkout
+              Request books for rent
             </Button>
           </CardFooter>
         </Card>
