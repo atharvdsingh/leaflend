@@ -37,9 +37,28 @@ export class ChatGateway {
     @MessageBody()
     data: Prisma.groupChatCreateInput
   ) {
-    console.log(data) 
-    await this.chatdbService.save(data)
-    this.server.to(data.roomId).emit("receive_message", data)
+    console.log(data)
+    const savedMessage = await this.chatdbService.save(data)
+    this.server.to(data.roomId).emit("receive_message", savedMessage)
 
+  }
+
+  @SubscribeMessage('join_dm')
+  handleJoinDm(
+    @MessageBody() data: { senderId: number; receiverId: number },
+    @ConnectedSocket() client: Socket,
+  ) {
+    const dmRoom = `dm:${Math.min(data.senderId, data.receiverId)}:${Math.max(data.senderId, data.receiverId)}`;
+    client.join(dmRoom);
+    return dmRoom;
+  }
+
+  @SubscribeMessage('send_dm')
+  async handleSendDm(
+    @MessageBody() data: { senderId: number; receiverId: number; message: string },
+  ) {
+    const dmRoom = `dm:${Math.min(data.senderId, data.receiverId)}:${Math.max(data.senderId, data.receiverId)}`;
+    const savedMessage = await this.chatdbService.saveDm(data);
+    this.server.to(dmRoom).emit('receive_dm', savedMessage);
   }
 }

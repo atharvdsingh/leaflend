@@ -64,8 +64,8 @@ export default function Chatpage({
 
         {/* ── Connection status indicator ── */}
         <div className={`flex items-center gap-2 px-5 py-1.5 text-xs transition-colors duration-300 ${isConnected
-            ? "bg-emerald-50 text-emerald-600 dark:bg-emerald-950/30 dark:text-emerald-400"
-            : "bg-amber-50 text-amber-600 dark:bg-amber-950/30 dark:text-amber-400"
+          ? "bg-emerald-50 text-emerald-600 dark:bg-emerald-950/30 dark:text-emerald-400"
+          : "bg-amber-50 text-amber-600 dark:bg-amber-950/30 dark:text-amber-400"
           }`}>
           {isConnected ? (
             <><Wifi size={12} /> Connected</>
@@ -99,22 +99,22 @@ export default function Chatpage({
                 >
                   <div
                     className={`
-                      relative max-w-[75%] px-4 py-2.5 text-sm leading-relaxed
+                      relative max-w-[75%] px-3 pt-2 pb-1.5 text-sm leading-relaxed flex flex-col min-w-[80px]
                       ${isMine
                         ? "bg-foreground text-background rounded-2xl rounded-br-sm"
                         : "bg-card border border-border text-foreground rounded-2xl rounded-bl-sm"
                       }
                     `}
                   >
-                    <p className="break-words">{msg.message}</p>
-                    {msg.timestamp && (
-                      <p className={`text-[10px] mt-1.5 ${isMine ? "text-background/50" : "text-muted-foreground"
+                    <p className="break-words mb-2">{msg.message}</p>
+                    {(msg.timestamp || msg.createdAt) && (
+                      <span className={`text-[9px] absolute bottom-1.5 right-3 font-medium tracking-wide ${isMine ? "text-background/60" : "text-muted-foreground/70"
                         }`}>
-                        {new Date(msg.timestamp).toLocaleTimeString([], {
+                        {new Date(msg.timestamp || msg.createdAt!).toLocaleTimeString([], {
                           hour: "2-digit",
                           minute: "2-digit",
                         })}
-                      </p>
+                      </span>
                     )}
                   </div>
                 </div>

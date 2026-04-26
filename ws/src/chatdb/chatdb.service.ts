@@ -9,7 +9,7 @@ export class ChatdbService {
     constructor(private prisma: PrismaService) { }
 
     async save(@MessageBody() saveChatInput: Prisma.groupChatCreateInput) {
-        await this.prisma.groupChat.create({
+        return await this.prisma.groupChat.create({
             data: {
                 message: saveChatInput.message,
                 senderId: saveChatInput.senderId,
@@ -24,6 +24,30 @@ export class ChatdbService {
         return await this.prisma.groupChat.findMany({
             where: {
                 roomId: getGroupChatByRoomId.roomId
+            },
+            orderBy: {
+                createdAt: 'asc'
+            }
+        })
+    }
+
+    async saveDm(data: { senderId: number; receiverId: number; message: string }) {
+        return await this.prisma.chat.create({
+            data: {
+                senderId: data.senderId,
+                receiverId: data.receiverId,
+                messages: data.message,
+            }
+        })
+    }
+
+    async getDmMessages(senderId: number, receiverId: number) {
+        return await this.prisma.chat.findMany({
+            where: {
+                OR: [
+                    { senderId: senderId, receiverId: receiverId },
+                    { senderId: receiverId, receiverId: senderId },
+                ]
             },
             orderBy: {
                 createdAt: 'asc'
