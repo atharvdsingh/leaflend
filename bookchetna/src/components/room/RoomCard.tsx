@@ -12,17 +12,17 @@ import {
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import CopyRoomInviteButton from "./CopyRoomInviteButton";
-import { Dialog, DialogClose, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "../ui/dialog";
+import { Sheet, SheetClose, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "../ui/sheet";
 import MyRoomDeleteButton from "./MyRoomDeleteButton";
 import LeaveRoom from "./LeaveRoom";
 
 interface RoomCardProps {
   room: any;
   isAdmin?: boolean;
-  userId?:number
+  userId?: number
 }
 
-export function RoomCard({ room, isAdmin = false ,userId }: RoomCardProps) {
+export function RoomCard({ room, isAdmin = false, userId }: RoomCardProps) {
   // Mock data for missing fields as requested
   const mockDate = "2/18/2026";
   const inviteCode = room.id.toString().padStart(6, "0");
@@ -62,15 +62,58 @@ export function RoomCard({ room, isAdmin = false ,userId }: RoomCardProps) {
       {/* Info Rows */}
       <div className="space-y-3 mb-5">
         {/* Members */}
-        <div className="flex items-center justify-between group/row">
-          <div className="flex items-center gap-2 text-muted-foreground group-hover/row:text-muted-foreground/80 transition-colors">
-            <Users className="w-4 h-4" />
-            <span className="text-sm font-medium">Members</span>
-          </div>
-          <div className="bg-muted/80 text-foreground/80 px-2.5 py-0.5 rounded-md text-sm font-mono min-w-[2rem] text-center border border-border/50">
-            {memberCount}
-          </div>
-        </div>
+        {/* Members */}
+        <Sheet>
+          <SheetTrigger asChild>
+            <div className="flex items-center justify-between group/row cursor-pointer hover:bg-muted/40 p-1.5 -mx-1.5 -mt-1.5 rounded-lg transition-colors">
+              <div className="flex items-center gap-2 text-muted-foreground group-hover/row:text-foreground transition-colors">
+                <Users className="w-4 h-4" />
+                <span className="text-sm font-medium">Members</span>
+              </div>
+              <div className="bg-muted/80 text-foreground/80 px-2.5 py-0.5 rounded-md text-sm font-mono min-w-[2rem] text-center border border-border/50 group-hover/row:border-border transition-colors">
+                {memberCount}
+              </div>
+            </div>
+          </SheetTrigger>
+          <SheetContent className="sm:max-w-md overflow-y-auto">
+            <SheetHeader>
+              <SheetTitle>Room Members</SheetTitle>
+              <SheetDescription>
+                People present in {room.roomName}
+              </SheetDescription>
+            </SheetHeader>
+            <ul className="space-y-3 py-6 mt-2 list-none p-0 m-0">
+              {room.members.map((m: any, index: number) => (
+                <li
+                  key={m.id}
+                  className="group flex items-center justify-between p-3 rounded-2xl border border-border/40 bg-card hover:bg-muted/10 hover:border-border/80 hover:shadow-md transition-all duration-300 animate-in fade-in slide-in-from-right-8"
+                  style={{ animationDelay: `${index * 60}ms`, animationFillMode: 'both' }}
+                >
+                  <div className="flex items-center gap-4">
+                    <div className="relative w-11 h-11 rounded-full flex items-center justify-center text-primary-foreground font-semibold text-sm shrink-0 overflow-hidden shadow-inner bg-gradient-to-br from-primary/80 to-primary group-hover:scale-105 transition-transform duration-300">
+                      <span className="relative z-10">{m.member?.name?.charAt(0).toUpperCase() || "?"}</span>
+                    </div>
+                    <div className="flex flex-col">
+                      <p className="text-sm font-semibold tracking-tight text-foreground">{m.member?.name || "Unknown User"}</p>
+                      <div className="flex items-center gap-2 mt-1">
+                        <span className="inline-flex items-center rounded-md bg-secondary/50 px-1.5 py-0.5 text-[10px] font-medium text-secondary-foreground capitalize">
+                          {m.roomRole?.toLowerCase() || "member"}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  {m.memberId === userId && (
+                    <div className="shrink-0 pl-2">
+                      <span className="inline-flex items-center rounded-full bg-muted px-2.5 py-1 text-[10px] font-semibold tracking-wide text-muted-foreground ring-1 ring-inset ring-border/50 shadow-sm">
+                        YOU
+                      </span>
+                    </div>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </SheetContent>
+        </Sheet>
 
         {/* Created Date */}
         <div className="flex items-center justify-between group/row">
@@ -109,8 +152,8 @@ export function RoomCard({ room, isAdmin = false ,userId }: RoomCardProps) {
         </Button>
 
         {
-          
-          isAdmin?(<MyRoomDeleteButton userId={userId!} roomId={room.id} />):(<LeaveRoom userId={userId!} roomId={room.id} />) 
+
+          isAdmin ? (<MyRoomDeleteButton userId={userId!} roomId={room.id} />) : (<LeaveRoom userId={userId!} roomId={room.id} />)
         }
       </div>
     </div>
