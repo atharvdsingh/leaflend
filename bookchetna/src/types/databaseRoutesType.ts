@@ -14,7 +14,8 @@ export interface AllBooksType{
 export type RentalRequestCartType=(RentalRequest  &{
   book:{
     bookname:string  ,
-    cover:string 
+    cover:string ,
+    price:number,
     
   },owner:{
     name:string | null

@@ -151,7 +151,7 @@ export default function MyBooksCard() {
                   <div className="flex justify-between items-center">
                     <span className="text-muted-foreground text-sm">{book.bookType}</span>
                     {/* Reduced text size */}
-                    <span className="text-green-400 font-bold text-sm">{""}</span>
+                    <span className="text-green-400 font-bold text-sm">{book.price ? `₹${book.price}` : ""}</span>
                   </div>
                 </CardContent>
 

@@ -175,7 +175,7 @@ export default function CreateBook() {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="price">Price per Week ($) *</Label>
+                <Label htmlFor="price">Price per Week (₹) *</Label>
 
                 <Input
                   id="price"
@@ -236,14 +236,18 @@ export default function CreateBook() {
 
 export function buildBookFormData(data: createBookType) {
   const fd = new FormData();
-  const pricne = data.price!.toString();
+
+  if (data.price !== undefined && !Number.isNaN(data.price)) {
+    fd.append("price", data.price.toString());
+  }
 
   fd.append("bookname", data.bookname);
-  fd.append("author", data.author!);
-  fd.append("description", data.description!);
-  fd.append("price", pricne);
+  if (data.author) fd.append("author", data.author);
+  if (data.description) fd.append("description", data.description);
+
   fd.append("bookType", data.bookType);
   fd.append("cover", data.cover);
-  fd.append("roomId", data?.roomId?.toString())
+  if (data.roomId) fd.append("roomId", data.roomId.toString());
+
   return fd;
 }

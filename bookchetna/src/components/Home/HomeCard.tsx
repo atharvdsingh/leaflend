@@ -106,7 +106,7 @@ export default function HomeCard(props: booksHave) {
         <div className="flex justify-between items-center">
           <span className="text-muted-foreground text-sm">{props.bookType}</span>
           {/* Reduced text size */}
-          <span className="text-green-400 font-bold text-sm">{""}</span>
+          <span className="text-green-400 font-bold text-sm">{props.price ? `₹${props.price}` : ""}</span>
         </div>
       </CardContent>
 

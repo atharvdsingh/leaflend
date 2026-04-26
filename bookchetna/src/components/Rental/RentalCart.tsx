@@ -32,6 +32,11 @@ function RentalCart(props: RentalRequestCartType) {
           <p className="text-sm text-muted-foreground mb-3">
             Owner: <span className="text-foreground/80">{props.owner.name}</span>
           </p>
+          {props.book.price !== null && props.book.price !== undefined && (
+            <p className="text-sm text-muted-foreground mb-3 -mt-2">
+              Price: <span className="text-green-500/90 font-medium">₹{props.book.price}/week</span>
+            </p>
+          )}
 
           {/* Status Badge */}
           <div className="mt-auto">

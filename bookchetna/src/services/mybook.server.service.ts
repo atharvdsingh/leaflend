@@ -9,22 +9,23 @@ export async function createBook(formdata: FormData, ownerId: number) {
 
     const rawData = {
         bookname: formdata.get("bookname"),
-        author: formdata.get("author"),
-        price: Number(formdata.get("price")),
+        author: formdata.get("author") || undefined,
+        price: formdata.has("price") ? Number(formdata.get("price")) : undefined,
         bookType: formdata.get("bookType"),
-        cover: formdata.get("cover") ,
-        roomId: Number(formdata.get("roomId")),
+        cover: formdata.get("cover"),
+        roomId: formdata.has("roomId") ? Number(formdata.get("roomId")) : undefined,
     };
 
     const parsedFormData = createBookSchema.parse(rawData);
 
-     const cover:UploadApiResponse=await cloudinaryServies.getCloudinaryInstace().uploadImage(parsedFormData.cover) as UploadApiResponse
-    console.log("cover",cover)
+    const cover: UploadApiResponse = await cloudinaryServies.getCloudinaryInstace().uploadImage(parsedFormData.cover) as UploadApiResponse
+    console.log("cover", cover)
     const newBook = await prisma.booksHave.create({
         data: {
             bookname: parsedFormData.bookname,
             author: parsedFormData.author,
             bookType: parsedFormData.bookType,
+            price: parsedFormData.price,
             ownerId: ownerId,
             status: "AVAILABLE",
             cover: cover.secure_url,
