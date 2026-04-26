@@ -25,11 +25,16 @@ function CardCart(props: SerializableBook) {
 
       <div className="flex-1 min-w-0 pr-8">
         <h3 className="text-lg font-semibold text-foreground line-clamp-1 mb-1">{props.bookname}</h3>
-        <p className="text-sm text-muted-foreground">
+        <div className="flex items-center gap-3 mt-1">
           <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-muted border border-border text-foreground/80">
             {props.bookType}
           </span>
-        </p>
+          {props.price !== null && props.price !== undefined && (
+            <span className="text-sm font-semibold text-green-500/90">
+              ₹{props.price}/week
+            </span>
+          )}
+        </div>
       </div>
 
       <button

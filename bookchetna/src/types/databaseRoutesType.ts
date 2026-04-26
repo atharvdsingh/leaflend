@@ -1,34 +1,35 @@
 import type { RentalRequest } from "@prisma/client";
 
 
-export interface AllBooksType{
-    id:number,
-    bookname:string,
-    cover:string,
-    publishDate:Date,
-    ownerId:number,
-    status:bookAvailavleStatus
-    genres:GENRES
+export interface AllBooksType {
+  id: number,
+  bookname: string,
+  cover: string,
+  publishDate: Date,
+  ownerId: number,
+  status: bookAvailavleStatus
+  genres: GENRES
 }
 
-export type RentalRequestCartType=(RentalRequest  &{
-  book:{
-    bookname:string  ,
-    cover:string ,
-    price:number,
-    
-  },owner:{
-    name:string | null
+export type RentalRequestCartType = (RentalRequest & {
+  book: {
+    bookname: string,
+    cover: string,
+    price: number,
+
+  }, owner: {
+    name: string | null
   }
 })
 
-export type RequestedBooksForApprovel=RentalRequest & {
-  book:{
-    cover:string | null
-    bookname:string
+export type RequestedBooksForApprovel = RentalRequest & {
+  book: {
+    cover: string | null
+    bookname: string
+    price: number | null
   },
-  requester:{
-    name:string | null
+  requester: {
+    name: string | null
   }
 }
 
@@ -36,7 +37,7 @@ export type RequestedBooksForApprovel=RentalRequest & {
 export enum bookAvailavleStatus {
   AVAILABLE,
   GIVEN,
- }
+}
 export enum GENRES {
   "Fiction",
   "Non-Fiction",

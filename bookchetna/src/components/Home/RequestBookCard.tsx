@@ -31,6 +31,11 @@ function RequestBookCard(props: RequestedBooksForApprovel) {
           <p className="text-sm text-muted-foreground mb-3 line-clamp-1">
             Requester: <span className="text-foreground/80">{props.requester.name}</span>
           </p>
+          {props.book.price !== null && props.book.price !== undefined && (
+            <p className="text-sm text-muted-foreground mb-3 -mt-2">
+              Price: <span className="text-green-500/90 font-medium">₹{props.book.price}/week</span>
+            </p>
+          )}
 
           <div className="mt-auto">
             <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium border ${props.status === "PENDING"

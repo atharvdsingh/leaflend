@@ -64,6 +64,9 @@ model RentalRequest {
 
   status         rentalRequestEnum @default(PENDING)
   requestMessage String?
+  
+  razorpayOrderId   String? @unique
+  razorpayPaymentId String? @unique
 
   createdAt DateTime @default(now())
 
@@ -161,6 +164,7 @@ enum rentalRequestEnum {
   ACCEPTED
   REJECTED
   EXPIRED
+  PAID
 }
 
 enum RoomRole {
