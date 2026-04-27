@@ -33,7 +33,7 @@ interface RoomCardProps {
 
 export function RoomCard({ room, isAdmin = false, userId }: RoomCardProps) {
   // Mock data for missing fields as requested
-  const mockDate = "2/18/2026";
+  const mockDate = "04/27/2026";
   const inviteCode = room.id.toString().padStart(6, "0");
 
   const memberCount = room.members.length;
