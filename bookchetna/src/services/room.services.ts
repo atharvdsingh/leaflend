@@ -7,11 +7,20 @@ import { Prisma } from "@prisma/client";
 /**
  * Create a new room (POST /room/create-room).
  */
-export async function createRoom(roomName: string, description: string) {
+export async function createRoom(roomName: string, description: string, visibility: "SHOW" | "HIDE" = "SHOW") {
     const res = await api.post("/room/create-room", {
         roomName: roomName,
         discription: description,
+        visibility: visibility,
     });
+    return res;
+}
+
+/**
+ * Toggle room visibility (PUT /room/toggle-visibility).
+ */
+export async function toggleRoomVisibility(roomId: number) {
+    const res = await api.put("/room/toggle-visibility", { roomId });
     return res;
 }
 

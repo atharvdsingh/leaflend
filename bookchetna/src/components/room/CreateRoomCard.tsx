@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Plus } from "lucide-react";
+import { Plus, Globe, Lock } from "lucide-react";
 import { toast } from "sonner";
 import { createRoom } from "@/services/room.services";
 import { handleClientError } from "@/util/clientError";
@@ -23,6 +23,7 @@ import { useRouter } from "next/navigation";
 function CreateRoomCard() {
   const [name, setName] = useState<string>("")
   const [discription, setDiscription] = useState<string>("")
+  const [isPublic, setIsPublic] = useState<boolean>(true)
   const router = useRouter()
 
   async function handleSubmit() {
@@ -30,7 +31,8 @@ function CreateRoomCard() {
       if (name.length < 5) {
         return toast.error("Room name is required More then 5 words")
       }
-      const body = await createRoom(name, discription)
+      const visibility = isPublic ? "SHOW" : "HIDE" as const;
+      const body = await createRoom(name, discription, visibility)
       if (body.status != 200) {
         toast.error("Something Went Wrong")
       }
@@ -84,6 +86,38 @@ function CreateRoomCard() {
                   defaultValue="eg. book renting for hostels name"
                   onChange={(e) => setDiscription(e.target.value)}
                 />
+              </div>
+              {/* Visibility Toggle */}
+              <div
+                onClick={() => setIsPublic(!isPublic)}
+                className="flex items-center justify-between p-3 rounded-xl border border-border bg-muted/30 cursor-pointer hover:bg-muted/60 transition-colors"
+              >
+                <div className="flex items-center gap-2.5">
+                  {isPublic ? (
+                    <Globe className="w-4 h-4 text-green-500" />
+                  ) : (
+                    <Lock className="w-4 h-4 text-orange-500" />
+                  )}
+                  <div>
+                    <p className="text-sm font-medium text-foreground">
+                      {isPublic ? "Public Room" : "Private Room"}
+                    </p>
+                    <p className="text-xs text-muted-foreground">
+                      {isPublic
+                        ? "Anyone can discover and join this room"
+                        : "Only people with invite code can join"}
+                    </p>
+                  </div>
+                </div>
+                <div
+                  className={`relative w-10 h-5 rounded-full transition-colors duration-200 ${isPublic ? "bg-green-500" : "bg-muted-foreground/30"
+                    }`}
+                >
+                  <div
+                    className={`absolute top-0.5 w-4 h-4 rounded-full bg-white shadow-sm transition-transform duration-200 ${isPublic ? "translate-x-5" : "translate-x-0.5"
+                      }`}
+                  />
+                </div>
               </div>
             </div>
             <DialogFooter>

@@ -1,4 +1,5 @@
-import React from "react";
+"use client";
+import React, { useState } from "react";
 import Link from "next/link";
 import {
   Users,
@@ -8,6 +9,10 @@ import {
   ArrowRight,
   Delete,
   Copy,
+  Eye,
+  EyeOff,
+  Globe,
+  Lock,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -16,6 +21,9 @@ import { Sheet, SheetClose, SheetContent, SheetDescription, SheetHeader, SheetTi
 import MyRoomDeleteButton from "./MyRoomDeleteButton";
 import LeaveRoom from "./LeaveRoom";
 import RemoveMemberButton from "./RemoveMemberButton";
+import { toggleRoomVisibility } from "@/services/room.services";
+import { toast } from "sonner";
+import { handleClientError } from "@/util/clientError";
 
 interface RoomCardProps {
   room: any;
@@ -31,6 +39,26 @@ export function RoomCard({ room, isAdmin = false, userId }: RoomCardProps) {
   const memberCount = room.members.length;
   const adminMember = room.members.find((m: any) => m.roomRole === "ADMIN");
 
+  const [visibility, setVisibility] = useState<"SHOW" | "HIDE">(room.visibility || "SHOW");
+  const [toggling, setToggling] = useState(false);
+
+  async function handleToggleVisibility() {
+    try {
+      setToggling(true);
+      const res = await toggleRoomVisibility(room.id);
+      if (res.status === 200) {
+        const newVisibility = res.data.data.visibility;
+        setVisibility(newVisibility);
+        toast.success(res.data.message);
+      } else {
+        toast.error("Something went wrong");
+      }
+    } catch (error) {
+      handleClientError(error);
+    } finally {
+      setToggling(false);
+    }
+  }
 
   return (
     <div className="w-full max-w-sm bg-card border border-border rounded-2xl p-5 relative group hover:border-border/80 transition-colors shadow-2xl shadow-black/40">
@@ -143,6 +171,37 @@ export function RoomCard({ room, isAdmin = false, userId }: RoomCardProps) {
 
         <CopyRoomInviteButton inviteCode={inviteCode} />
       </div>
+
+      {/* Visibility Toggle (Admin Only) */}
+      {isAdmin && (
+        <div className="mb-5">
+          <button
+            onClick={handleToggleVisibility}
+            disabled={toggling}
+            className="w-full flex items-center justify-between p-3 rounded-xl border border-border bg-muted/20 hover:bg-muted/50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            <div className="flex items-center gap-2.5">
+              {visibility === "SHOW" ? (
+                <Globe className="w-4 h-4 text-green-500" />
+              ) : (
+                <Lock className="w-4 h-4 text-orange-500" />
+              )}
+              <span className="text-sm font-medium text-foreground">
+                {visibility === "SHOW" ? "Public" : "Private"}
+              </span>
+            </div>
+            <div
+              className={`relative w-10 h-5 rounded-full transition-colors duration-200 ${visibility === "SHOW" ? "bg-green-500" : "bg-muted-foreground/30"
+                }`}
+            >
+              <div
+                className={`absolute top-0.5 w-4 h-4 rounded-full bg-white shadow-sm transition-transform duration-200 ${visibility === "SHOW" ? "translate-x-5" : "translate-x-0.5"
+                  }`}
+              />
+            </div>
+          </button>
+        </div>
+      )}
 
       {/* Footer Actions */}
       <div className="flex items-center gap-3">

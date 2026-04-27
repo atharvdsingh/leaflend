@@ -15,7 +15,8 @@ export async function POST(req: NextRequest) {
       throw new AppError("room name is missing", 401);
     }
 
-    const room = await createRoom(body.roomName, body.discription || "", session.user.id);
+    const visibility = body.visibility === "HIDE" ? "HIDE" : "SHOW";
+    const room = await createRoom(body.roomName, body.discription || "", session.user.id, visibility);
 
     return NextResponse.json(
       {

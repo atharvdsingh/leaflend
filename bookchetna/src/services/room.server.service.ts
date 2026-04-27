@@ -8,13 +8,15 @@ import { handleApiError } from "@/util/HandleError";
 export async function createRoom(
     roomName: string,
     description: string,
-    userId: number
+    userId: number,
+    visibility: "SHOW" | "HIDE" = "SHOW"
 ) {
     const room = await prisma.$transaction(async (tx) => {
         const newRoom = await tx.room.create({
             data: {
                 roomName: roomName,
                 discription: description,
+                visibility: visibility,
             },
         });
 
@@ -212,4 +214,34 @@ export async function removeMemberFromRoom({ roomId, adminId, memberIdToRemove }
             }
         }
     });
+}
+
+/**
+ * Toggle room visibility (SHOW <-> HIDE). Only admins can toggle.
+ */
+export async function toggleRoomVisibility(roomId: number, userId: number) {
+    const membership = await prisma.roomMembership.findFirst({
+        where: {
+            roomId: roomId,
+            memberId: userId,
+        },
+    });
+
+    if (!membership || membership.roomRole !== "ADMIN") {
+        throw new AppError("Only admin can change room visibility", 403);
+    }
+
+    const room = await prisma.room.findUnique({ where: { id: roomId } });
+    if (!room) {
+        throw new AppError("Room not found", 404);
+    }
+
+    const newVisibility = room.visibility === "SHOW" ? "HIDE" : "SHOW";
+
+    const updated = await prisma.room.update({
+        where: { id: roomId },
+        data: { visibility: newVisibility },
+    });
+
+    return updated;
 }
