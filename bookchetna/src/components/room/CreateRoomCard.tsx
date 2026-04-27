@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Plus, Globe, Lock } from "lucide-react";
+import { Plus, Globe, Lock, Loader2 } from "lucide-react"; // Added Loader2 for the spinner
 import { toast } from "sonner";
 import { createRoom } from "@/services/room.services";
 import { handleClientError } from "@/util/clientError";
@@ -23,46 +23,47 @@ function CreateRoomCard() {
   const [name, setName] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   const [isPublic, setIsPublic] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState<boolean>(false); // 1. Added loading state
   const router = useRouter();
 
-  // Regex: Allows only letters, numbers, and spaces
   const specialCharRegex = /[^a-zA-Z0-9 ]/g;
 
- const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  const originalValue = e.target.value;
-  
-  // 1. This regex finds anything that is NOT a letter, number, or space
-  const cleanValue = originalValue.replace(/[^a-zA-Z0-9 ]/g, "");
+  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const originalValue = e.target.value;
+    const cleanValue = originalValue.replace(specialCharRegex, "");
 
-  // 2. If the length changed, it means a special character was removed
-  if (originalValue !== cleanValue) {
-    toast.error("Special characters are not allowed", {
-      id: "validation-toast",
-    });
-  }
-
-  // 3. Always set the clean value
-  setName(cleanValue);
-};
+    if (originalValue !== cleanValue) {
+      toast.error("Special characters are not allowed", {
+        id: "validation-toast",
+      });
+    }
+    setName(cleanValue);
+  };
 
   async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault(); // Prevent page refresh
-    try {
-      if (name.length < 5) {
-        return toast.error("Room name must be at least 5 characters long");
-      }
+    e.preventDefault();
+    
+    if (name.length < 5) {
+      return toast.error("Room name must be at least 5 characters long");
+    }
 
+    setIsLoading(true); // 2. Start loading
+    try {
       const visibility = isPublic ? ("SHOW" as const) : ("HIDE" as const);
       const body = await createRoom(name, description, visibility);
 
       if (body.status !== 200) {
-        return toast.error("Something Went Wrong");
+        toast.error("Something Went Wrong");
+        setIsLoading(false); 
+        return;
       }
 
       toast.success("Room created successfully");
       router.push(`./home?room=${body.data.data.id}&page=1/`);
+      // We don't necessarily need to set loading to false here since we are redirecting
     } catch (error) {
       handleClientError(error);
+      setIsLoading(false); // 3. Stop loading on error
     }
   }
 
@@ -98,7 +99,6 @@ function CreateRoomCard() {
             </DialogHeader>
 
             <div className="grid gap-4 py-4">
-              {/* Room Name Input */}
               <div className="grid gap-3">
                 <Label htmlFor="name-1">Room Name</Label>
                 <Input
@@ -106,10 +106,10 @@ function CreateRoomCard() {
                   placeholder="eg. hostelclub"
                   value={name}
                   onChange={handleNameChange}
+                  disabled={isLoading} // Disable input while loading
                 />
               </div>
 
-              {/* Description Input */}
               <div className="grid gap-3">
                 <Label htmlFor="description">Description</Label>
                 <Input
@@ -117,13 +117,15 @@ function CreateRoomCard() {
                   placeholder="eg. book renting for hostels name"
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
+                  disabled={isLoading} // Disable input while loading
                 />
               </div>
 
-              {/* Visibility Toggle */}
               <div
-                onClick={() => setIsPublic(!isPublic)}
-                className="flex items-center justify-between p-3 rounded-xl border border-border bg-muted/30 cursor-pointer hover:bg-muted/60 transition-colors"
+                onClick={() => !isLoading && setIsPublic(!isPublic)} // Prevent toggle while loading
+                className={`flex items-center justify-between p-3 rounded-xl border border-border bg-muted/30 transition-colors ${
+                    isLoading ? "opacity-50 cursor-not-allowed" : "cursor-pointer hover:bg-muted/60"
+                }`}
               >
                 <div className="flex items-center gap-2.5">
                   {isPublic ? (
@@ -136,32 +138,33 @@ function CreateRoomCard() {
                       {isPublic ? "Public Room" : "Private Room"}
                     </p>
                     <p className="text-xs text-muted-foreground">
-                      {isPublic
-                        ? "Anyone can discover and join this room"
-                        : "Only people with invite code can join"}
+                      {isPublic ? "Anyone can discover" : "Invite only"}
                     </p>
                   </div>
                 </div>
-                <div
-                  className={`relative w-10 h-5 rounded-full transition-colors duration-200 ${
-                    isPublic ? "bg-green-500" : "bg-muted-foreground/30"
-                  }`}
-                >
-                  <div
-                    className={`absolute top-0.5 w-4 h-4 rounded-full bg-white shadow-sm transition-transform duration-200 ${
-                      isPublic ? "translate-x-5" : "translate-x-0.5"
-                    }`}
-                  />
+                <div className={`relative w-10 h-5 rounded-full transition-colors ${isPublic ? "bg-green-500" : "bg-muted-foreground/30"}`}>
+                  <div className={`absolute top-0.5 w-4 h-4 rounded-full bg-white transition-transform ${isPublic ? "translate-x-5" : "translate-x-0.5"}`} />
                 </div>
               </div>
             </div>
 
             <DialogFooter>
               <DialogClose asChild>
-                <Button variant="outline">Cancel</Button>
+                <Button variant="outline" disabled={isLoading}>Cancel</Button>
               </DialogClose>
-              <Button type="submit">
-                Create Room <Plus className="ml-2 h-4 w-4" />
+              
+              {/* 4. Dynamic Loading Button */}
+              <Button type="submit" disabled={isLoading}>
+                {isLoading ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Creating...
+                  </>
+                ) : (
+                  <>
+                    Create Room <Plus className="ml-2 h-4 w-4" />
+                  </>
+                )}
               </Button>
             </DialogFooter>
           </form>
