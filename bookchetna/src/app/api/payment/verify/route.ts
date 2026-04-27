@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import crypto from "crypto";
 import { prisma } from "@/util/Prisma";
+import { sendEmail } from "@/lib/email";
+import PaymentInvoice from "@/emails/PaymentInvoice";
 
 export async function POST(req: Request) {
     try {
@@ -42,6 +44,26 @@ export async function POST(req: Request) {
             where: { id: updatedRequest.bookId },
             data: { status: "BORROWED" }
         });
+
+        // Fire-and-forget invoice email to the borrower
+        const borrower = await prisma.users.findUnique({
+            where: { id: updatedRequest.requesterId },
+            select: { email: true },
+        });
+
+        if (borrower?.email) {
+            sendEmail({
+                to: borrower.email,
+                subject: `Payment Receipt — ${updatedRequest.book.bookname}`,
+                react: PaymentInvoice({
+                    bookName: updatedRequest.book.bookname,
+                    amount: updatedRequest.book.price || 0,
+                    paymentId: razorpay_payment_id,
+                    rentalDays: 14,
+                    date: new Date().toLocaleDateString("en-IN"),
+                }),
+            });
+        }
 
         return NextResponse.json({ message: "Payment verified completely" }, { status: 200 });
     } catch (error) {

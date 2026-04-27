@@ -1,6 +1,8 @@
 import NextAuth, { NextAuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import { prisma } from "@/util/Prisma";
+import { sendEmail } from "@/lib/email";
+import WelcomeEmail from "@/emails/WelcomeEmail";
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -32,6 +34,13 @@ export const authOptions: NextAuthOptions = {
               name: user.name!,
               password: "", // placeholder, since Google auth
             },
+          });
+
+          // Fire-and-forget welcome email for new signups
+          sendEmail({
+            to: user.email!,
+            subject: "Welcome to BookChetna! 📚",
+            react: WelcomeEmail({ name: user.name || "there" }),
           });
         }
 
@@ -66,7 +75,7 @@ export const authOptions: NextAuthOptions = {
             });
           }
 
-          token.id = String(dbUser.id); 
+          token.id = String(dbUser.id);
         }
 
         return token;

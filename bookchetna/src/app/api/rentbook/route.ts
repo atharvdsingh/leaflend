@@ -8,6 +8,9 @@ import {
   createRentalRequests,
   acceptRentalRequest,
 } from "@/services/rentbook.server.service";
+import { prisma } from "@/util/Prisma";
+import { sendEmail } from "@/lib/email";
+import RentalAccepted from "@/emails/RentalAccepted";
 
 export async function GET() {
   try {
@@ -63,6 +66,32 @@ export async function PUT(request: NextRequest) {
     if (!res) {
       throw new AppError("Something went wrong", 500);
     }
+
+    // Fire-and-forget rental acceptance email
+    prisma.rentalRequest
+      .findUnique({
+        where: { id: body.id },
+        include: {
+          requester: { select: { email: true, name: true } },
+          owner: { select: { name: true } },
+          book: { select: { bookname: true, price: true } },
+        },
+      })
+      .then((details) => {
+        if (details?.requester?.email) {
+          sendEmail({
+            to: details.requester.email,
+            subject: `Rental Accepted — ${details.book.bookname}`,
+            react: RentalAccepted({
+              requesterName: details.requester.name || "there",
+              bookName: details.book.bookname,
+              ownerName: details.owner.name || "the owner",
+              price: details.book.price,
+            }),
+          });
+        }
+      })
+      .catch((err: unknown) => console.error("[Email] Failed to fetch rental details:", err));
 
     return NextResponse.json(
       { message: "Book have been given", success: true },

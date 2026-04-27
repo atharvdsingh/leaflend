@@ -2,7 +2,7 @@
 import Image from "next/image";
 import React, { useState } from "react";
 import type { RentalRequestCartType } from "@/types/databaseRoutesType";
-import { MessageCircle } from "lucide-react";
+import { MessageCircle, FileDown } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { useSearchParams } from "next/navigation";
@@ -94,6 +94,108 @@ function RentalCart(props: RentalRequestCartType) {
       toast.error("Something went wrong");
     } finally {
       setIsSubmittingReview(false);
+    }
+  };
+
+  const handleDownloadInvoice = () => {
+    const invoiceDate = new Date(props.createdAt).toLocaleDateString("en-IN", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
+    const dueDate = activeBorrow?.dueDate
+      ? new Date(activeBorrow.dueDate).toLocaleDateString("en-IN", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      })
+      : "N/A";
+    const startDate = activeBorrow?.startDate
+      ? new Date(activeBorrow.startDate).toLocaleDateString("en-IN", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      })
+      : invoiceDate;
+
+    const invoiceHTML = `
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <title>Invoice - ${props.book.bookname}</title>
+        <style>
+          * { margin: 0; padding: 0; box-sizing: border-box; }
+          body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; color: #111827; padding: 40px; }
+          .invoice { max-width: 600px; margin: 0 auto; }
+          .header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 32px; padding-bottom: 20px; border-bottom: 2px solid #e5e7eb; }
+          .brand { font-size: 24px; font-weight: 700; }
+          .brand span { color: #6b7280; font-weight: 400; font-size: 14px; display: block; margin-top: 4px; }
+          .invoice-tag { background: #f0fdf4; color: #16a34a; padding: 6px 16px; border-radius: 20px; font-size: 13px; font-weight: 600; border: 1px solid #bbf7d0; }
+          .section { margin-bottom: 24px; }
+          .section-title { font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; color: #9ca3af; margin-bottom: 8px; font-weight: 600; }
+          .row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #f3f4f6; }
+          .row:last-child { border-bottom: none; }
+          .label { color: #6b7280; font-size: 14px; }
+          .value { font-weight: 500; font-size: 14px; text-align: right; }
+          .total-row { display: flex; justify-content: space-between; padding: 16px 0; border-top: 2px solid #111827; margin-top: 8px; }
+          .total-label { font-size: 16px; font-weight: 700; }
+          .total-value { font-size: 20px; font-weight: 700; color: #16a34a; }
+          .footer { margin-top: 40px; padding-top: 20px; border-top: 1px solid #e5e7eb; text-align: center; color: #9ca3af; font-size: 12px; }
+          @media print {
+            body { padding: 20px; }
+            @page { margin: 20mm; }
+          }
+        </style>
+      </head>
+      <body>
+        <div class="invoice">
+          <div class="header">
+            <div>
+              <div class="brand">BookChetna <span>Book Rental Invoice</span></div>
+            </div>
+            <div class="invoice-tag">PAID</div>
+          </div>
+
+          <div class="section">
+            <div class="section-title">Invoice Details</div>
+            <div class="row"><span class="label">Invoice Date</span><span class="value">${invoiceDate}</span></div>
+            <div class="row"><span class="label">Payment ID</span><span class="value">${props.razorpayPaymentId || "N/A"}</span></div>
+            <div class="row"><span class="label">Order ID</span><span class="value">${props.razorpayOrderId || "N/A"}</span></div>
+          </div>
+
+          <div class="section">
+            <div class="section-title">Rental Details</div>
+            <div class="row"><span class="label">Book</span><span class="value">${props.book.bookname}</span></div>
+            <div class="row"><span class="label">Owner</span><span class="value">${props.owner.name || "N/A"}</span></div>
+            <div class="row"><span class="label">Rental Start</span><span class="value">${startDate}</span></div>
+            <div class="row"><span class="label">Due Date</span><span class="value">${dueDate}</span></div>
+          </div>
+
+          <div class="section">
+            <div class="section-title">Payment Summary</div>
+            <div class="row"><span class="label">Rental Fee</span><span class="value">₹${props.book.price || 0}</span></div>
+            <div class="total-row">
+              <span class="total-label">Total Paid</span>
+              <span class="total-value">₹${props.book.price || 0}</span>
+            </div>
+          </div>
+
+          <div class="footer">
+            <p>Thank you for using BookChetna!</p>
+            <p style="margin-top: 4px;">This is a computer-generated invoice and does not require a signature.</p>
+          </div>
+        </div>
+        <script>window.onload = function() { window.print(); }</script>
+      </body>
+      </html>
+    `;
+
+    const printWindow = window.open("", "_blank");
+    if (printWindow) {
+      printWindow.document.write(invoiceHTML);
+      printWindow.document.close();
+    } else {
+      toast.error("Please allow popups to download the invoice");
     }
   };
 
@@ -194,7 +296,7 @@ function RentalCart(props: RentalRequestCartType) {
           )}
 
           {/* Status Badge */}
-          <div className="mt-auto flex items-center gap-3">
+          <div className="mt-auto flex items-center gap-3 flex-wrap">
             <span
               className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium border ${props.status === "PENDING"
                 ? "bg-muted border-border text-foreground/80"
@@ -217,7 +319,7 @@ function RentalCart(props: RentalRequestCartType) {
             )}
 
             {props.status === "PAID" && activeBorrow && (
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-3 flex-wrap">
                 <span className={`text-xs font-semibold ${activeBorrow.dueDate && new Date(activeBorrow.dueDate).getTime() < Date.now() ? "text-red-500" : "text-yellow-600"}`}>
                   {formatTimeLeft(activeBorrow.dueDate)}
                 </span>
@@ -229,6 +331,16 @@ function RentalCart(props: RentalRequestCartType) {
                   className="h-7 text-xs"
                 >
                   {isReturning ? "Returning..." : "Return Book"}
+                </Button>
+
+                <Button
+                  onClick={handleDownloadInvoice}
+                  size="sm"
+                  variant="outline"
+                  className="h-7 text-xs"
+                >
+                  <FileDown className="mr-1.5 h-3 w-3" />
+                  Invoice
                 </Button>
 
                 <Dialog open={isReviewOpen} onOpenChange={setIsReviewOpen}>
